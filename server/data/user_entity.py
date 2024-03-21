@@ -4,5 +4,5 @@ class User(BaseModel):
     password : str
     lat : float = 0.0
     lng : float = 0.0
-    distance_preference : float =0.0
+    distance_preference : str
     shopping_history : list = [[]] 
