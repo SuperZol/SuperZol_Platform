@@ -7,16 +7,33 @@ router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
-async def createUser(user: User):
+@router.post(
+    "/",
+    response_description="Creates a user",
+    response_model=User,
+    response_model_by_alias=False,
+    status_code=status.HTTP_201_CREATED
+)
+async def create_user(user: User):
     return await user_service.create_user(dict(user))
 
 
-@router.get("/login/{email}/{password}", status_code=status.HTTP_200_OK)
-async def loginUser(email: str, password: str):
+@router.get(
+    "/login/{email}/{password}",
+    response_description="Login to user",
+    response_model=User,
+    response_model_by_alias=False,
+    status_code=status.HTTP_200_OK
+)
+async def login_user(email: str, password: str):
     return await user_service.login(email, password)
 
 
-@router.put("/edit/{email}", status_code=status.HTTP_200_OK)
-async def updateUser(email: str, user: User):
+@router.put(
+    "/edit/{email}",
+    response_description="Updates user info",
+    response_model_by_alias=False,
+    status_code=status.HTTP_200_OK
+)
+async def update_user(email: str, user: User):
     await user_service.update_user(email, dict(user))

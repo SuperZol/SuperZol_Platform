@@ -1,22 +1,17 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class Product(BaseModel):
-    PriceUpdateDate: str
     ItemCode: str
     ItemType: str
     ItemName: str
-    ManufacturerName: str
-    ManufactureCountry: str
-    ManufacturerItemDescription: str
+    ManufacturerName: Optional[str] = ''
     UnitQty: str
     Quantity: str
-    UnitOfMeasure: str
-    bIsWeighted: str
-    QtyInPackage: str
+    UnitOfMeasure: Optional[str] = ''
+    bIsWeighted: Optional[str] = ''
+    QtyInPackage: Optional[str] = ''
     ItemPrice: str
-    UnitOfMeasurePrice: str
-    AllowDiscount: str
-    ItemStatus: str
-    ItemId: str
+    UnitOfMeasurePrice: Optional[str] = ''
     StoreId: str
