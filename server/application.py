@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from controllers import user_controller
+from server.controllers import user_controller, product_controller
 
 app = FastAPI()
 
 app.include_router(user_controller.router)
+app.include_router(product_controller.router)

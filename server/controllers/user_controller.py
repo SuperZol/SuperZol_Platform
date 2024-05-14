@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
-from logic.user_service import UserService
-from data.user_entity import User
-from config.database import user_collection
+from server.logic.user_service import UserService
+from server.data.user import User
+from server.config.database import user_collection
 
 router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
