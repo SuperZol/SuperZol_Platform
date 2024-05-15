@@ -1,4 +1,4 @@
-from data.user_entity import User
+from server.data.user import User
 from bson import ObjectId
 import asyncio
 from fastapi import HTTPException
