@@ -1,0 +1,18 @@
+.product-card {
+  /* Define styles for the card container */
+  display: flex;
+  flex-direction: column;
+  /* Add padding, margin, etc. */
+}
+
+.product-card img {
+  /* Style the product image */
+  width: 100%;
+  /* Adjust width and height as needed */
+}
+
+.product-card h3 {
+  /* Style the product title */
+  margin: 0;
+  /* Add font styles, margins, etc. */
+}
