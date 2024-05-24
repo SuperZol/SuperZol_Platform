@@ -1,15 +1,14 @@
 from math import radians, sin, cos, sqrt, atan2
 import requests
-from fastapi.responses import JSONResponse
-from server.data.product import Product
+from server.data.base_product import BaseProduct
 from typing import List
+import os
+from dotenv import load_dotenv
 
-GOOGLE_MAPS_API_KEY = "AIzaSyCzTsBRe71uehImIT2zSl5JbPEPY8pEJsM"
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR, '../.env'))
 
 
-# 32.088910 - lat
-#
-# 34.890850 - long
 class AlgorithmService:
     def __init__(self, product_collection, user_collection, supermarket_collection):
         self.product_collection = product_collection
@@ -27,9 +26,11 @@ class AlgorithmService:
         return radius * c
 
     @staticmethod
-    def geocode_address(address: str, city: str, api_key: str):
-        full_address = f"{address}" if city is None else f"{city} {address}"
-        endpoint = "https://maps.googleapis.com/maps/api/geocode/json"
+    def geocode_address(address: str, city: str, zip_code: str, api_key: str):
+        city_address = f"{address}" if city is None else f"{city} {address}"
+        full_address = f"{city_address}" if zip_code is None else f"{city_address} {zip_code}"
+        endpoint = os.getenv("GOOGLE_MAPS_URL")
+        print(endpoint)
         params = {'address': full_address, 'key': api_key}
         response = requests.get(endpoint, params=params)
         data = response.json()
@@ -38,7 +39,8 @@ class AlgorithmService:
             return location['lat'], location['lng']
         return None, None
 
-    def find_cheapest_supermarkets(self, shopping_list: List[Product], user: dict):
+    def find_cheapest_supermarkets(self, shopping_list: List[BaseProduct], user: dict):
+        load_dotenv()
         stores = self.supermarket_collection.find()
         store_costs = []
         for store in stores:
@@ -52,8 +54,10 @@ class AlgorithmService:
             if store_lat is None or store_lng is None:
                 city = store.get('City')
                 address = store.get('Address')
+                zip_code = store.get('ZipCode')
                 if address:  # Ensure address is not None
-                    store_lat, store_lng = self.geocode_address(address, city, GOOGLE_MAPS_API_KEY)
+                    api_key = os.getenv("GOOGLE_MAPS_API_KEY")
+                    store_lat, store_lng = self.geocode_address(address, city, zip_code, api_key)
                     if store_lat and store_lng:
                         self.supermarket_collection.update_one({'_id': store['_id']},
                                                                {'$set': {'Latitude': store_lat,
@@ -71,20 +75,19 @@ class AlgorithmService:
             for item in shopping_list:
                 item_code = item.ItemCode
                 quantity = float(item.Quantity)
-                print(item_code)
                 product = self.product_collection.find_one({'ItemCode': item_code, 'StoreId': store_id})
                 if product:
                     total_cost += float(product['ItemPrice']) * quantity
                     products_available += 1
+            if products_available > len(shopping_list) // 2:  # show only supermarkets with at least 50% of the products
+                store_costs.append({
+                    'store_id': store_id,
+                    'store_address': store['Address'],
+                    'store_city': store['City'],
+                    'total_cost': total_cost,
+                    'products_available': products_available,
+                    'distance': distance
+                })
 
-            store_costs.append({
-                'store_id': store_id,
-                'store_address': store['Address'],
-                'store_city': store['City'],
-                'total_cost': total_cost,
-                'products_available': products_available,
-                'distance': distance
-            })
-
-        store_costs.sort(key=lambda x: (x['total_cost'], -x['products_available']))
+        store_costs.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
         return store_costs

@@ -1,17 +1,13 @@
-from pydantic import BaseModel
 from typing import Optional
+from server.data.base_product import BaseProduct
 
 
-class Product(BaseModel):
-    ItemCode: str
+class Product(BaseProduct):
     ItemType: str
-    ItemName: str
     ManufacturerName: Optional[str] = ''
     UnitQty: str
-    Quantity: str
     UnitOfMeasure: Optional[str] = ''
     bIsWeighted: Optional[str] = ''
     QtyInPackage: Optional[str] = ''
-    ItemPrice: str
     UnitOfMeasurePrice: Optional[str] = ''
     StoreId: str
