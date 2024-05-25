@@ -1,18 +1,16 @@
 from math import radians, sin, cos, sqrt, atan2
 import requests
-from server.data.base_product import BaseProduct
-from typing import List
+from typing import Dict
 import os
 from dotenv import load_dotenv
 
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(BASEDIR, '../.env'))
+current_dir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(current_dir, '../.env'))
 
 
 class AlgorithmService:
-    def __init__(self, product_collection, user_collection, supermarket_collection):
+    def __init__(self, product_collection, supermarket_collection):
         self.product_collection = product_collection
-        self.user_collection = user_collection
         self.supermarket_collection = supermarket_collection
 
     @staticmethod
@@ -30,7 +28,6 @@ class AlgorithmService:
         city_address = f"{address}" if city is None else f"{city} {address}"
         full_address = f"{city_address}" if zip_code is None else f"{city_address} {zip_code}"
         endpoint = os.getenv("GOOGLE_MAPS_URL")
-        print(endpoint)
         params = {'address': full_address, 'key': api_key}
         response = requests.get(endpoint, params=params)
         data = response.json()
@@ -39,7 +36,8 @@ class AlgorithmService:
             return location['lat'], location['lng']
         return None, None
 
-    def find_cheapest_supermarkets(self, shopping_list: List[BaseProduct], user: dict):
+    def find_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
+                                   distance_preference: str):
         load_dotenv()
         stores = self.supermarket_collection.find()
         store_costs = []
@@ -65,19 +63,17 @@ class AlgorithmService:
                     else:
                         continue
 
-            distance = self.haversine(user["lat"], user["lng"], store_lat, store_lng)
-            if distance > float(user["distance_preference"]):
+            distance = self.haversine(user_lat, user_lng, store_lat, store_lng)
+            if distance > float(distance_preference):
                 continue
 
             total_cost = 0
             products_available = 0
 
-            for item in shopping_list:
-                item_code = item.ItemCode
-                quantity = float(item.Quantity)
+            for item_code, amount in shopping_list.items():
                 product = self.product_collection.find_one({'ItemCode': item_code, 'StoreId': store_id})
                 if product:
-                    total_cost += float(product['ItemPrice']) * quantity
+                    total_cost += float(product['ItemPrice']) * amount
                     products_available += 1
             if products_available > len(shopping_list) // 2:  # show only supermarkets with at least 50% of the products
                 store_costs.append({

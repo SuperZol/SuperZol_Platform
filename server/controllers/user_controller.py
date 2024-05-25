@@ -2,8 +2,7 @@ from fastapi import APIRouter, status
 from server.logic.user_service import UserService
 from server.data.user import User
 from server.config.database import user_collection
-from typing import List
-from server.data.product import Product
+from typing import Dict
 
 router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
@@ -39,13 +38,13 @@ async def login_user(email: str, password: str):
 )
 async def update_user(email: str, user: User):
     await user_service.update_user(email, dict(user))
-    
-    
+
+
 @router.put(
     "/history/{email}",
     response_description="Updates user history cart",
     response_model_by_alias=False,
     status_code=status.HTTP_200_OK
 )
-async def update_cart(email: str, cart: List[Product]):
+async def update_cart(email: str, cart: Dict[str, int]):
     return await user_service.update_cart(email, cart)
