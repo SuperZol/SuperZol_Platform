@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from server.controllers import user_controller, product_controller
+from server.controllers import user_controller, product_controller, algorithm_controller
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 app.add_middleware(
@@ -12,3 +13,4 @@ app.add_middleware(
 )
 app.include_router(user_controller.router)
 app.include_router(product_controller.router)
+app.include_router(algorithm_controller.router)

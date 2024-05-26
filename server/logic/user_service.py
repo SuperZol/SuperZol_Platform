@@ -2,8 +2,7 @@ from bson import ObjectId
 from fastapi import HTTPException
 from email_validator import validate_email
 import asyncio
-from server.data.product import Product
-from typing import List
+from typing import Dict
 
 
 class UserService:
@@ -12,7 +11,7 @@ class UserService:
 
     async def create_user(self, user: dict):
         if await self.is_valid_user(user) is False:
-            raise HTTPException(status_code=404, detail="Email exsits or invalid Password")
+            raise HTTPException(status_code=404, detail="Email exists or invalid Password")
         result = self.collection.insert_one(user)
         # After insertion, 'result' contains an InsertOneResult object
         # Retrieve the ObjectId of the inserted document
@@ -39,14 +38,16 @@ class UserService:
         if update_fields:
             self.collection.update_one({'email': email}, {'$set': update_fields})
 
-    async def update_cart(self, email: str, cart: List[Product]):
+    async def update_cart(self, email: str, cart: Dict[str, int]):
         user = self.collection.find_one({'email': email})
         if user is None:
             raise HTTPException(status_code=404, detail="Email not found")
-        user['shopping_history'].append([p.dict() for p in cart])
+        user['shopping_history'].append(cart)
+        print(user['shopping_history'])
         self.collection.update_one({'email': email}, {'$set': {'shopping_history': user['shopping_history']}})
 
-    async def is_password_valid(self, password: str) -> bool:
+    @staticmethod
+    async def is_password_valid(password: str) -> bool:
         return len(password) >= 6
 
     async def check_email_exists(self, email: str) -> bool:
@@ -62,7 +63,8 @@ class UserService:
         )
         return all(result)
 
-    def is_email_valid(self, email) -> bool:
+    @staticmethod
+    def is_email_valid(email) -> bool:
         try:
             validate_email(email, check_deliverability=False)
             return True

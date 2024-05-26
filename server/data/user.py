@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from server.data.product import Product
-from typing import List
+from typing import List, Dict
 
 
 class User(BaseModel):
@@ -9,4 +8,5 @@ class User(BaseModel):
     lat: float = 0.0
     lng: float = 0.0
     distance_preference: str
-    shopping_history: List[List[Product]] = []
+    shopping_history: List[Dict[str, int]] = []
+
