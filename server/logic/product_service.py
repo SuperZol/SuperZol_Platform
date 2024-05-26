@@ -11,7 +11,7 @@ class ProductService:
         return products
 
     async def get_products_by_name(self, name) -> list:
-        products = self.collection.find({"ItemName": {"$regex": name}}, {"_id": 0})
-        if products.count() == 0 or products is None:
+        products = self.collection.find({"ItemName": {"$regex": name}}, {"_id": 0}).limit(20)
+        if products is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return products

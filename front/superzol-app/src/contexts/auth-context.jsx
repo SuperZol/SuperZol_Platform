@@ -1,5 +1,6 @@
 import {createContext, useContext, useState, useMemo, useEffect} from "react";
 import axios from "axios";
+import _ from "lodash";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -8,7 +9,7 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [products, setProducts] = useState();
+    const [products, setProducts] = useState([]);
 
     const register = async (email, password) => {
         const response = await axios.post("http://localhost:8000/users/", {
@@ -22,11 +23,12 @@ export const AuthProvider = ({children}) => {
             const url = `http://localhost:8000/users/login/${email}/${password}`;
             const response = await axios.get(url);
             setCurrentUser(response.data);  // Set the entire response.data object as the currentUser
-
+            await getProducts();
         } catch (err) {
             console.log(`Error: ${err}`);
         }
     };
+
     const logout = async () => {
         setCurrentUser(null);
     };
@@ -38,11 +40,17 @@ export const AuthProvider = ({children}) => {
     const getProducts = async () => {
         const products = await axios.get(`http://localhost:8000/product/products`)
             .catch((err) => console.log(`Error: ${err}`));
-        setProducts(products.data)
+        setProducts(products.data);
     }
+
     const search = async (product) => {
-        const products = await axios.get(`http://localhost:8000/product/${product}`)
-            .catch((err) => console.log(`Error: ${err}`));
+        if (!_.isNil(product) && !_.isEmpty(product)) {
+            const products = await axios.get(`http://localhost:8000/product/${product}`)
+                .catch((err) => console.log(`Error: ${err}`));
+            setProducts(products.data);
+        } else {
+            await getProducts();
+        }
     };
 
     const value = useMemo(() => ({
@@ -55,9 +63,8 @@ export const AuthProvider = ({children}) => {
         setLoading,
         loading,
         products,
-        getProducts,
         search
-    }), [currentUser, error, loading]); // Dependencies array
+    }), [currentUser, error, loading, products]); // Dependencies array
 
 
     return (

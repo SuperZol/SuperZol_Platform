@@ -1,12 +1,13 @@
+import {Button} from "@mui/material";
+
 export const ProductCard = ({product}) => {
-    const {image, title, price, description} = product;
+    const {ItemName, ItemPrice} = product;
 
     return (
         <div>
-            <img src={image} alt={"test"}/>
-            <h3>{title}</h3>
-            <p>{price}</p>
-            <p>{description}</p>
+            <h3>{ItemName}</h3>
+            <p>{ItemPrice} ₪</p>
+            <Button>add to cart</Button>
         </div>
     )
 };
