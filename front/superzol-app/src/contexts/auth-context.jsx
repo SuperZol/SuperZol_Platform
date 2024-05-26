@@ -12,7 +12,7 @@ export const AuthProvider = ({children}) => {
     const [products, setProducts] = useState([]);
 
     const register = async (email, password) => {
-        const response = await axios.post("http://localhost:8000/users/", {
+        await axios.post("http://localhost:8000/users/", {
             email: email,
             password: password
         }).catch((err) => console.log(`Error: ${err}`));
@@ -32,10 +32,6 @@ export const AuthProvider = ({children}) => {
     const logout = async () => {
         setCurrentUser(null);
     };
-    useEffect(() => {
-        console.log(currentUser);
-
-    }, [currentUser]);
 
     const getProducts = async () => {
         const products = await axios.get(`http://localhost:8000/product/products`)

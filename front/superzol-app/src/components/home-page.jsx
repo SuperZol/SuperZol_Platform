@@ -30,7 +30,6 @@ export const Home = () => {
         if (currentSearch !== "") {
             search(query);
         }
-        console.log('Search query:', query);
     };
 
     return (
