@@ -29,7 +29,7 @@ export const Login = () => {
   useEffect(() => {
     if (currentUser) {
       setError("");
-      navigate("/register");
+      navigate("/home");
     }
   }, [currentUser, navigate, setError]);
 

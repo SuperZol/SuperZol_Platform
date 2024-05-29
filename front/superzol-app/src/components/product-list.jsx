@@ -7,7 +7,7 @@ export const ProductList = ({products}) => {
         <div className="product-list">
             <Grid container spacing={2}>
                 {!_.isNil(products) ? (products.map((product) => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+                    <Grid item key={product.ItemCode} xs={12} sm={6} md={4} lg={3}>
                         <ProductCard product={product}/>
                     </Grid>)
                 )) : (<></>)}

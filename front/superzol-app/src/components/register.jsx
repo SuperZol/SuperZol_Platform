@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Grid,
@@ -25,13 +25,7 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { currentUser, register, setError } = useAuth();
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/home");
-    }
-  }, [currentUser, navigate]);
+  const { register, setError } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,8 +41,8 @@ export const Register = () => {
     } catch (e) {
       setError("Failed to register user");
     }
-
     setLoading(false);
+    navigate("/login");
   };
 
   return (
