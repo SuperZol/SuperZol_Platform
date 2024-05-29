@@ -7,6 +7,6 @@ class User(BaseModel):
     password: str
     lat: float = 0.0
     lng: float = 0.0
-    distance_preference: str
+    distance_preference: str = ''
     shopping_history: List[Dict[str, int]] = []
 
