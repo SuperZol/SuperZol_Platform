@@ -2,19 +2,23 @@ import React, {useEffect} from "react";
 import {Box, Typography, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {SearchBar} from "./search-bar";
-import {useAuth} from "../contexts/auth-context";
+import {useAuth} from "../contexts/user-context";
 import {ProductList} from "./product-list";
+import {useProduct} from "../contexts/product-context";
 
 export const Home = () => {
     const navigate = useNavigate();
-    const {currentUser, currentSearch, logout, setError, products, search} = useAuth();
+    const {currentUser, currentSearch, logout, setError} = useAuth();
+    const {products, searchProducts, getAllProducts} = useProduct();
 
     useEffect(() => {
         if (!currentUser) {
             setError("");
             navigate("/login");
+        } else {
+            getAllProducts();
         }
-    }, [currentUser, navigate, setError]);
+    }, [currentUser, getAllProducts, navigate, setError]);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -27,8 +31,11 @@ export const Home = () => {
     };
 
     const handleSearch = (query) => {
+        console.log("query = " + query);
         if (currentSearch !== "") {
-            search(query);
+            searchProducts(query);
+        } else {
+            getAllProducts();
         }
     };
 
