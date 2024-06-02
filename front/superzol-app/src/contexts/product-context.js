@@ -15,7 +15,7 @@ export const ProductProvider = ({children}) => {
 
     const searchProducts = async (product) => {
         if (!_.isNil(product) && !_.isEmpty(product)) {
-            setProducts(await getProductsByName())
+            setProducts(await getProductsByName(product))
         } else {
             setProducts(await getProducts());
         }

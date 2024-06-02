@@ -1,5 +1,4 @@
 import axios from "axios";
-import _ from "lodash";
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -28,12 +27,7 @@ export const getProducts = async () => {
 }
 
 export const getProductsByName = async (productName) => {
-    if (!_.isNil(productName) && !_.isEmpty(productName)) {
-        const products = await axios.get(`${BASE_URL}/product/${productName}`)
-            .catch((err) => console.log(`Error: ${err}`));
-        return products.data;
-    } else {
-        //TODO: this might be unnecessary need to test
-        await getProducts();
-    }
+    const products = await axios.get(`${BASE_URL}/product/${productName}`)
+        .catch((err) => console.log(`Error: ${err}`));
+    return products.data;
 };

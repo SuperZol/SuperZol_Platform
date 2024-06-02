@@ -15,10 +15,11 @@ export const Home = () => {
         if (!currentUser) {
             setError("");
             navigate("/login");
-        } else {
+        }
+        if (products && products.length <= 0) {
             getAllProducts();
         }
-    }, [currentUser, getAllProducts, navigate, setError]);
+    }, [products, currentUser, getAllProducts, navigate, setError]);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -31,7 +32,6 @@ export const Home = () => {
     };
 
     const handleSearch = (query) => {
-        console.log("query = " + query);
         if (currentSearch !== "") {
             searchProducts(query);
         } else {
@@ -39,8 +39,7 @@ export const Home = () => {
         }
     };
 
-    return (
-        <>
+    return (<>
             <Button
                 variant="contained"
                 color="primary"
@@ -71,6 +70,5 @@ export const Home = () => {
                     Logout
                 </Button>
             </Box>
-        </>
-    )
+        </>)
 };
