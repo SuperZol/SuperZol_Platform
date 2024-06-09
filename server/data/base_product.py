@@ -6,3 +6,5 @@ class BaseProduct(BaseModel):
     ItemName: str
     ItemPrice: str
     Quantity: str
+    MinPrice: str
+    MaxPrice: str
