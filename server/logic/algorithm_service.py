@@ -18,7 +18,7 @@ class AlgorithmService:
         return radius * c
 
     def find_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
-                                   distance_preference: str) -> List[Dict[str, float]]:
+                                   distance_preference: float) -> List[Dict[str, float]]:
         stores = self.supermarket_collection.find()
         store_costs = []
         for store in stores:
@@ -48,7 +48,7 @@ class AlgorithmService:
             return None
         if int(store_lat) > 0 and int(store_lng) > 0:
             distance = self.haversine(user_lat, user_lng, store_lat, store_lng)
-            if distance > float(distance_preference):
+            if distance > distance_preference:
                 return None
         return distance
 
