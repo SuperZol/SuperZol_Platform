@@ -29,14 +29,20 @@ class UserService:
     async def update_user(self, email: str, update: dict):
         user = self.collection.find_one({'email': email})
         update_fields = {}
-        if not await self.is_password_valid(update['password']):
-            raise HTTPException(status_code=404, detail="password is not valid")
-        else:
+        print(update)
+        if 'email' in update:
+            if await self.is_email_exists(update['email']) is False:
+                raise HTTPException(status_code=404, detail="Email exists or invalid Password")
+        if 'password' in update:
+            if not await self.is_password_valid(update['password']):
+                raise HTTPException(status_code=404, detail="password is not valid")
             update_fields['password'] = update['password']
-        if user['distance_preference'] != update['distance_preference']:
+        if 'distance_preference' in update and user['distance_preference'] != update['distance_preference']:
             update_fields['distance_preference'] = update['distance_preference']
-        if update_fields:
-            self.collection.update_one({'email': email}, {'$set': update_fields})
+
+        # if update_fields:
+        self.collection.update_one({'email': email}, {'$set': update})
+        return self.collection.find_one({'email': email})
 
     async def update_cart(self, email: str, cart: Dict[str, int]):
         user = self.collection.find_one({'email': email})
