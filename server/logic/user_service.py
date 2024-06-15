@@ -20,7 +20,7 @@ class UserService:
         inserted_user = self.collection.find_one({"_id": ObjectId(inserted_id)}, {'_id': 0})
         return inserted_user
 
-    async def login(self, email: str, password: str) -> dict:
+    async def user_login(self, email: str, password: str) -> dict:
         user = self.collection.find_one({"email": email, "password": password}, {'_id': 0})
         if user is None:
             raise HTTPException(status_code=404, detail="password / email is not valid")
@@ -50,7 +50,7 @@ class UserService:
     async def is_password_valid(password: str) -> bool:
         return len(password) >= 6
 
-    async def check_email_exists(self, email: str) -> bool:
+    async def is_email_exists(self, email: str) -> bool:
         if not self.is_email_valid(email):
             return False
         document = self.collection.find_one({"email": email})
@@ -58,7 +58,7 @@ class UserService:
 
     async def is_valid_user(self, user: dict) -> bool:
         result = await asyncio.gather(
-            self.check_email_exists(user['email']),
+            self.is_email_exists(user['email']),
             self.is_password_valid(user['password'])
         )
         return all(result)
