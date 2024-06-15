@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from server.logic.algorithm_service import AlgorithmService
+from server.logic.supermarket_service import AlgorithmService
 from server.config.database import product_collection, supermarket_collection
 from typing import List, Dict
 
@@ -13,5 +13,5 @@ algorithm_service = AlgorithmService(product_collection, supermarket_collection)
              response_model_by_alias=False,
              status_code=status.HTTP_200_OK)
 async def get_cheapest_supermarkets(shopping_list: Dict[str, int], lat: float, lng: float, distance_preference: float):
-    return algorithm_service.find_cheapest_supermarkets(
+    return algorithm_service.get_cheapest_supermarkets(
         shopping_list, lat, lng, distance_preference)

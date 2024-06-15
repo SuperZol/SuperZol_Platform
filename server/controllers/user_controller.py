@@ -26,8 +26,8 @@ async def create_user(user: User):
     response_model_by_alias=False,
     status_code=status.HTTP_200_OK
 )
-async def login_user(email: str, password: str):
-    return await user_service.login(email, password)
+async def user_login(email: str, password: str):
+    return await user_service.user_login(email, password)
 
 
 @router.put(
@@ -47,4 +47,4 @@ async def update_user(email: str, user: User):
     status_code=status.HTTP_200_OK
 )
 async def update_cart(email: str, cart: Dict[str, int]):
-    return await user_service.update_cart(email, cart)
+    await user_service.update_cart(email, cart)

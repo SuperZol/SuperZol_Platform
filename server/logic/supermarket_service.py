@@ -17,13 +17,13 @@ class AlgorithmService:
         radius = 6371  # Radius of Earth in kilometers
         return radius * c
 
-    def find_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
-                                   distance_preference: float) -> List[Dict[str, float]]:
+    def get_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
+                                  distance_preference: float) -> List[Dict[str, float]]:
         stores = self.supermarket_collection.find()
         store_costs = []
         for store in stores:
             store_id = store['StoreId']
-            distance = self.is_supermarket_in_range(store, distance_preference, user_lat, user_lng)
+            distance = self.get_supermarket_distance(store, distance_preference, user_lat, user_lng)
             if distance is None:
                 continue
             cart_info = self.calculate_cart_prices(shopping_list, store_id)
@@ -40,7 +40,7 @@ class AlgorithmService:
         store_costs.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
         return store_costs
 
-    def is_supermarket_in_range(self, store, distance_preference, user_lat, user_lng):
+    def get_supermarket_distance(self, store, distance_preference, user_lat, user_lng):
         store_lat = store.get('Latitude')
         store_lng = store.get('Longitude')
         distance = 0
