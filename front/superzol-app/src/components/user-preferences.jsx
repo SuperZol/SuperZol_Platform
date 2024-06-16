@@ -3,11 +3,13 @@ import {Button, TextField, Typography, Box} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../contexts/user-context';
 import CustomMarks from './slider';
-import {updateUser,getUser} from '../api';
+import {updateUser} from '../api';
+import {validatePassword} from '../utils/passwordUtils';
+
 
 export const UserPreferences = () => {
     const navigate = useNavigate();
-    const {currentUser} = useAuth();
+    const {currentUser, updateCurrentUser} = useAuth();
 
     const [email, setEmail] = useState(currentUser?.email || '');
     const [currentPassword, setCurrentPassword] = useState('');
@@ -22,13 +24,17 @@ export const UserPreferences = () => {
             console.log(`email ${email} currentUser.email ${currentUser.email}`);
             data.email = email;
         }
-        if (currentPassword && newPassword && newPassword === confirmPassword
-            && newPassword.length >= 6) {
+
+        if (currentPassword && newPassword) {
+            const passwordErrors = validatePassword(newPassword, confirmPassword);
+            if (passwordErrors.length > 0) {
+                console.log(passwordErrors.join(", "));
+                return;
+            }
             if (currentPassword !== currentUser.password) {
                 console.log("The current password incorrect!")
             } else
                 data.password = newPassword;
-
         }
 
         if (distance !== currentUser.distance_preference) {
@@ -39,8 +45,14 @@ export const UserPreferences = () => {
             return;
         }
         try {
-            await updateUser(currentUser.email, data);
-            // await getUser(data.email, currentPassword); // Login with the new email
+            let res = await updateUser(currentUser.email, data);
+            console.log(res.status);
+            if (res.status === 200) {
+                updateCurrentUser(data);
+            } else {
+                console.log("error"); //TODO: when we will build the page we need todo popup
+            }
+
             console.log(`currentUser email ${currentUser.email} vs new email ${email}`);
 
         } catch (err) {

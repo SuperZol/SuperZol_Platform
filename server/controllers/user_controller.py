@@ -37,7 +37,7 @@ async def user_login(email: str, password: str):
     status_code=status.HTTP_200_OK
 )
 async def update_user(email: str, user_updated_fields: dict):
-    return await user_service.update_user(email, user_updated_fields)
+    await user_service.update_user(email, user_updated_fields)
 
 
 @router.put(

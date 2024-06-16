@@ -27,22 +27,10 @@ class UserService:
         return user
 
     async def update_user(self, email: str, update: dict):
-        user = self.collection.find_one({'email': email})
-        update_fields = {}
-        print(update)
         if 'email' in update:
             if await self.is_email_exists(update['email']) is False:
                 raise HTTPException(status_code=404, detail="Email exists or invalid Password")
-        if 'password' in update:
-            if not await self.is_password_valid(update['password']):
-                raise HTTPException(status_code=404, detail="password is not valid")
-            update_fields['password'] = update['password']
-        if 'distance_preference' in update and user['distance_preference'] != update['distance_preference']:
-            update_fields['distance_preference'] = update['distance_preference']
-
-        # if update_fields:
         self.collection.update_one({'email': email}, {'$set': update})
-        return self.collection.find_one({'email': email})
 
     async def update_cart(self, email: str, cart: Dict[str, int]):
         user = self.collection.find_one({'email': email})
@@ -63,11 +51,7 @@ class UserService:
         return document is None
 
     async def is_valid_user(self, user: dict) -> bool:
-        result = await asyncio.gather(
-            self.is_email_exists(user['email']),
-            self.is_password_valid(user['password'])
-        )
-        return all(result)
+        return await self.is_email_exists(user['email'])
 
     @staticmethod
     def is_email_valid(email) -> bool:

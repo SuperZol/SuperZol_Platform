@@ -32,11 +32,12 @@ export const getProductsByName = async (productName) => {
     return products.data;
 };
 
-export const updateUser = async (email,data) => {
-    const userData = await axios.put(`${BASE_URL}/users/edit/${email}`,
-        data
-    )
-        .catch((err) => console.log(`Error: ${err}`));
+export const updateUser = async (email, data) => {
+    try {
+        return await axios.put(`${BASE_URL}/users/edit/${email}`, data);
+    } catch (err) {
+        console.log(`Error: ${err.response}`);
+    }
 };
 
 
