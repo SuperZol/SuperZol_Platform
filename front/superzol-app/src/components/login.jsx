@@ -40,7 +40,6 @@ export const Login = () => {
                 if (res.status === 200) {
                     currentUser.lat = res.data.lat;
                     currentUser.lng = res.data.lon;
-                    console.log(currentUser);
                 }
             },
             (error) => {
