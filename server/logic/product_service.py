@@ -1,7 +1,5 @@
 from typing import List
-
 from fastapi import HTTPException
-
 from server.data.base_product import BaseProduct
 
 

@@ -1,0 +1,30 @@
+.shopping-cart {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #f4f4f4;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.shopping-cart h2 {
+  color: #4A90E2;
+}
+
+.shopping-cart-content {
+  margin-top: 20px;
+}
+
+.item {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.item p {
+  margin: 0;
+}
