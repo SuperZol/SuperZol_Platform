@@ -31,3 +31,13 @@ export const getProductsByName = async (productName) => {
         .catch((err) => console.log(`Error: ${err}`));
     return products.data;
 };
+
+export const updateUser = async (email, data) => {
+    try {
+        return await axios.put(`${BASE_URL}/users/edit/${email}`, data);
+    } catch (err) {
+        console.log(`Error: ${err.response}`);
+    }
+};
+
+

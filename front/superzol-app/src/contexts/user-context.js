@@ -23,6 +23,12 @@ export const UserProvider = ({children}) => {
     const logout = async () => {
         setCurrentUser(null);
     };
+    const updateCurrentUser = (updatedUser) => {
+        setCurrentUser((prevUser) => ({
+            ...prevUser,
+            ...updatedUser,
+        }));
+    };
 
     const value = useMemo(() => ({
         currentUser,
@@ -31,6 +37,7 @@ export const UserProvider = ({children}) => {
         login,
         register,
         logout,
+        updateCurrentUser,
     }), [currentUser, error]);
 
 
