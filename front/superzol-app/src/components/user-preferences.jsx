@@ -50,7 +50,7 @@ export const UserPreferences = () => {
             if (res.status === 200) {
                 updateCurrentUser(data);
             } else {
-                console.log("error"); //TODO: when we will build the page we need todo popup
+                alert("Email or password are invalid");
             }
 
             console.log(`currentUser email ${currentUser.email} vs new email ${email}`);
