@@ -58,28 +58,6 @@ export const Login = () => {
         }
     }, [currentUser, navigate, setError, getLocation]);
 
-    // async function getLocation() {
-    //     if (!navigator.geolocation) {
-    //         console.log("Geolocation is not supported by your browser");
-    //         return;
-    //     }
-    //
-    //     navigator.geolocation.getCurrentPosition(
-    //         async (position) => {
-    //             const {latitude, longitude} = position.coords;
-    //             const res = await axios.get(`http://ip-api.com/json?lat=${latitude}&lon=${longitude}`);
-    //             if (res.status === 200) {
-    //                 currentUser.lat = res.data.lat;
-    //                 currentUser.lng = res.data.lon;
-    //
-    //             }
-    //         },
-    //         (error) => {
-    //             console.error("Error getting geolocation:", error);
-    //         }
-    //     );
-    // }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
