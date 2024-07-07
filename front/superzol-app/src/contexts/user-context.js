@@ -1,8 +1,8 @@
 import {createContext, useContext, useState, useMemo} from "react";
-import {createUser, getUser} from "../api";
+import {createUser, getUser, saveShoppingList} from "../api";
 
 const UserContext = createContext(undefined);
-export const useAuth = () => useContext(UserContext);
+export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState();
@@ -24,6 +24,20 @@ export const UserProvider = ({children}) => {
         setCurrentUser(null);
     };
 
+    const saveShoppingListToHistory = async (shoppingList) => {
+        if (Object.keys(shoppingList).length >= 1) {
+            const dictShoppingList = {};
+            Object.keys(shoppingList).forEach((productId) => {
+                const {ItemCode, quantity} = shoppingList[productId];
+                dictShoppingList[ItemCode] = quantity;
+            });
+            const isSaved = await saveShoppingList(currentUser.email, dictShoppingList)
+            if(isSaved){
+                currentUser.shopping_history.push(dictShoppingList)
+            }
+        }
+    }
+
     const value = useMemo(() => ({
         currentUser,
         error,
@@ -31,6 +45,7 @@ export const UserProvider = ({children}) => {
         login,
         register,
         logout,
+        saveShoppingListToHistory
     }), [currentUser, error]);
 
 

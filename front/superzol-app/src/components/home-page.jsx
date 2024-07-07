@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Typography, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {SearchBar} from "./search-bar";
-import {useAuth} from "../contexts/user-context";
+import {useUser} from "../contexts/user-context";
 import {ProductList} from "./product-list";
 import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
@@ -10,9 +10,10 @@ import {ShoppingCart} from './shopping-cart';
 
 export const Home = () => {
     const navigate = useNavigate();
-    const {currentUser, currentSearch, logout, setError} = useAuth();
-    const {products, searchProducts, getAllProducts} = useProduct();
+    const {currentUser, currentSearch, logout, setError} = useUser();
+    const {products, searchProductsByName, getAllProducts} = useProduct();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [shoppingList, setShoppingList] = useState({});
 
     useEffect(() => {
         if (!currentUser) {
@@ -36,13 +37,33 @@ export const Home = () => {
 
     const handleSearch = (query) => {
         if (currentSearch !== "") {
-            searchProducts(query);
+            searchProductsByName(query);
         } else {
             getAllProducts();
         }
+
     };
-    const toggleSidebar = () => {
-        setSidebarOpen(!isSidebarOpen);
+
+    const addToCart = (product) => {
+        setShoppingList((prev) => {
+            const newList = {...prev};
+            if (newList[product.ItemCode]) {
+                newList[product.ItemCode].quantity += 1;
+            } else {
+                newList[product.ItemCode] = { ...product, quantity: 1 };
+            }
+            return newList;
+        });
+    };
+
+    const removeFromCart = (productId) => {
+        setShoppingList((prev) => {
+            const newList = {...prev};
+            if (newList[productId]) {
+                    delete newList[productId];
+            }
+            return newList;
+        });
     };
 
     return (<>
@@ -66,7 +87,7 @@ export const Home = () => {
                 סופרזול
             </Typography>
             <SearchBar onSearch={handleSearch}/>
-            <ProductList products={products}/>
+            <ProductList products={products} addToCart={addToCart}/>
             <Button
                 variant="contained"
                 color="primary"
@@ -75,12 +96,13 @@ export const Home = () => {
             >
                 Logout
             </Button>
-            {isSidebarOpen && <ShoppingCart />}
+            {isSidebarOpen &&
+                <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList} removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>}
         </Box>
         <Button
             variant="contained"
             color="primary"
-            onClick={toggleSidebar}
+            onClick={() => setSidebarOpen(true)}
             sx={{mt: 3}}
         >
             Cart

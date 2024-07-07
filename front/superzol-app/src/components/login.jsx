@@ -15,7 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {useAuth} from "../contexts/user-context";
+import {useUser} from "../contexts/user-context";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const {currentUser, login, setError} = useAuth();
+    const {currentUser, login, setError} = useUser();
 
     useEffect(() => {
         if (currentUser) {

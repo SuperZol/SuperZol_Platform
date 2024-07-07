@@ -13,8 +13,6 @@ class UserService:
         if await self.is_valid_user(user) is False:
             raise HTTPException(status_code=404, detail="Email exists or invalid Password")
         result = self.collection.insert_one(user)
-        # After insertion, 'result' contains an InsertOneResult object
-        # Retrieve the ObjectId of the inserted document
         inserted_id = result.inserted_id
         user['_id'] = str(inserted_id)
         inserted_user = self.collection.find_one({"_id": ObjectId(inserted_id)}, {'_id': 0})
@@ -43,7 +41,6 @@ class UserService:
         if user is None:
             raise HTTPException(status_code=404, detail="Email not found")
         user['shopping_history'].append(cart)
-        print(user['shopping_history'])
         self.collection.update_one({'email': email}, {'$set': {'shopping_history': user['shopping_history']}})
 
     @staticmethod

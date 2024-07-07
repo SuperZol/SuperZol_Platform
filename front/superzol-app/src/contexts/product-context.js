@@ -1,6 +1,6 @@
 import {createContext, useContext, useMemo, useState} from "react";
 import _ from "lodash";
-import {getProducts, getProductsByName} from '../api'
+import {getProductById, getProducts, getProductsByName} from '../api'
 
 const ProductContext = createContext(undefined);
 export const useProduct = () => useContext(ProductContext);
@@ -13,7 +13,16 @@ export const ProductProvider = ({children}) => {
         setProducts(await getProducts())
     }
 
-    const searchProducts = async (product) => {
+    const getProductsById = async (shoppingList) => {
+        let products = {};
+        for (const productId in shoppingList) {
+            let product = await getProductById(productId);
+            products[productId] = { ...product, quantity: 1 };
+        }
+        return products;
+    }
+
+    const searchProductsByName = async (product) => {
         if (!_.isNil(product) && !_.isEmpty(product)) {
             setProducts(await getProductsByName(product))
         } else {
@@ -25,8 +34,9 @@ export const ProductProvider = ({children}) => {
         error,
         setError,
         products,
-        searchProducts,
-        getAllProducts
+        searchProductsByName,
+        getAllProducts,
+        getProductsById
     }), [error, products]);
 
     return (
