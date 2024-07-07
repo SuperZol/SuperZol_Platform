@@ -47,3 +47,19 @@ export const saveShoppingList = async (email, shoppingList) => {
         return false;
     }
 };
+
+export const getCheapestSupermarkets = async (products, lat, lng, distance_preference) => {
+    console.log(products, lat, lng, distance_preference)
+    try {
+        const supermarkets = await axios.post(`${BASE_URL}/supermarket/cheapest_supermarkets`, {
+            products: products,
+            lat: lat,
+            lng: lng,
+            distance_preference: distance_preference
+        });
+        return supermarkets.data;
+    } catch (err) {
+        console.log(`Error: ${err}`);
+        return null;
+    }
+}

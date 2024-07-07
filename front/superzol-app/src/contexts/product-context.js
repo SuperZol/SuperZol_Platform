@@ -1,6 +1,6 @@
 import {createContext, useContext, useMemo, useState} from "react";
 import _ from "lodash";
-import {getProductById, getProducts, getProductsByName} from '../api'
+import {getCheapestSupermarkets, getProductById, getProducts, getProductsByName} from '../api'
 
 const ProductContext = createContext(undefined);
 export const useProduct = () => useContext(ProductContext);
@@ -17,7 +17,7 @@ export const ProductProvider = ({children}) => {
         let products = {};
         for (const productId in shoppingList) {
             let product = await getProductById(productId);
-            products[productId] = { ...product, quantity: 1 };
+            products[productId] = {...product, quantity: 1};
         }
         return products;
     }
@@ -30,13 +30,18 @@ export const ProductProvider = ({children}) => {
         }
     };
 
+    const findCheapestSupermarkets = async (products, lat, lng, distance_preference) => {
+        return await getCheapestSupermarkets(products, lat, lng, distance_preference)
+    }
+
     const value = useMemo(() => ({
         error,
         setError,
         products,
         searchProductsByName,
         getAllProducts,
-        getProductsById
+        getProductsById,
+        findCheapestSupermarkets
     }), [error, products]);
 
     return (

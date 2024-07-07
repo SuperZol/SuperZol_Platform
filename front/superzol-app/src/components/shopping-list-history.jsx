@@ -6,7 +6,7 @@ export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) =
         <div>
             <h3>Total Shopping Lists: {shoppingLists.length}</h3>
             {shoppingLists.map((list, index) => (
-                <div key={index} className="shopping-list">
+                <div key={index}>
                     <h4>Shopping List {index + 1}</h4>
                     <p>Number of products: {Object.keys(list).length}</p>
                     <Button onClick={()=>handleChosenShoppingList(shoppingLists[index])}>בחירה</Button>

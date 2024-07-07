@@ -2,7 +2,7 @@ from math import radians, sin, cos, sqrt, atan2
 from typing import Dict, List
 
 
-class AlgorithmService:
+class SupermarketService:
     def __init__(self, product_collection, supermarket_collection):
         self.product_collection = product_collection
         self.supermarket_collection = supermarket_collection

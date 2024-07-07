@@ -5,12 +5,15 @@ import {ProductCard} from "./product-card";
 import {useUser} from "../contexts/user-context";
 import {ShoppingListHistory} from "./shopping-list-history";
 import {useProduct} from "../contexts/product-context";
+import {SupermarketsCard} from "./supermarkets-card";
 
 export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, setSidebarOpen}) => {
 
     const {currentUser, saveShoppingListToHistory} = useUser();
-    const {getProductsById} = useProduct();
+    const {getProductsById, findCheapestSupermarkets} = useProduct();
     const [showShoppingHistory, setShowShoppingHistory] = useState(false);
+    const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
+    const [supermarkets, setSupermarkets] = useState([])
     const handleAdd = (productId) => {
         setShoppingList((prev) => {
             const newList = {...prev};
@@ -39,11 +42,24 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
         removeFromCart(productId);
     };
 
-    const handleChosenShoppingList = async (shoppingList) => {
+    const handleChosenShoppingList = async () => {
         const newList = await getProductsById(shoppingList);
         setShoppingList(newList);
         console.log(newList);
         setShowShoppingHistory(false);
+    }
+
+    const transformShoppingListToDictionary = (shoppingList) => {
+        const shoppingDict = {};
+        Object.values(shoppingList).map(product => {
+            shoppingDict[product.ItemCode] = product.quantity;
+        });
+        return shoppingDict;
+    }
+
+    const handleFindCheapestSupermarkets = async () => {
+        setSupermarkets(await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference));
+        setShowCheapestSupermarkets(true);
     }
 
     return (
@@ -59,22 +75,25 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
                 ?
                 <ShoppingListHistory shoppingLists={currentUser.shopping_history}
                                      handleChosenShoppingList={handleChosenShoppingList}/>
-                :
-                <div className="shopping-cart-content">
-                    {Object.keys(shoppingList).map((productId) => {
-                        const product = shoppingList[productId];
-                        return (
-                            <div className="item" key={productId}>
-                                <ProductCard product={product}/>
-                                <p>כמות: {product.quantity}</p>
-                                <Button onClick={() => handleAdd(productId)}>add</Button>
-                                <Button onClick={() => handleSubtract(productId)}>subtract</Button>
-                                <Button onClick={() => handleRemove(productId)}>remove</Button>
-                            </div>
-                        );
-                    })}
-                </div>)}
-            <Button>מציאת הסופרים</Button>
+                : (showCheapestSupermarkets
+                    ?
+                    <SupermarketsCard supermarkets={supermarkets}/>
+                    :
+                    <div className="shopping-cart-content">
+                        {Object.keys(shoppingList).map((productId) => {
+                            const product = shoppingList[productId];
+                            return (
+                                <div className="item" key={productId}>
+                                    <ProductCard product={product}/>
+                                    <p>כמות: {product.quantity}</p>
+                                    <Button onClick={() => handleAdd(productId)}>add</Button>
+                                    <Button onClick={() => handleSubtract(productId)}>subtract</Button>
+                                    <Button onClick={() => handleRemove(productId)}>remove</Button>
+                                </div>
+                            );
+                        })}
+                    </div>))}
+            <Button onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</Button>
         </div>
     );
 };
