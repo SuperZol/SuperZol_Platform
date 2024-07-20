@@ -1,6 +1,8 @@
 from math import radians, sin, cos, sqrt, atan2
 from typing import Dict, List
 
+from server.data.cheapest_supermarkets_request import CheapestSupermarketsRequest
+
 
 class SupermarketService:
     def __init__(self, product_collection, supermarket_collection):
@@ -17,16 +19,16 @@ class SupermarketService:
         radius = 6371  # Radius of Earth in kilometers
         return radius * c
 
-    def get_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
-                                  distance_preference: float) -> List[Dict[str, float]]:
+    def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest):
         stores = self.supermarket_collection.find()
         store_costs = []
         for store in stores:
             store_id = store['StoreId']
-            distance = self.get_supermarket_distance(store, distance_preference, user_lat, user_lng)
+            distance = self.get_supermarket_distance(store, request.distance_preference,
+                                                     request.lat, request.lng)
             if distance is None:
                 continue
-            cart_info = self.calculate_cart_prices(shopping_list, store_id)
+            cart_info = self.calculate_cart_prices(request.shopping_list, store_id)
             if cart_info:
                 store_costs.append({
                     'store_id': store_id,

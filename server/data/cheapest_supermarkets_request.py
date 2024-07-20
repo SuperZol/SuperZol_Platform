@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Dict
 
 
-class ShoppingListRequest(BaseModel):
+class CheapestSupermarketsRequest(BaseModel):
     shopping_list: Dict[str, int]
     lat: float
     lng: float
