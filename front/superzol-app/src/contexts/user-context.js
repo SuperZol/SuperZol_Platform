@@ -23,6 +23,12 @@ export const UserProvider = ({children}) => {
     const logout = async () => {
         setCurrentUser(null);
     };
+    const updateCurrentUser = (updatedUser) => {
+        setCurrentUser((prevUser) => ({
+            ...prevUser,
+            ...updatedUser,
+        }));
+    };
 
     const saveShoppingListToHistory = async (shoppingList) => {
         if (Object.keys(shoppingList).length >= 1) {
@@ -45,6 +51,7 @@ export const UserProvider = ({children}) => {
         login,
         register,
         logout,
+        updateCurrentUser,
         saveShoppingListToHistory
     }), [currentUser, error]);
 

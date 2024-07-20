@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
     Button,
     Grid,
@@ -16,6 +16,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {useUser} from "../contexts/user-context";
+import axios from "axios";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -25,13 +26,37 @@ export const Login = () => {
     const [loading, setLoading] = useState(false);
 
     const {currentUser, login, setError} = useUser();
+    const getLocation = useCallback(async () => {
+        if (!navigator.geolocation) {
+            console.log("Geolocation is not supported by your browser");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const {latitude, longitude} = position.coords;
+                const res = await axios.get(`http://ip-api.com/json?lat=${latitude}&lon=${longitude}`);
+                if (res.status === 200) {
+                    currentUser.lat = res.data.lat;
+                    currentUser.lng = res.data.lon;
+                }
+            },
+            (error) => {
+                console.error("Error getting geolocation:", error);
+            }
+        );
+    }, [currentUser]);
 
     useEffect(() => {
         if (currentUser) {
             setError("");
+            getLocation().then(r => {
+            });
+
             navigate("/home");
         }
-    }, [currentUser, navigate, setError]);
+    }, [currentUser, navigate, setError, getLocation]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +64,7 @@ export const Login = () => {
         try {
             setLoading(true);
             await login(email, password);
-            if(currentUser){
+            if (currentUser) {
                 navigate("/home");
             }
         } catch (e) {

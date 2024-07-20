@@ -16,6 +16,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import {validatePassword} from '../utils/passwordUtils';
+
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -29,9 +31,13 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
-            return setError("Passwords do not match");
+        const passwordErrors = validatePassword(password, confirmPassword);
+        console.log(`Length of error: ${passwordErrors.length}`);
+        if (passwordErrors.length > 0) {
+            console.log(passwordErrors.join(", "));
+            return;
         }
+
 
         try {
             setError("");
