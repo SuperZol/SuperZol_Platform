@@ -52,7 +52,7 @@ export const getCheapestSupermarkets = async (products, lat, lng, distance_prefe
     console.log(products, lat, lng, distance_preference)
     try {
         const supermarkets = await axios.post(`${BASE_URL}/supermarket/cheapest_supermarkets`, {
-            products: products,
+            shopping_list: products,
             lat: lat,
             lng: lng,
             distance_preference: distance_preference

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/shopping-cart.css';
 import {Button} from "@mui/material";
 import {ProductCard} from "./product-card";
@@ -14,6 +14,15 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
     const [showShoppingHistory, setShowShoppingHistory] = useState(false);
     const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
     const [supermarkets, setSupermarkets] = useState([])
+
+    // Add this useEffect to log the supermarkets after they have been updated
+    useEffect(() => {
+        if(supermarkets.length > 0) {
+            setShowCheapestSupermarkets(true);
+        }
+    }, [supermarkets]);
+
+
     const handleAdd = (productId) => {
         setShoppingList((prev) => {
             const newList = {...prev};
@@ -22,7 +31,6 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
             }
             return newList;
         });
-        console.log(shoppingList)
     };
 
 
@@ -42,25 +50,26 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
         removeFromCart(productId);
     };
 
-    const handleChosenShoppingList = async () => {
-        const newList = await getProductsById(shoppingList);
-        setShoppingList(newList);
+    const handleChosenShoppingList = async (chosen_shopping_list) => {
+        const newList = await getProductsById(chosen_shopping_list);
         console.log(newList);
+        setShoppingList(newList);
         setShowShoppingHistory(false);
     }
 
     const transformShoppingListToDictionary = (shoppingList) => {
         const shoppingDict = {};
         Object.values(shoppingList).map(product => {
-            shoppingDict[product.ItemCode] = product.quantity;
+            shoppingDict[String(product.ItemCode)] = product.quantity;
         });
         return shoppingDict;
     }
 
     const handleFindCheapestSupermarkets = async () => {
-        setSupermarkets(await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference));
-        setShowCheapestSupermarkets(true);
+        let response = await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference);
+        setSupermarkets(response);
     }
+
 
     return (
         <div className="shopping-cart">

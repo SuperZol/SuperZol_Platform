@@ -14,6 +14,7 @@ export const ProductProvider = ({children}) => {
     }
 
     const getProductsById = async (shoppingList) => {
+        console.log(shoppingList)
         let products = {};
         for (const productId in shoppingList) {
             let product = await getProductById(productId);
