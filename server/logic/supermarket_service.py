@@ -27,7 +27,7 @@ class AlgorithmService:
 
         with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
             futures = [
-                executor.submit(self.relevant_stores, chunk, products, shopping_list, user_lat, user_lng,
+                executor.submit(self.get_relevant_stores, chunk, products, shopping_list, user_lat, user_lng,
                                 distance_preference)
                 for chunk in self.store_chunk(stores)
             ]
@@ -46,8 +46,8 @@ class AlgorithmService:
         return [stores[i:i + chunk_size] for i in range(0, n, chunk_size)]
 
     @staticmethod
-    def relevant_stores(stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
-                        user_lat: float, user_lng: float, distance_preference: float) -> List[Dict[str, float]]:
+    def get_relevant_stores(stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
+                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict[str, float]]:
         store_costs = []
         for store in stores_chunk:
             store_id = store['StoreId']
