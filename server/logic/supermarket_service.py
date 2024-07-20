@@ -45,17 +45,16 @@ class AlgorithmService:
         chunk_size = max(1, n // os.cpu_count())
         return [stores[i:i + chunk_size] for i in range(0, n, chunk_size)]
 
-    @staticmethod
-    def get_relevant_stores(stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
+    def get_relevant_stores(self, stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
                             user_lat: float, user_lng: float, distance_preference: float) -> List[Dict[str, float]]:
         store_costs = []
         for store in stores_chunk:
             store_id = store['StoreId']
-            distance = AlgorithmService.haversine(user_lat, user_lng, store.get('Latitude', 0),
-                                                  store.get('Longitude', 0))
+            distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0),
+                                      store.get('Longitude', 0))
             if distance > distance_preference:
                 continue
-            cart_info = AlgorithmService.calculate_cart_prices(shopping_list, products, store_id)
+            cart_info = self.calculate_cart_prices(shopping_list, products, store_id)
             if cart_info:
                 store_costs.append({
                     'store_id': store_id,
