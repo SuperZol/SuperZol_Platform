@@ -21,7 +21,7 @@ class SupermarketService:
         radius = 6371  # Radius of Earth in kilometers
         return radius * c
 
-    async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict[str, float]]:
+    async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict]:
         stores = list(self.supermarket_collection.find())
         products = list(self.product_collection.find())
 
@@ -47,7 +47,7 @@ class SupermarketService:
         return [stores[i:i + chunk_size] for i in range(0, n, chunk_size)]
 
     def get_relevant_stores(self, stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
-                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict[str, float]]:
+                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict]:
         store_costs = []
         for store in stores_chunk:
             store_id = store['StoreId']

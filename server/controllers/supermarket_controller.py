@@ -11,7 +11,7 @@ supermarket_service = SupermarketService(product_collection, supermarket_collect
 
 @router.post('/cheapest_supermarkets',
              response_description="List of supermarkets with the available products",
-             response_model=List[dict],
+             response_model=List[Dict],
              response_model_by_alias=False,
              status_code=status.HTTP_200_OK)
 async def get_cheapest_supermarkets(request: CheapestSupermarketsRequest):
