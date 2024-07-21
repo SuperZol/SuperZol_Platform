@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Button,
     Grid,
@@ -8,10 +8,10 @@ import {
     Paper,
     Typography,
     Avatar,
-    CircularProgress,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/user-context";
+import CircularProgress from "@mui/material/CircularProgress";
+import {Link, useNavigate} from "react-router-dom";
+import {useUser} from "../contexts/user-context";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
@@ -25,9 +25,8 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(""); // For displaying registration errors
 
-    const { register, setError: setAuthError } = useAuth();
+    const {register, setError} = useUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,17 +37,16 @@ export const Register = () => {
             return;
         }
 
+
         try {
             setError("");
             setLoading(true);
             await register(email, password);
-            navigate("/login");
         } catch (e) {
-            setAuthError("Failed to register user"); // Set error for auth context if needed
             setError("Failed to register user");
-        } finally {
-            setLoading(false);
         }
+        setLoading(false);
+        navigate("/login");
     };
 
     return (
@@ -95,7 +93,7 @@ export const Register = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <LockIcon />
+                                        <LockIcon/>
                                     </InputAdornment>
                                 ),
                             }}
@@ -112,7 +110,7 @@ export const Register = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <LockIcon />
+                                        <LockIcon/>
                                     </InputAdornment>
                                 ),
                             }}
