@@ -50,6 +50,8 @@ class AlgorithmService:
         store_costs = []
         for store in stores_chunk:
             store_id = store['StoreId']
+            if store.get('Latitude') is None or store.get('Longitude') is None:
+                continue
             distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0),
                                       store.get('Longitude', 0))
             if distance > distance_preference:
