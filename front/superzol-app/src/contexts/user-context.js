@@ -38,7 +38,7 @@ export const UserProvider = ({children}) => {
                 dictShoppingList[ItemCode] = quantity;
             });
             const isSaved = await saveShoppingList(currentUser.email, dictShoppingList)
-            if(isSaved){
+            if (isSaved) {
                 currentUser.shopping_history.push(dictShoppingList)
             }
         }
@@ -53,7 +53,7 @@ export const UserProvider = ({children}) => {
         logout,
         updateCurrentUser,
         saveShoppingListToHistory
-    }), [currentUser, error]);
+    }), [currentUser, saveShoppingListToHistory, error]);
 
 
     return (

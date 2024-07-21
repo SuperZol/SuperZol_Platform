@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, TextField, Typography, Box} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {useAuth} from '../contexts/user-context';
+import {useUser} from '../contexts/user-context';
 import CustomMarks from './slider';
 import {updateUser} from '../api';
 import {validatePassword} from '../utils/passwordUtils';
@@ -9,7 +9,7 @@ import {validatePassword} from '../utils/passwordUtils';
 
 export const UserPreferences = () => {
     const navigate = useNavigate();
-    const {currentUser, updateCurrentUser} = useAuth();
+    const {currentUser, updateCurrentUser} = useUser();
 
     const [email, setEmail] = useState(currentUser?.email || '');
     const [currentPassword, setCurrentPassword] = useState('');
