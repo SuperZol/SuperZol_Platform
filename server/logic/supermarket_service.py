@@ -1,11 +1,12 @@
 import os
 from math import radians, sin, cos, sqrt, atan2
 from typing import Dict, List
-from pymongo import MongoClient
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from server.data.cheapest_supermarkets_request import CheapestSupermarketsRequest
 
-class AlgorithmService:
+
+class SupermarketService:
     def __init__(self, product_collection, supermarket_collection):
         self.product_collection = product_collection
         self.supermarket_collection = supermarket_collection
@@ -20,15 +21,15 @@ class AlgorithmService:
         radius = 6371  # Radius of Earth in kilometers
         return radius * c
 
-    async def get_cheapest_supermarkets(self, shopping_list: Dict[str, int], user_lat: float, user_lng: float,
-                                        distance_preference: float) -> List[Dict[str, float]]:
+    async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict]:
         stores = list(self.supermarket_collection.find())
         products = list(self.product_collection.find())
 
         with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
             futures = [
-                executor.submit(self.get_relevant_stores, chunk, products, shopping_list, user_lat, user_lng,
-                                distance_preference)
+                executor.submit(self.get_relevant_stores, chunk, products, request.shopping_list, request.lat,
+                                request.lng,
+                                request.distance_preference)
                 for chunk in self.store_chunk(stores)
             ]
 
@@ -46,7 +47,7 @@ class AlgorithmService:
         return [stores[i:i + chunk_size] for i in range(0, n, chunk_size)]
 
     def get_relevant_stores(self, stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
-                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict[str, float]]:
+                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict]:
         store_costs = []
         for store in stores_chunk:
             store_id = store['StoreId']

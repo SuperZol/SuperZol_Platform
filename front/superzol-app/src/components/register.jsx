@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../contexts/user-context";
+import {useUser} from "../contexts/user-context";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
@@ -26,7 +26,7 @@ export const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const {register, setError} = useAuth();
+    const {register, setError} = useUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -20,7 +20,7 @@ async def get_all_products():
 
 
 @router.get(
-    '/{name}',
+    '/name/{name}',
     response_description="List of products by name",
     response_model=List[BaseProduct],
     response_model_by_alias=False,
@@ -28,3 +28,14 @@ async def get_all_products():
 )
 async def get_products_by_name(name: str):
     return await product_service.get_products_by_name(name=name)
+
+
+@router.get(
+    '/id/{product_id}',
+    response_description="A product by id",
+    response_model=List[BaseProduct],
+    response_model_by_alias=False,
+    status_code=status.HTTP_200_OK
+)
+async def get_product_by_id(product_id: str):
+    return await product_service.get_product_by_id(product_id=product_id)
