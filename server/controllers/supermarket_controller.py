@@ -15,4 +15,5 @@ supermarket_service = SupermarketService(product_collection, supermarket_collect
              response_model_by_alias=False,
              status_code=status.HTTP_200_OK)
 async def get_cheapest_supermarkets(request: CheapestSupermarketsRequest):
-    return supermarket_service.get_cheapest_supermarkets(request)
+    stores = await supermarket_service.get_cheapest_supermarkets(request)
+    return stores
