@@ -13,5 +13,6 @@ algorithm_service = AlgorithmService(product_collection, supermarket_collection)
              response_model_by_alias=False,
              status_code=status.HTTP_200_OK)
 async def get_cheapest_supermarkets(shopping_list: Dict[str, int], lat: float, lng: float, distance_preference: float):
-    return algorithm_service.get_cheapest_supermarkets(
+    stores = await algorithm_service.get_cheapest_supermarkets(
         shopping_list, lat, lng, distance_preference)
+    return stores
