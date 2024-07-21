@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     Button,
     Grid,
@@ -8,16 +8,16 @@ import {
     Paper,
     Typography,
     Avatar,
+    CircularProgress,
 } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../contexts/user-context";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/user-context";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {validatePassword} from '../utils/passwordUtils';
-
+import { validatePassword } from '../utils/passwordUtils';
+import "../css/auth.css";
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -25,29 +25,30 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(""); // For displaying registration errors
 
-    const {register, setError} = useAuth();
+    const { register, setError: setAuthError } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const passwordErrors = validatePassword(password, confirmPassword);
-        console.log(`Length of error: ${passwordErrors.length}`);
         if (passwordErrors.length > 0) {
-            console.log(passwordErrors.join(", "));
+            setError(passwordErrors.join(", "));
             return;
         }
-
 
         try {
             setError("");
             setLoading(true);
             await register(email, password);
+            navigate("/login");
         } catch (e) {
+            setAuthError("Failed to register user"); // Set error for auth context if needed
             setError("Failed to register user");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
-        navigate("/login");
     };
 
     return (
@@ -57,24 +58,16 @@ export const Register = () => {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-            style={{height: "100vh"}}
+            className="root"
         >
-            <Paper
-                elevation={3}
-                style={{
-                    padding: "20px",
-                    borderRadius: "15px",
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
-                    backdropFilter: "blur(10px)",
-                }}
-            >
+            <Paper elevation={3} className="paper">
                 <Typography variant="h4" align="center" gutterBottom>
                     Register
                 </Typography>
-                <Avatar style={{margin: "0 auto", backgroundColor: "#3f51b5"}}>
-                    <AccountCircleIcon/>
+                <Avatar className="avatar">
+                    <AccountCircleIcon />
                 </Avatar>
-                <form onSubmit={handleSubmit} style={{width: "300px"}}>
+                <form onSubmit={handleSubmit} className="form">
                     <Grid item xs={12}>
                         <TextField
                             label="Email"
@@ -85,7 +78,7 @@ export const Register = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <EmailIcon/>
+                                        <EmailIcon />
                                     </InputAdornment>
                                 ),
                             }}
@@ -102,7 +95,7 @@ export const Register = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <LockIcon/>
+                                        <LockIcon />
                                     </InputAdornment>
                                 ),
                             }}
@@ -119,24 +112,29 @@ export const Register = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <LockIcon/>
+                                        <LockIcon />
                                     </InputAdornment>
                                 ),
                             }}
                         />
                     </Grid>
+                    {error && (
+                        <Typography color="error" variant="body2" align="center" style={{ marginTop: '10px' }}>
+                            {error}
+                        </Typography>
+                    )}
                     <Grid item>
                         <Button
-                            startIcon={<PersonIcon/>}
+                            startIcon={<PersonIcon />}
                             type="submit"
                             disabled={loading}
                             variant="contained"
                             color="primary"
-                            className="register-button"
+                            className="button"
                             size="large"
                             fullWidth
                         >
-                            {loading ? <CircularProgress size={24}/> : "Register"}
+                            {loading ? <CircularProgress size={24} /> : "Register"}
                         </Button>
                     </Grid>
                     <Box mt={2} textAlign="center">

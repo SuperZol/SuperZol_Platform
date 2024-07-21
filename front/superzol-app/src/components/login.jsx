@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     Button,
     Grid,
@@ -10,23 +10,22 @@ import {
     Avatar,
     CircularProgress,
 } from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {useAuth} from "../contexts/user-context";
+import { useAuth } from "../contexts/user-context";
 import axios from "axios";
+import "../css/auth.css"; // Ensure this is the correct path
 
 export const Login = () => {
     const navigate = useNavigate();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const { currentUser, login, setError } = useAuth();
 
-
-    const {currentUser, login, setError} = useAuth();
     const getLocation = useCallback(async () => {
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
@@ -35,7 +34,7 @@ export const Login = () => {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-                const {latitude, longitude} = position.coords;
+                const { latitude, longitude } = position.coords;
                 const res = await axios.get(`http://ip-api.com/json?lat=${latitude}&lon=${longitude}`);
                 if (res.status === 200) {
                     currentUser.lat = res.data.lat;
@@ -51,13 +50,10 @@ export const Login = () => {
     useEffect(() => {
         if (currentUser) {
             setError("");
-            getLocation().then(r => {
-            });
-
+            getLocation();
             navigate("/home");
         }
     }, [currentUser, navigate, setError, getLocation]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -82,24 +78,19 @@ export const Login = () => {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-            style={{height: "100vh"}}
+            className="root" // Apply CSS class for root container
         >
             <Paper
                 elevation={3}
-                style={{
-                    padding: "20px",
-                    borderRadius: "15px",
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
-                    backdropFilter: "blur(10px)",
-                }}
+                className="paper" // Apply CSS class for paper container
             >
                 <Typography variant="h4" align="center" gutterBottom>
                     Login
                 </Typography>
-                <Avatar style={{margin: "0 auto", backgroundColor: "#3f51b5"}}>
-                    <AccountCircleIcon/>
+                <Avatar className="avatar"> {/* Apply CSS class for avatar */}
+                    <AccountCircleIcon />
                 </Avatar>
-                <form onSubmit={handleSubmit} style={{width: "300px"}}>
+                <form onSubmit={handleSubmit} className="form"> {/* Apply CSS class for form */}
                     <Grid item xs={12}>
                         <TextField
                             label="Email"
@@ -110,7 +101,7 @@ export const Login = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <EmailIcon/>
+                                        <EmailIcon />
                                     </InputAdornment>
                                 ),
                             }}
@@ -127,7 +118,7 @@ export const Login = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <LockIcon/>
+                                        <LockIcon />
                                     </InputAdornment>
                                 ),
                             }}
@@ -135,16 +126,16 @@ export const Login = () => {
                     </Grid>
                     <Grid item>
                         <Button
-                            startIcon={<PersonIcon/>}
+                            startIcon={<PersonIcon />}
                             type="submit"
                             disabled={loading}
                             variant="contained"
                             color="primary"
-                            className="register-button"
+                            className="button" // Apply CSS class for button
                             size="large"
                             fullWidth
                         >
-                            {loading ? <CircularProgress size={24}/> : "Login"}
+                            {loading ? <CircularProgress size={24} /> : "Login"}
                         </Button>
                     </Grid>
                     <Box mt={2} textAlign="center">
