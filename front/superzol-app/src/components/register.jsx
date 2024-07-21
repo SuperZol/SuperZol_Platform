@@ -25,8 +25,7 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
-    const {register, setError} = useUser();
+    const {register, setError,error} = useUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();

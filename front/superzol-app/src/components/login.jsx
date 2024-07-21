@@ -17,7 +17,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {useUser} from "../contexts/user-context";
 import axios from "axios";
-import "../css/auth.css"; // Ensure this is the correct path
+import "../css/auth.css";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -81,19 +81,19 @@ export const Login = () => {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-            className="root" // Apply CSS class for root container
+            className="root"
         >
             <Paper
                 elevation={3}
-                className="paper" // Apply CSS class for paper container
+                className="paper"
             >
                 <Typography variant="h4" align="center" gutterBottom>
                     Login
                 </Typography>
-                <Avatar className="avatar"> {/* Apply CSS class for avatar */}
+                <Avatar className="avatar">
                     <AccountCircleIcon />
                 </Avatar>
-                <form onSubmit={handleSubmit} className="form"> {/* Apply CSS class for form */}
+                <form onSubmit={handleSubmit} className="form">
                     <Grid item xs={12}>
                         <TextField
                             label="Email"
@@ -134,7 +134,7 @@ export const Login = () => {
                             disabled={loading}
                             variant="contained"
                             color="primary"
-                            className="button" // Apply CSS class for button
+                            className="button"
                             size="large"
                             fullWidth
                         >
