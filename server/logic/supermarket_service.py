@@ -23,22 +23,20 @@ class SupermarketService:
 
     async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict]:
         stores = list(self.supermarket_collection.find())
-        products = list(self.product_collection.find())
 
         with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
             futures = [
-                executor.submit(self.get_relevant_stores, chunk, products, request.shopping_list, request.lat,
-                                request.lng,
+                executor.submit(self.get_relevant_stores, chunk, request.shopping_list, request.lat, request.lng,
                                 request.distance_preference)
                 for chunk in self.store_chunk(stores)
             ]
 
-            store_costs = []
+            stores_in_range = []
             for future in as_completed(futures):
-                store_costs.extend(future.result())
+                stores_in_range.extend(future.result())
 
-        store_costs.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
-        return store_costs
+        stores_in_range.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
+        return stores_in_range
 
     @staticmethod
     def store_chunk(stores):
@@ -46,20 +44,23 @@ class SupermarketService:
         chunk_size = max(1, n // os.cpu_count())
         return [stores[i:i + chunk_size] for i in range(0, n, chunk_size)]
 
-    def get_relevant_stores(self, stores_chunk: List[Dict], products: List[Dict], shopping_list: Dict[str, int],
-                            user_lat: float, user_lng: float, distance_preference: float) -> List[Dict]:
-        store_costs = []
+    def get_relevant_stores(self, stores_chunk: List[Dict], shopping_list: Dict[str, int], user_lat: float,
+                            user_lng: float, distance_preference: float) -> List[Dict]:
+        stores = []
         for store in stores_chunk:
             store_id = store['StoreId']
             if store.get('Latitude') is None or store.get('Longitude') is None:
                 continue
-            distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0),
-                                      store.get('Longitude', 0))
+            distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
             if distance > distance_preference:
                 continue
-            cart_info = self.calculate_cart_prices(shopping_list, products, store_id)
+
+            store_products = self.product_collection.find(
+                {"StoreId": store_id, "ItemCode": {"$in": list(shopping_list.keys())}})
+            cart_info = self.calculate_cart_prices(shopping_list, store_products)
+
             if cart_info:
-                store_costs.append({
+                stores.append({
                     'store_id': store_id,
                     'store_address': store['Address'],
                     'store_city': store['City'],
@@ -67,16 +68,16 @@ class SupermarketService:
                     'products_available': cart_info['products_available'],
                     'distance': distance
                 })
-        return store_costs
+        return stores
 
     @staticmethod
-    def calculate_cart_prices(shopping_list: Dict[str, int], products: List[Dict], store_id: str) -> Dict[str, float]:
+    def calculate_cart_prices(shopping_list: Dict[str, int], store_products) -> Dict[str, float]:
         total_cost = 0
         products_available = 0
 
+        product_dict = {product['ItemCode']: product for product in store_products}
         for item_code, amount in shopping_list.items():
-            product = next((product for product in products if
-                            product['ItemCode'] == item_code and product['StoreId'] == store_id), None)
+            product = product_dict.get(item_code)
             if product:
                 total_cost += float(product['ItemPrice']) * amount
                 products_available += 1
