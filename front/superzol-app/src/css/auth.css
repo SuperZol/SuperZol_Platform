@@ -1,67 +1,74 @@
-/* Root container settings */
 .root {
-    min-height: 100vh; /* Ensure the container takes up at least the full viewport height */
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 100px;
     box-sizing: border-box;
     background-color: #ecf0f1;
 }
 
-/* Paper container settings */
+.title {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.grid-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .paper {
-    padding: 60px; /* Increased padding for more space inside */
+    padding: 60px;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     max-width: 500px;
     width: 100%;
-    height: auto; /* Change height to auto to fit content */
+    height: auto;
     box-sizing: border-box;
 }
 
-/* Body settings */
 body {
     background-color: #ecf0f1;
-    margin: 0; /* Optional: Remove default margin for a full-page background */
-    font-family: Arial, sans-serif; /* Optional: Set a default font */
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-/* Form settings */
 .form {
     width: 100%;
-    height: auto; /* Change height to auto to fit content */
+    height: auto;
 }
 
-/* Avatar settings */
 .avatar {
     margin: 0 auto;
     background-color: #3f51b5;
-    width: 80px; /* Increase the size of the avatar */
-    height: 80px; /* Increase the size of the avatar */
-    font-size: 2.5rem; /* Increase the icon size */
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
 }
 
-/* Button settings */
 .button {
-    margin-top: 30px; /* Increase the margin for better spacing */
-    font-size: 1.125rem; /* Increase the font size for better visibility */
-    padding: 12px 20px; /* Increase padding for larger button */
+    margin-top: 30px;
+    font-size: 1.125rem;
+    padding: 12px 20px;
 }
 
-/* TextField settings */
 .MuiTextField-root {
-    margin-bottom: 20px; /* Increase spacing between fields */
+    margin-bottom: 20px;
 }
 
 .MuiInputBase-input {
-    font-size: 1.125rem; /* Increase font size inside text fields */
+    font-size: 1.125rem;
 }
 
-/* Typography settings */
 .MuiTypography-root {
-    font-size: 1.25rem; /* Increase font size of titles and text */
+    font-size: 1.25rem;
 }
 
 @media (max-width: 600px) {
@@ -70,16 +77,16 @@ body {
     }
 
     .paper {
-        padding: 40px; /* Adjust padding for smaller screens */
+        padding: 40px;
     }
 
     .button {
-        font-size: 1rem; /* Adjust font size for smaller screens */
+        font-size: 1rem;
     }
 
     .avatar {
-        width: 60px; /* Adjust avatar size for smaller screens */
-        height: 60px; /* Adjust avatar size for smaller screens */
+        width: 60px;
+        height: 60px;
     }
 }
 
