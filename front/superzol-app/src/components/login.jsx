@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
     Button,
     Grid,
@@ -10,12 +10,12 @@ import {
     Avatar,
     CircularProgress,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useUser } from "../contexts/user-context";
+import {useUser} from "../contexts/user-context";
 import axios from "axios";
 import "../css/auth.css";
 
@@ -25,7 +25,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, login, setError } = useUser();
+    const {currentUser, login, setError} = useUser();
     const getLocation = useCallback(async () => {
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
@@ -34,7 +34,7 @@ export const Login = () => {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-                const { latitude, longitude } = position.coords;
+                const {latitude, longitude} = position.coords;
                 const res = await axios.get(`http://ip-api.com/json?lat=${latitude}&lon=${longitude}`);
                 if (res.status === 200) {
                     currentUser.lat = res.data.lat;
@@ -75,7 +75,7 @@ export const Login = () => {
 
     return (
         <div className="root">
-               <Typography variant="h1" className="title">
+            <Typography variant="h1" className="title">
                 SuperZol
             </Typography>
             <Grid
@@ -94,7 +94,7 @@ export const Login = () => {
                         Login
                     </Typography>
                     <Avatar className="avatar">
-                        <AccountCircleIcon />
+                        <AccountCircleIcon/>
                     </Avatar>
                     <form onSubmit={handleSubmit} className="form">
                         <Grid item xs={12}>
@@ -132,7 +132,7 @@ export const Login = () => {
                         </Grid>
                         <Grid item>
                             <Button
-                                startIcon={<PersonIcon />}
+                                startIcon={<PersonIcon/>}
                                 type="submit"
                                 disabled={loading}
                                 variant="contained"
@@ -141,7 +141,7 @@ export const Login = () => {
                                 size="large"
                                 fullWidth
                             >
-                                {loading ? <CircularProgress size={24} /> : "Login"}
+                                {loading ? <CircularProgress size={24}/> : "Login"}
                             </Button>
                         </Grid>
                         <Box mt={2} textAlign="center">
