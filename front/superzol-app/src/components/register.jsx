@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Button,
     Grid,
@@ -10,13 +10,13 @@ import {
     Avatar,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../contexts/user-context";
+import {Link, useNavigate} from "react-router-dom";
+import {useUser} from "../contexts/user-context";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { validatePassword } from '../utils/passwordUtils';
+import {validatePassword} from '../utils/passwordUtils';
 import "../css/auth.css";
 
 export const Register = () => {
@@ -25,7 +25,7 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { register, setError, error } = useUser();
+    const {register, setError, error} = useUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,7 +65,7 @@ export const Register = () => {
                         Register
                     </Typography>
                     <Avatar className="avatar">
-                        <AccountCircleIcon />
+                        <AccountCircleIcon/>
                     </Avatar>
                     <form onSubmit={handleSubmit} className="form">
                         <Grid item xs={12}>
@@ -78,7 +78,7 @@ export const Register = () => {
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <EmailIcon />
+                                            <EmailIcon/>
                                         </InputAdornment>
                                     ),
                                 }}
@@ -95,7 +95,7 @@ export const Register = () => {
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <LockIcon />
+                                            <LockIcon/>
                                         </InputAdornment>
                                     ),
                                 }}
@@ -112,20 +112,20 @@ export const Register = () => {
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <LockIcon />
+                                            <LockIcon/>
                                         </InputAdornment>
                                     ),
                                 }}
                             />
                         </Grid>
                         {error && (
-                            <Typography color="error" variant="body2" align="center" style={{ marginTop: '10px' }}>
+                            <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
                                 {error}
                             </Typography>
                         )}
                         <Grid item>
                             <Button
-                                startIcon={<PersonIcon />}
+                                startIcon={<PersonIcon/>}
                                 type="submit"
                                 disabled={loading}
                                 variant="contained"
@@ -134,7 +134,7 @@ export const Register = () => {
                                 size="large"
                                 fullWidth
                             >
-                                {loading ? <CircularProgress size={24} /> : "Register"}
+                                {loading ? <CircularProgress size={24}/> : "Register"}
                             </Button>
                         </Grid>
                         <Box mt={2} textAlign="center">
