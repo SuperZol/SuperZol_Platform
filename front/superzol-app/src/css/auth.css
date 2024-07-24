@@ -1,103 +1,85 @@
 .root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 100px;
-    box-sizing: border-box;
-    background-color: #ecf0f1;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.title {
-    font-size: 5rem;
-    font-weight: bold;
-    color: #3f51b5;
-    margin-bottom: 20px;
-    text-align: center;
+.left-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  height: 100%;
+}
+
+.left-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  height: 100%;
 }
 
 .grid-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 80%;
+  max-width: 600px;
+  overflow: hidden;
 }
 
-.paper {
-    padding: 60px;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    max-width: 500px;
-    width: 100%;
+@media (max-width: 768px) {
+  .root {
+    flex-direction: column;
+  }
+  .left-section, .right-section {
     height: auto;
-    box-sizing: border-box;
+  }
+  .left-image {
+    width: 100%;
+  }
+  .grid-container {
+    width: 90%;
+  }
 }
 
-body {
-    background-color: #ecf0f1;
-    margin: 0;
-    font-family: Arial, sans-serif;
+.title {
+  color: #f4511e;
+}
+
+.box {
+  padding: 32px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .box {
+    padding: 16px;
+  }
 }
 
 .form {
-    width: 100%;
-    height: auto;
-}
-
-.avatar {
-    margin: 0 auto;
-    background-color: #3f51b5;
-    width: 80px;
-    height: 80px;
-    font-size: 2.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .button {
-    margin-top: 30px;
-    font-size: 1.125rem;
-    padding: 12px 20px;
+  background-color: #f4511e;
+  color: #fff;
+  border-radius: 50px;
+  height: 50px;
+  box-sizing: border-box;
 }
 
-.MuiTextField-root {
-    margin-bottom: 20px;
-}
-
-.MuiInputBase-input {
-    font-size: 1.125rem;
-}
-
-.MuiTypography-root {
-    font-size: 1.25rem;
-}
-
-@media (max-width: 600px) {
-    .root {
-        padding: 10px;
-    }
-
-    .paper {
-        padding: 40px;
-    }
-
-    .button {
-        font-size: 1rem;
-    }
-
-    .avatar {
-        width: 60px;
-        height: 60px;
-    }
-}
-
-@media (max-height: 600px) {
-    .root {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    .paper {
-        margin-top: auto;
-        margin-bottom: auto;
-    }
+@media (max-width: 768px) {
+  .button {
+    height: 45px;
+  }
 }
