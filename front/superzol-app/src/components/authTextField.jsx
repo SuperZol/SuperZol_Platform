@@ -1,4 +1,3 @@
-// components/AuthTextField.jsx
 import React from "react";
 import {TextField, InputAdornment} from "@mui/material";
 

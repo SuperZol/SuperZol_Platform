@@ -1,11 +1,10 @@
-// components/CommonForm.jsx
 import React from "react";
 import { Grid, Box, Typography } from "@mui/material";
 
 const Form = ({ title, func, children }) => {
   return (
     <Grid
-      container 
+      container
       direction="column"
       justifyContent="center"
       alignItems="center"
