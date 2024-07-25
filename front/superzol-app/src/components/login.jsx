@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
@@ -7,7 +7,8 @@ import { useUser } from "../contexts/user-context";
 import axios from "axios";
 import "../css/auth.css";
 import AuthTextField from "../components/authTextField";
-import AuthButton from "../components/button";
+import AuthButton from "./button-item";
+import Form from "./form-item";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -74,64 +75,51 @@ export const Login = () => {
         />
       </div>
       <div className="right-section">
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          className="grid-container"
-        >
-          <Typography variant="h3" className="title" gutterBottom>
-            Sign in to SuperZol
-          </Typography>
-          <Box className="box">
-            <form onSubmit={handleSubmit} className="form">
-              <Grid item xs={12}>
-                <AuthTextField
-                  label="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  icon={<EmailIcon />}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <AuthTextField
-                  label="Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  icon={<LockIcon />}
-                />
-              </Grid>
+        <Form title="Sign in to SuperZol" onSubmit={handleSubmit}>
+          <Grid item xs={12}>
+            <AuthTextField
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={<EmailIcon />}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <AuthTextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={<LockIcon />}
+            />
+          </Grid>
 
-              <Grid item xs={12}>
-                <AuthButton
-                  type="submit"
-                  loading={loading}
-                  color="primary"
-                  text="Sign in"
-                  style={{ marginTop: "16px" }}
-                />
-              </Grid>
+          <Grid item xs={12}>
+            <AuthButton
+              type="submit"
+              loading={loading}
+              color="primary"
+              text="Sign in"
+              style={{ marginTop: "16px" }}
+            />
+          </Grid>
 
-              <Grid item xs={12} style={{ textAlign: "center", marginTop: "16px" }}>
-                <Typography variant="body1">
-                  Don't have an account?
-                  <Link
-                    to="/register"
-                    style={{
-                      textDecoration: "none",
-                      color: "#f4511e",
-                      marginLeft: "5px",
-                    }}
-                  >
-                    Sign Up now
-                  </Link>
-                </Typography>
-              </Grid>
-            </form>
-          </Box>
-        </Grid>
+          <Grid item xs={12} style={{ textAlign: "center", marginTop: "16px" }}>
+            <Typography variant="body1">
+              Don't have an account?
+              <Link
+                to="/register"
+                style={{
+                  textDecoration: "none",
+                  color: "#f4511e",
+                  marginLeft: "5px",
+                }}
+              >
+                Sign Up now
+              </Link>
+            </Typography>
+          </Grid>
+        </Form>
       </div>
     </div>
   );

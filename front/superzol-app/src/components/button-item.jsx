@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, CircularProgress } from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
 
 const AuthButton = ({ onClick, loading, color, text, fullWidth = true, ...props }) => {
   return (
