@@ -33,7 +33,7 @@ export const Register = () => {
             await register(email, password);
             navigate("/login");
         } catch (e) {
-            setError("Failed to register user");
+            setError(e.message);
         } finally {
             setLoading(false);
         }
@@ -49,7 +49,7 @@ export const Register = () => {
                 />
             </div>
             <div className="right-section">
-                <Form title="Register to SuperZol" onSubmit={handleSubmit}>
+                <Form title="Register to SuperZol" func={handleSubmit}>
                     <Grid item xs={12}>
                         <AuthTextField
                             label="Email"

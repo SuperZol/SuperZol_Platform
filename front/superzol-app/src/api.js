@@ -4,10 +4,16 @@ const BASE_URL = 'http://localhost:8000';
 
 
 export const createUser = async (email, password) => {
-    await axios.post(`${BASE_URL}/users/`, {
-        email: email,
-        password: password
-    }).catch((err) => console.log(`Error: ${err}`));
+    try {
+        const response = await axios.post(`${BASE_URL}/users/`, {
+            email: email,
+            password: password
+        });
+        return response.data;
+    } catch (error) {
+        console.log("Error in createUser:", error);
+        throw error;
+    }
 };
 
 export const getUser = async (email, password) => {
@@ -38,7 +44,6 @@ export const updateUser = async (email, data) => {
         console.log(`Error: ${err.response}`);
     }
 };
-
 
 
 export const getProductById = async (productId) => {

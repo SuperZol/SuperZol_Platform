@@ -51,6 +51,7 @@ export const Login = () => {
     }, [currentUser, navigate, setError, getLocation]);
 
     const handleSubmit = async (e) => {
+        console.log("handle")
         e.preventDefault();
 
         try {
@@ -76,7 +77,7 @@ export const Login = () => {
                 />
             </div>
             <div className="right-section">
-                <Form title="Sign in to SuperZol" onSubmit={handleSubmit}>
+                <Form title="Sign in to SuperZol" func={handleSubmit}>
                     <Grid item xs={12}>
                         <AuthTextField
                             label="Email"

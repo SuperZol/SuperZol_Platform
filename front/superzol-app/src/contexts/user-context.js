@@ -9,7 +9,13 @@ export const UserProvider = ({children}) => {
     const [error, setError] = useState("");
 
     const register = async (email, password) => {
-        await createUser(email, password);
+        try {
+            await createUser(email, password);
+        } catch (error) {
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.detail);
+            }
+        }
     };
 
     const login = async (email, password) => {
