@@ -6,9 +6,9 @@ import LockIcon from "@mui/icons-material/Lock";
 import {useUser} from "../contexts/user-context";
 import axios from "axios";
 import "../css/auth.css";
-import AuthTextField from "../components/authTextField";
-import AuthButton from "./button-item";
-import Form from "./form-item";
+import AuthTextField from "./auth-text-field";
+import AuthButton from "./auth-button";
+import Form from "./form";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const {currentUser, login, setError} = useUser();
+    const {currentUser, login, setError, error} = useUser();
 
     const getLocation = useCallback(async () => {
         if (!navigator.geolocation) {
@@ -51,7 +51,6 @@ export const Login = () => {
     }, [currentUser, navigate, setError, getLocation]);
 
     const handleSubmit = async (e) => {
-        console.log("handle")
         e.preventDefault();
 
         try {
@@ -60,8 +59,8 @@ export const Login = () => {
             if (currentUser) {
                 navigate("/home");
             }
-        } catch (e) {
-            setError("Failed to login: Invalid email or password");
+        } catch (err) {
+            setError(err.message);
         } finally {
             setLoading(false);
         }
@@ -95,7 +94,11 @@ export const Login = () => {
                             icon={<LockIcon/>}
                         />
                     </Grid>
-
+                    {error && (
+                        <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
+                            {error}
+                        </Typography>
+                    )}
                     <Grid item xs={12}>
                         <AuthButton
                             type="submit"
@@ -110,6 +113,7 @@ export const Login = () => {
                         <Typography variant="body1">
                             Don't have an account?
                             <Link
+                                onClick={() => setError("")}
                                 to="/register"
                                 style={{
                                     textDecoration: "none",

@@ -18,10 +18,10 @@ export const createUser = async (email, password) => {
 
 export const getUser = async (email, password) => {
     try {
-        const user = await axios.get(`${BASE_URL}/users/login/${email}/${password}`);
-        return user.data;
-    } catch (err) {
-        console.log(`Error: ${err}`);
+        const response = await axios.get(`${BASE_URL}/users/login/${email}/${password}`);
+        return response.data;
+    } catch (error) {
+        throw error
     }
 };
 

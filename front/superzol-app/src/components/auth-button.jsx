@@ -1,10 +1,9 @@
 import React from "react";
 import {Button, CircularProgress} from "@mui/material";
 
-const AuthButton = ({onClick, loading, color, text, fullWidth = true, ...props}) => {
+const AuthButton = ({loading, color, text, fullWidth = true, ...props}) => {
     return (
         <Button
-            onClick={onClick}
             disabled={loading}
             variant="contained"
             color={color}

@@ -21,7 +21,7 @@ class UserService:
     async def user_login(self, email: str, password: str) -> dict:
         user = self.collection.find_one({"email": email, "password": password}, {'_id': 0})
         if user is None:
-            raise HTTPException(status_code=404, detail="password / email is not valid")
+            raise HTTPException(status_code=401, detail="Email or password is not valid")
         return user
 
     async def update_user(self, email: str, update: dict):

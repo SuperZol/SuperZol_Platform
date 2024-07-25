@@ -20,9 +20,10 @@ export const UserProvider = ({children}) => {
 
     const login = async (email, password) => {
         try {
-            setCurrentUser(await getUser(email, password));
+            const user = await getUser(email, password);
+            setCurrentUser(user);
         } catch (err) {
-            console.log(`Error: ${err}`);
+            throw new Error(err.response.data.detail);
         }
     };
 

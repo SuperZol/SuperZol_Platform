@@ -6,9 +6,9 @@ import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
 import {validatePassword} from '../utils/passwordUtils';
 import "../css/auth.css";
-import AuthTextField from "../components/authTextField";
-import AuthButton from "./button-item";
-import Form from "./form-item";
+import AuthTextField from "./auth-text-field";
+import AuthButton from "./auth-button";
+import Form from "./form";
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -95,6 +95,7 @@ export const Register = () => {
                         <Typography variant="body1">
                             Already have an account?
                             <Link
+                                onClick={() => setError("")}
                                 to="/login"
                                 style={{
                                     textDecoration: "none",
