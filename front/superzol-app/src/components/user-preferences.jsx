@@ -5,7 +5,7 @@ import {useUser} from '../contexts/user-context';
 import CustomMarks from './slider';
 import {updateUser} from '../api';
 import {validatePassword} from '../utils/passwordUtils';
-import Toolbar from '../components/toolbar';
+import Toolbar from './toolbar';
 
 export const UserPreferences = () => {
     const navigate = useNavigate();

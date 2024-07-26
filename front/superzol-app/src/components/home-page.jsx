@@ -6,6 +6,7 @@ import {useUser} from "../contexts/user-context";
 import {ProductList} from "./product-list";
 import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
+import Toolbar from "./toolbar";
 
 
 export const Home = () => {
@@ -44,13 +45,13 @@ export const Home = () => {
 
     };
 
-    const addToCart = (product) => {
+    const addToCart = (product, quantity) => {
         setShoppingList((prev) => {
             const newList = {...prev};
             if (newList[product.ItemCode]) {
-                newList[product.ItemCode].quantity += 1;
+                newList[product.ItemCode].quantity += quantity;
             } else {
-                newList[product.ItemCode] = { ...product, quantity: 1 };
+                newList[product.ItemCode] = {...product, quantity: quantity};
             }
             return newList;
         });
@@ -60,21 +61,14 @@ export const Home = () => {
         setShoppingList((prev) => {
             const newList = {...prev};
             if (newList[productId]) {
-                    delete newList[productId];
+                delete newList[productId];
             }
             return newList;
         });
     };
 
     return (<>
-        <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate('/user_preferences')}
-            sx={{mt: 3}}
-        >
-            User Preferences
-        </Button>
+        <Toolbar onLogout={logout}/>
         <Box
             display="flex"
             flexDirection="column"
@@ -82,22 +76,16 @@ export const Home = () => {
             justifyContent="center"
             minHeight="100vh"
             sx={{textAlign: "center"}}
+            marginTop="70px"
         >
             <Typography variant="h1" gutterBottom>
                 סופרזול
             </Typography>
             <SearchBar onSearch={handleSearch}/>
             <ProductList products={products} addToCart={addToCart}/>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleLogout}
-                sx={{mt: 3}}
-            >
-                Logout
-            </Button>
             {isSidebarOpen &&
-                <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList} removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>}
+                <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
+                              removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>}
         </Box>
         <Button
             variant="contained"

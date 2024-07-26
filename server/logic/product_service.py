@@ -42,7 +42,7 @@ class ProductService:
                 }
             },
             {
-                "$limit": 20
+                "$limit": 24
             }
         ]
         products = self.collection.aggregate(pipeline)
@@ -83,7 +83,7 @@ class ProductService:
                 }
             },
             {
-                "$limit": 20
+                "$limit": 24
             }
         ]
         products = self.collection.aggregate(pipeline)

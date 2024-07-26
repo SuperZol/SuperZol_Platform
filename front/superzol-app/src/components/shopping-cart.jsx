@@ -15,9 +15,8 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
     const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
     const [supermarkets, setSupermarkets] = useState([])
 
-    // Add this useEffect to log the supermarkets after they have been updated
     useEffect(() => {
-        if(supermarkets.length > 0) {
+        if (supermarkets.length > 0) {
             setShowCheapestSupermarkets(true);
         }
     }, [supermarkets]);
