@@ -24,7 +24,7 @@ const Toolbar = () => {
         <Box className="toolbar">
             <Box>
                 <Button className="toolbar-button" onClick={handleLogout}>
-                    <Typography variant="body1">יציאה</Typography>
+                    <Typography variant="body1">התנתקות</Typography>
                 </Button>
                 <Button className="toolbar-button" onClick={() => handleNavigation('/user_preferences')}>
                     <Typography variant="body1">הגדרות</Typography>
