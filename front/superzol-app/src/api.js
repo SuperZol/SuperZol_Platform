@@ -40,8 +40,8 @@ export const getProductsByName = async (productName) => {
 export const updateUser = async (email, data) => {
     try {
         return await axios.put(`${BASE_URL}/users/edit/${email}`, data);
-    } catch (err) {
-        console.log(`Error: ${err.response}`);
+    } catch (error) {
+        throw error
     }
 };
 

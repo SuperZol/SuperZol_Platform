@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Box, Container, ThemeProvider, createTheme } from '@mui/material';
-import { useUser } from '../contexts/user-context';
-import { updateUser } from '../api';
-import { validatePassword } from '../utils/passwordUtils';
+import React, {useState} from 'react';
+import {Grid, Typography, Box, Container, ThemeProvider, createTheme} from '@mui/material';
+import {useUser} from '../contexts/user-context';
+import {updateUser} from '../api';
+import {validateCurrentPassword, validateNewPassword} from '../utils/passwordUtils';
 import CustomMarks from './slider';
 import Toolbar from './toolbar';
 import AuthTextField from './auth-text-field';
@@ -16,8 +16,7 @@ const theme = createTheme({
 });
 
 export const UserPreferences = () => {
-    const { currentUser, updateCurrentUser, logout } = useUser();
-
+    const {currentUser, updateCurrentUser, logout} = useUser();
     const [currentEmail, setCurrentEmail] = useState(currentUser?.email || '');
     const [newEmail, setNewEmail] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
@@ -25,90 +24,87 @@ export const UserPreferences = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [distance, setDistance] = useState(currentUser?.distance_preference || 0);
     const [loading, setLoading] = useState(false); // For loading state in AuthButton
+    const [error, setError] = useState(''); // For error messages
 
     const handleSavePreferences = async (e) => {
-         setLoading(true); // Set loading to true when starting the save process
+        e.preventDefault(); // Prevent default form submission
+        setLoading(true);
         const data = {};
-        if (newEmail !== currentEmail) {
-            data.email = newEmail;
-        }
 
         if (currentPassword) {
-            if (currentPassword !== currentUser.password) {
-                alert("The current password is incorrect!");
-                setLoading(false); // Reset loading state
+            if (!validateCurrentPassword(currentPassword, currentUser.password)) {
+                setError("The current password is incorrect!");
+                setLoading(false);
                 return;
             }
-            if (newPassword) {
-                if (newPassword === currentPassword) {
-                    alert("New password must be different from the current password!");
-                    setLoading(false); // Reset loading state
-                    return;
-                }
 
-                const passwordErrors = validatePassword(newPassword, confirmPassword);
-                if (passwordErrors.length > 0) {
-                    console.log(passwordErrors.join(", "));
-                    alert(passwordErrors.join(", "));
-                    setLoading(false); // Reset loading state
-                    return;
-                }
-
-                data.password = newPassword;
+            if (newEmail !== currentEmail && newEmail) {
+                data.email = newEmail;
             }
-        } else if (newPassword) {
-            alert("Current password is required to change password!");
-            setLoading(false); // Reset loading state
-            return;
-        }
 
-        if (distance !== currentUser.distance_preference) {
-            data.distance_preference = distance;
+            if (distance !== currentUser.distance_preference) {
+                data.distance_preference = distance;
+            }
+
+            const newPasswordValidation = validateNewPassword(currentPassword, newPassword, confirmPassword, data);
+            if (newPasswordValidation !== true) {
+                setError(newPasswordValidation);
+                setLoading(false);
+                return;
+            }
+        } else {
+            setError("You must fill the current password!");
+            setLoading(false);
+            return;
         }
 
         if (Object.keys(data).length === 0) {
-            setLoading(false); // Reset loading state
+            setLoading(false);
             return;
         }
 
+        await savePreferences(data);
+    };
+
+    const savePreferences = async (data) => {
         try {
             let res = await updateUser(currentUser.email, data);
             if (res.status === 200) {
                 updateCurrentUser(data);
-                alert("Changes saved successfully!");
+                setError(""); // Clear any previous error messages
 
-                // Update the currentEmail if a new email was saved
                 if (data.email) {
                     setCurrentEmail(data.email);
-                    setNewEmail(''); // Clear the new email field
+                    setNewEmail('');
                 }
-                // Clear password fields after successful update
+
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
             } else {
-                alert("Update failed");
+                setError("Update failed");
             }
         } catch (err) {
-            console.log("Error while sending data to backend!");
-            alert("Error while updating. Please try again.");
+            console.error("Error while sending data to backend:", err);
+            setError("Error while updating. Please try again.");
         } finally {
-            setLoading(false); // Reset loading state after operation
+            setLoading(false);
         }
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <Toolbar onLogout={logout} />
-            <Container maxWidth="md" sx={{ mt: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Box sx={{ width: '100%', maxWidth: '600px' }}>
+            <Toolbar onLogout={logout}/>
+            <Container maxWidth="md" sx={{mt: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Box sx={{width: '100%', maxWidth: '600px'}}>
                     <Form title="הגדרות">
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <AuthTextField
                                     label="מייל נוכחי"
                                     value={currentEmail}
-                                    onChange={() => { }}
+                                    onChange={() => {
+                                    }}
                                     disabled
                                 />
                             </Grid>
@@ -144,7 +140,7 @@ export const UserPreferences = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+                                <Typography variant="h6" sx={{mt: 2, mb: 1}}>
                                     Distance Preference (0-20 km)
                                 </Typography>
                                 <CustomMarks
@@ -156,14 +152,21 @@ export const UserPreferences = () => {
                                     valueLabelDisplay="auto"
                                 />
                             </Grid>
+                            {error && (
+                                <Grid item xs={12}>
+                                    <Typography color="error" variant="body2" align="center"
+                                                style={{marginTop: '10px'}}>
+                                        {error}
+                                    </Typography>
+                                </Grid>
+                            )}
                         </Grid>
-                        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+                        <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
                             <AuthButton
                                 loading={loading}
                                 color="primary"
                                 text="Save Preferences"
                                 onClick={handleSavePreferences}
-
                             />
                         </Box>
                     </Form>
