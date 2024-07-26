@@ -1,31 +1,23 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {
-    Button,
-    Grid,
-    TextField,
-    InputAdornment,
-    Box,
-    Paper,
-    Typography,
-    Avatar,
-    CircularProgress,
-} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {useUser} from "../contexts/user-context";
 import axios from "axios";
+import "../css/auth.css";
+import AuthTextField from "./auth-text-field";
+import AuthButton from "./auth-button";
+import Form from "./form";
 
 export const Login = () => {
     const navigate = useNavigate();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const {currentUser, login, setError} = useUser();
+    const {currentUser, login, setError, error} = useUser();
+
     const getLocation = useCallback(async () => {
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
@@ -35,7 +27,9 @@ export const Login = () => {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const {latitude, longitude} = position.coords;
-                const res = await axios.get(`http://ip-api.com/json?lat=${latitude}&lon=${longitude}`);
+                const res = await axios.get(
+                    `http://ip-api.com/json?lat=${latitude}&lon=${longitude}`
+                );
                 if (res.status === 200) {
                     currentUser.lat = res.data.lat;
                     currentUser.lng = res.data.lon;
@@ -50,13 +44,11 @@ export const Login = () => {
     useEffect(() => {
         if (currentUser) {
             setError("");
-            getLocation().then(r => {
+            getLocation().then(() => {
             });
-
             navigate("/home");
         }
     }, [currentUser, navigate, setError, getLocation]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,102 +59,74 @@ export const Login = () => {
             if (currentUser) {
                 navigate("/home");
             }
-        } catch (e) {
-            setError("Failed to login: Invalid email or password");
+        } catch (err) {
+            setError(err.message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-            style={{height: "100vh"}}
-        >
-            <Paper
-                elevation={3}
-                style={{
-                    padding: "20px",
-                    borderRadius: "15px",
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
-                    backdropFilter: "blur(10px)",
-                }}
-            >
-                <Typography variant="h4" align="center" gutterBottom>
-                    Login
-                </Typography>
-                <Avatar style={{margin: "0 auto", backgroundColor: "#3f51b5"}}>
-                    <AccountCircleIcon/>
-                </Avatar>
-                <form onSubmit={handleSubmit} style={{width: "300px"}}>
+        <div className="root">
+            <div className="left-section">
+                <img
+                    src="/path-to-your-image.jpg"
+                    alt="Login Illustration"
+                    className="left-image"
+                />
+            </div>
+            <div className="right-section">
+                <Form title="Sign in to SuperZol" func={handleSubmit}>
                     <Grid item xs={12}>
-                        <TextField
+                        <AuthTextField
                             label="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <EmailIcon/>
-                                    </InputAdornment>
-                                ),
-                            }}
+                            icon={<EmailIcon/>}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
+                        <AuthTextField
                             label="Password"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LockIcon/>
-                                    </InputAdornment>
-                                ),
-                            }}
+                            icon={<LockIcon/>}
                         />
                     </Grid>
-                    <Grid item>
-                        <Button
-                            startIcon={<PersonIcon/>}
+                    {error && (
+                        <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
+                            {error}
+                        </Typography>
+                    )}
+                    <Grid item xs={12}>
+                        <AuthButton
                             type="submit"
-                            disabled={loading}
-                            variant="contained"
+                            loading={loading}
                             color="primary"
-                            className="register-button"
-                            size="large"
-                            fullWidth
-                        >
-                            {loading ? <CircularProgress size={24}/> : "Login"}
-                        </Button>
+                            text="Sign in"
+                            style={{marginTop: "16px"}}
+                        />
                     </Grid>
-                    <Box mt={2} textAlign="center">
-                        <Typography variant="body2">
+
+                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
+                        <Typography variant="body1">
                             Don't have an account?
                             <Link
+                                onClick={() => setError("")}
                                 to="/register"
                                 style={{
                                     textDecoration: "none",
-                                    color: "#3f51b5",
+                                    color: "#f4511e",
                                     marginLeft: "5px",
                                 }}
                             >
-                                Register
+                                Sign Up now
                             </Link>
                         </Typography>
-                    </Box>
-                </form>
-            </Paper>
-        </Grid>
+                    </Grid>
+                </Form>
+            </div>
+        </div>
     );
 };
