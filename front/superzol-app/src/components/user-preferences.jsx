@@ -5,11 +5,11 @@ import {useUser} from '../contexts/user-context';
 import CustomMarks from './slider';
 import {updateUser} from '../api';
 import {validatePassword} from '../utils/passwordUtils';
-
+import Toolbar from '../components/toolbar';
 
 export const UserPreferences = () => {
     const navigate = useNavigate();
-    const {currentUser, updateCurrentUser} = useUser();
+    const {currentUser, updateCurrentUser,logout} = useUser();
 
     const [email, setEmail] = useState(currentUser?.email || '');
     const [currentPassword, setCurrentPassword] = useState('');
@@ -61,67 +61,70 @@ export const UserPreferences = () => {
     };
 
     return (
-        <Box sx={{p: 3}}>
-            <Typography variant="h4">User Preferences</Typography>
-            <TextField
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                fullWidth
-                sx={{mt: 2}}
-            />
-            <TextField
-                label="Current Password"
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                fullWidth
-                sx={{mt: 2}}
-            />
-            <TextField
-                label="New Password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                fullWidth
-                sx={{mt: 2}}
-            />
-            <TextField
-                label="Confirm New Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                fullWidth
-                sx={{mt: 2}}
-            />
-            <Typography variant="h6" sx={{mt: 2}}>
-                Distance Preference (0-20 km)
-            </Typography>
-            <CustomMarks
-                value={distance}
-                onChange={(newValue) => setDistance(newValue)}
-                aria-labelledby="distance-slider"
-                min={0}
-                max={20}
-                valueLabelDisplay="auto"
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSavePreferences}
-                sx={{mt: 3}}
-            >
-                Save Preferences
-            </Button>
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => navigate('/home')}
-                sx={{mt: 3}}
-            >
-                Back
-            </Button>
-        </Box>
+        <>
+            <Toolbar onLogout={logout}/>
+            <Box sx={{p: 3}}>
+                <Typography variant="h4">User Preferences</Typography>
+                <TextField
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    fullWidth
+                    sx={{mt: 2}}
+                />
+                <TextField
+                    label="Current Password"
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    fullWidth
+                    sx={{mt: 2}}
+                />
+                <TextField
+                    label="New Password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    fullWidth
+                    sx={{mt: 2}}
+                />
+                <TextField
+                    label="Confirm New Password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    fullWidth
+                    sx={{mt: 2}}
+                />
+                <Typography variant="h6" sx={{mt: 2}}>
+                    Distance Preference (0-20 km)
+                </Typography>
+                <CustomMarks
+                    value={distance}
+                    onChange={(newValue) => setDistance(newValue)}
+                    aria-labelledby="distance-slider"
+                    min={0}
+                    max={20}
+                    valueLabelDisplay="auto"
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSavePreferences}
+                    sx={{mt: 3}}
+                >
+                    Save Preferences
+                </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => navigate('/home')}
+                    sx={{mt: 3}}
+                >
+                    Back
+                </Button>
+            </Box>
+        </>
     );
 };
 
