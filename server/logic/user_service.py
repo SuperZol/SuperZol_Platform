@@ -27,7 +27,7 @@ class UserService:
     async def update_user(self, email: str, update: dict):
         if 'email' in update:
             if await self.is_email_exists(update['email']) is False:
-                raise HTTPException(status_code=404, detail="Email exists or invalid Password")
+                raise HTTPException(status_code=404, detail="Email already exists.")
         self.collection.update_one({'email': email}, {'$set': update})
 
     async def update_cart(self, email: str, cart: Dict[str, int]):

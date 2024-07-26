@@ -16,7 +16,7 @@ const theme = createTheme({
 });
 
 export const UserPreferences = () => {
-    const {currentUser, updateCurrentUser, logout} = useUser();
+    const {currentUser, updateCurrentUser, logout, updateUserToServer} = useUser();
     const [currentEmail, setCurrentEmail] = useState(currentUser?.email || '');
     const [newEmail, setNewEmail] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
@@ -68,7 +68,7 @@ export const UserPreferences = () => {
 
     const savePreferences = async (data) => {
         try {
-            let res = await updateUser(currentUser.email, data);
+            const res = await updateUserToServer(currentUser.email, data); // Call the updateUser method from context
             if (res.status === 200) {
                 updateCurrentUser(data);
                 setError(""); // Clear any previous error messages
@@ -85,8 +85,7 @@ export const UserPreferences = () => {
                 setError("Update failed");
             }
         } catch (err) {
-            console.error("Error while sending data to backend:", err);
-            setError("Error while updating. Please try again.");
+            setError(err.message);
         } finally {
             setLoading(false);
         }
