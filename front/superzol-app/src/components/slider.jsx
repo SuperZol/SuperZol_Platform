@@ -4,7 +4,7 @@ import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
 const MAX = 20;
-const MIN = 0;
+const MIN = 1;
 const marks = [
   {
     value: MIN,
