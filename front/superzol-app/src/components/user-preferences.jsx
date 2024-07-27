@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Grid, Typography, Box, Container, ThemeProvider, createTheme} from '@mui/material';
 import {useUser} from '../contexts/user-context';
-import {updateUser} from '../api';
 import {validateCurrentPassword, validateNewPassword} from '../utils/passwordUtils';
 import CustomMarks from './slider';
 import Toolbar from './toolbar';
 import AuthTextField from './auth-text-field';
-import AuthButton from './auth-button'; // Importing AuthButton
+import AuthButton from './auth-button';
 import Form from './form';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const theme = createTheme({
     typography: {
@@ -23,11 +23,11 @@ export const UserPreferences = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [distance, setDistance] = useState(currentUser?.distance_preference || 0);
-    const [loading, setLoading] = useState(false); // For loading state in AuthButton
-    const [error, setError] = useState(''); // For error messages
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSavePreferences = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         setLoading(true);
         const data = {};
 
@@ -68,10 +68,10 @@ export const UserPreferences = () => {
 
     const savePreferences = async (data) => {
         try {
-            const res = await updateUserToServer(currentUser.email, data); // Call the updateUser method from context
+            const res = await updateUserToServer(currentUser.email, data);
             if (res.status === 200) {
                 updateCurrentUser(data);
-                setError(""); // Clear any previous error messages
+                setError("");
 
                 if (data.email) {
                     setCurrentEmail(data.email);
@@ -96,7 +96,7 @@ export const UserPreferences = () => {
             <Toolbar onLogout={logout}/>
             <Container maxWidth="md" sx={{mt: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box sx={{width: '100%', maxWidth: '600px'}}>
-                    <Form title="הגדרות">
+                    <Form title="הגדרות" func={handleSavePreferences} icon={SettingsIcon}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <AuthTextField
@@ -139,17 +139,19 @@ export const UserPreferences = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Typography variant="h6" sx={{mt: 2, mb: 1}}>
-                                    Distance Preference (0-20 km)
+                                <Typography variant="h6" sx={{mt: 2, mb: 1, textAlign: 'center'}}>
+                                    העדפת מרחק (1-20 ק"מ)
                                 </Typography>
-                                <CustomMarks
-                                    value={distance}
-                                    onChange={(newValue) => setDistance(newValue)}
-                                    aria-labelledby="distance-slider"
-                                    min={0}
-                                    max={20}
-                                    valueLabelDisplay="auto"
-                                />
+                                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                                    <CustomMarks
+                                        value={distance}
+                                        onChange={(newValue) => setDistance(newValue)}
+                                        aria-labelledby="distance-slider"
+                                        min={1}
+                                        max={20}
+                                        valueLabelDisplay="auto"
+                                    />
+                                </Box>
                             </Grid>
                             {error && (
                                 <Grid item xs={12}>
@@ -164,7 +166,7 @@ export const UserPreferences = () => {
                             <AuthButton
                                 loading={loading}
                                 color="primary"
-                                text="Save Preferences"
+                                text="שמירה"
                                 onClick={handleSavePreferences}
                             />
                         </Box>
