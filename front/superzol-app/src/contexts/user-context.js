@@ -1,5 +1,5 @@
-import {createContext, useContext, useState, useMemo} from "react";
-import {createUser, getUser, saveShoppingList} from "../api";
+import {createContext, useContext, useMemo, useState} from "react";
+import {createUser, getUser, saveShoppingList, updateUser} from "../api";
 
 const UserContext = createContext(undefined);
 export const useUser = () => useContext(UserContext);
@@ -36,6 +36,15 @@ export const UserProvider = ({children}) => {
             ...updatedUser,
         }));
     };
+    const updateUserToServer = async (email, data) => {
+        try {
+            console.log("here!");
+            return await updateUser(email, data);
+        } catch (error) {
+            throw new Error(error.response.data.detail);
+
+        }
+    };
 
     const saveShoppingListToHistory = async (shoppingList) => {
         if (Object.keys(shoppingList).length >= 1) {
@@ -58,6 +67,7 @@ export const UserProvider = ({children}) => {
         login,
         register,
         logout,
+        updateUserToServer,
         updateCurrentUser,
         saveShoppingListToHistory
     }), [currentUser, saveShoppingListToHistory, error]);

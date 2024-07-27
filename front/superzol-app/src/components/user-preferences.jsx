@@ -1,131 +1,175 @@
 import React, {useState} from 'react';
-import {Button, TextField, Typography, Box} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {Grid, Typography, Box, Container, ThemeProvider, createTheme} from '@mui/material';
 import {useUser} from '../contexts/user-context';
+import {validateCurrentPassword, validateNewPassword} from '../utils/passwordUtils';
 import CustomMarks from './slider';
-import {updateUser} from '../api';
-import {validatePassword} from '../utils/passwordUtils';
 import Toolbar from './toolbar';
+import AuthTextField from './auth-text-field';
+import AuthButton from './auth-button';
+import Form from './form';
+import SettingsIcon from '@mui/icons-material/Settings';
+
+const theme = createTheme({
+    typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    },
+});
 
 export const UserPreferences = () => {
-    const navigate = useNavigate();
-    const {currentUser, updateCurrentUser,logout} = useUser();
-
-    const [email, setEmail] = useState(currentUser?.email || '');
+    const {currentUser, updateCurrentUser, logout, updateUserToServer} = useUser();
+    const [currentEmail, setCurrentEmail] = useState(currentUser?.email || '');
+    const [newEmail, setNewEmail] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [distance, setDistance] = useState(currentUser?.distance_preference || 0);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleSavePreferences = async () => {
+    const handleSavePreferences = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         const data = {};
 
-        if (email !== currentUser.email) {
-            console.log(`email ${email} currentUser.email ${currentUser.email}`);
-            data.email = email;
-        }
-
-        if (currentPassword && newPassword) {
-            const passwordErrors = validatePassword(newPassword, confirmPassword);
-            if (passwordErrors.length > 0) {
-                console.log(passwordErrors.join(", "));
+        if (currentPassword) {
+            if (!validateCurrentPassword(currentPassword, currentUser.password)) {
+                setError("The current password is incorrect!");
+                setLoading(false);
                 return;
             }
-            if (currentPassword !== currentUser.password) {
-                console.log("The current password incorrect!")
-            } else
-                data.password = newPassword;
-        }
 
-        if (distance !== currentUser.distance_preference) {
-            data.distance_preference = distance;
-        }
-        if (Object.keys(data).length === 0) {
-            console.log("Nothing changed");
-            return;
-        }
-        try {
-            let res = await updateUser(currentUser.email, data);
-            console.log(res.status);
-            if (res.status === 200) {
-                updateCurrentUser(data);
-            } else {
-                alert("Email or password are invalid");
+            if (newEmail !== currentEmail && newEmail) {
+                data.email = newEmail;
             }
 
-            console.log(`currentUser email ${currentUser.email} vs new email ${email}`);
+            if (distance !== currentUser.distance_preference) {
+                data.distance_preference = distance;
+            }
+            const newPasswordValidation = validateNewPassword(currentPassword, newPassword, confirmPassword, data);
+            if (newPasswordValidation !== true) {
+                setError(newPasswordValidation);
+                setLoading(false);
+                return;
+            }
+        } else {
+            setError("You must fill the current password!");
+            setLoading(false);
+            return;
+        }
 
+        if (Object.keys(data).length === 0) {
+            setLoading(false);
+            return;
+        }
+
+        await savePreferences(data);
+    };
+
+    const savePreferences = async (data) => {
+        try {
+            const res = await updateUserToServer(currentUser.email, data);
+            if (res === 200) {
+                updateCurrentUser(data);
+                setError("");
+                if (data.email) {
+                    setCurrentEmail(data.email);
+                    setNewEmail('');
+                }
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+            } else {
+                setError("Update failed");
+            }
         } catch (err) {
-            console.log("Error while sending data to backend!");
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Toolbar onLogout={logout}/>
-            <Box sx={{p: 3}}>
-                <Typography variant="h4">User Preferences</Typography>
-                <TextField
-                    label="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    fullWidth
-                    sx={{mt: 2}}
-                />
-                <TextField
-                    label="Current Password"
-                    type="password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    fullWidth
-                    sx={{mt: 2}}
-                />
-                <TextField
-                    label="New Password"
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    fullWidth
-                    sx={{mt: 2}}
-                />
-                <TextField
-                    label="Confirm New Password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    fullWidth
-                    sx={{mt: 2}}
-                />
-                <Typography variant="h6" sx={{mt: 2}}>
-                    Distance Preference (0-20 km)
-                </Typography>
-                <CustomMarks
-                    value={distance}
-                    onChange={(newValue) => setDistance(newValue)}
-                    aria-labelledby="distance-slider"
-                    min={0}
-                    max={20}
-                    valueLabelDisplay="auto"
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSavePreferences}
-                    sx={{mt: 3}}
-                >
-                    Save Preferences
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => navigate('/home')}
-                    sx={{mt: 3}}
-                >
-                    Back
-                </Button>
-            </Box>
-        </>
+            <Container maxWidth="md" sx={{mt: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Box sx={{width: '100%', maxWidth: '600px'}}>
+                    <Form title="הגדרות" func={handleSavePreferences} icon={SettingsIcon}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <AuthTextField
+                                    label="מייל נוכחי"
+                                    value={currentEmail}
+                                    onChange={() => {
+                                    }}
+                                    disabled
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <AuthTextField
+                                    label="מייל חדש"
+                                    value={newEmail}
+                                    onChange={(e) => setNewEmail(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <AuthTextField
+                                    label="סיסמה נוכחית"
+                                    type="password"
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <AuthTextField
+                                    label="סיסמה חדשה"
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <AuthTextField
+                                    label="אימות סיסמה חדשה"
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography variant="h6" sx={{mt: 2, mb: 1, textAlign: 'center'}}>
+                                    העדפת מרחק (1-20 ק"מ)
+                                </Typography>
+                                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                                    <CustomMarks
+                                        value={distance}
+                                        onChange={(newValue) => setDistance(newValue)}
+                                        aria-labelledby="distance-slider"
+                                        min={1}
+                                        max={20}
+                                        valueLabelDisplay="auto"
+                                    />
+                                </Box>
+                            </Grid>
+                            {error && (
+                                <Grid item xs={12}>
+                                    <Typography color="error" variant="body2" align="center"
+                                                style={{marginTop: '10px'}}>
+                                        {error}
+                                    </Typography>
+                                </Grid>
+                            )}
+                        </Grid>
+                        <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
+                            <AuthButton
+                                loading={loading}
+                                color="primary"
+                                text="שמירה"
+                                onClick={handleSavePreferences}
+                            />
+                        </Box>
+                    </Form>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 };
-
-

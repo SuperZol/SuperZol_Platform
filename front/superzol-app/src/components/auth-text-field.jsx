@@ -16,8 +16,16 @@ const AuthTextField = ({label, value, onChange, type = "text", icon}) => {
                         {icon}
                     </InputAdornment>
                 ),
-                style: {backgroundColor: "#ECECEC", borderRadius: "25px"},
-
+                style: {
+                    backgroundColor: "#ECECEC",
+                    borderRadius: "25px",
+                    fontSize: "1.2rem",
+                    padding: "10px",
+                    height: "50px"
+                },
+            }}
+            InputLabelProps={{
+                style: {fontSize: "1.2rem"},
             }}
         />
     );
