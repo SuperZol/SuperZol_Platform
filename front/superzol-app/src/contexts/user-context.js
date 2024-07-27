@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, useMemo} from "react";
+import {createContext, useContext, useState, useMemo, useCallback} from "react";
 import {createUser, getUser, saveShoppingList} from "../api";
 
 const UserContext = createContext(undefined);
@@ -37,19 +37,21 @@ export const UserProvider = ({children}) => {
         }));
     };
 
-    const saveShoppingListToHistory = async (shoppingList) => {
-        if (Object.keys(shoppingList).length >= 1) {
-            const dictShoppingList = {};
-            Object.keys(shoppingList).forEach((productId) => {
-                const {ItemCode, quantity} = shoppingList[productId];
-                dictShoppingList[ItemCode] = quantity;
-            });
-            const isSaved = await saveShoppingList(currentUser.email, dictShoppingList)
-            if (isSaved) {
-                currentUser.shopping_history.push(dictShoppingList)
+    const memoizedSaveShoppingListToHistory  = useCallback(
+        async (shoppingList) => {
+            if (Object.keys(shoppingList).length >= 1) {
+                const dictShoppingList = {};
+                Object.keys(shoppingList).forEach((productId) => {
+                    const {ItemCode, quantity} = shoppingList[productId];
+                    dictShoppingList[ItemCode] = quantity;
+                });
+                const isSaved = await saveShoppingList(currentUser.email, dictShoppingList)
+                if (isSaved) {
+                    currentUser.shopping_history.push(dictShoppingList)
+                }
             }
-        }
-    }
+        }, [currentUser]
+    )
 
     const value = useMemo(() => ({
         currentUser,
@@ -59,8 +61,8 @@ export const UserProvider = ({children}) => {
         register,
         logout,
         updateCurrentUser,
-        saveShoppingListToHistory
-    }), [currentUser, saveShoppingListToHistory, error]);
+        memoizedSaveShoppingListToHistory
+    }), [currentUser, memoizedSaveShoppingListToHistory , error]);
 
 
     return (

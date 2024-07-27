@@ -58,11 +58,11 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
 
     const transformShoppingListToDictionary = (shoppingList) => {
         const shoppingDict = {};
-        Object.values(shoppingList).map(product => {
+        Object.values(shoppingList).forEach(product => {
             shoppingDict[String(product.ItemCode)] = product.quantity;
         });
         return shoppingDict;
-    }
+    };
 
     const handleFindCheapestSupermarkets = async () => {
         let response = await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference);

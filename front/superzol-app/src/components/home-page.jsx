@@ -26,16 +26,6 @@ export const Home = () => {
         }
     }, [products, currentUser, getAllProducts, navigate, setError]);
 
-    const handleLogout = async (e) => {
-        e.preventDefault();
-
-        try {
-            await logout();
-        } catch (e) {
-            setError("Failed to logout");
-        }
-    };
-
     const handleSearch = (query) => {
         if (currentSearch !== "") {
             searchProductsByName(query);
