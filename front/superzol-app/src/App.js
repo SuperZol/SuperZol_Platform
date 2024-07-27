@@ -10,7 +10,6 @@ import {ProductProvider} from "./contexts/product-context";
 export default function App() {
     return (
         <UserProvider>
-
             <BrowserRouter>
                 <Routes>
                     <Route path="/register" element={<Register/>}/>

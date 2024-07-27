@@ -1,13 +1,35 @@
 export const validatePassword = (password, confirmPassword) => {
-    const errors = [];
-
     if (password.length < 6) {
-        errors.push("Password must contain at least 6 characters");
+        return "Password must contain at least 6 characters";
     }
 
     if (password !== confirmPassword) {
-        errors.push("Password do not match");
+        return "Passwords do not match";
     }
 
-    return errors;
+    return true; // No errors
+};
+
+export const validateCurrentPassword = (currentPassword, userPassword) => {
+    return currentPassword === userPassword;
+};
+
+export const validateNewPassword = (currentPassword, newPassword, confirmPassword, data) => {
+    if ((newPassword && !confirmPassword) || (!newPassword && confirmPassword)) {
+        return "You need to fill new password and also confirm password";
+    }
+    if (newPassword) {
+        if (newPassword === currentPassword) {
+            return "New password must be different from the current password!";
+        }
+
+        const passwordErrors = validatePassword(newPassword, confirmPassword);
+        if (passwordErrors !== true) {
+            return passwordErrors; // Return the error message
+        }
+
+        data.password = newPassword;
+    }
+
+    return true; // No errors
 };

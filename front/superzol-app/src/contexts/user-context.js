@@ -1,5 +1,5 @@
 import {createContext, useContext, useState, useMemo, useCallback} from "react";
-import {createUser, getUser, saveShoppingList} from "../api";
+import {createUser, getUser, saveShoppingList, updateUser} from "../api";
 
 const UserContext = createContext(undefined);
 export const useUser = () => useContext(UserContext);
@@ -36,6 +36,14 @@ export const UserProvider = ({children}) => {
             ...updatedUser,
         }));
     };
+    const updateUserToServer = async (email, data) => {
+        try {
+            return await updateUser(email, data);
+        } catch (error) {
+            throw new Error(error.response.data.detail);
+
+        }
+    };
 
     const memoizedSaveShoppingListToHistory  = useCallback(
         async (shoppingList) => {
@@ -60,6 +68,7 @@ export const UserProvider = ({children}) => {
         login,
         register,
         logout,
+        updateUserToServer,
         updateCurrentUser,
         memoizedSaveShoppingListToHistory
     }), [currentUser, memoizedSaveShoppingListToHistory , error]);

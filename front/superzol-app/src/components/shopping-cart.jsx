@@ -51,7 +51,6 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
 
     const handleChosenShoppingList = async (chosen_shopping_list) => {
         const newList = await getProductsById(chosen_shopping_list);
-        console.log(newList);
         setShoppingList(newList);
         setShowShoppingHistory(false);
     }

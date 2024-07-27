@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Box, Typography} from "@mui/material";
 
-const Form = ({title, func, children}) => {
+const Form = ({title, func, children, icon: Icon}) => {
     return (
         <Grid
             container
@@ -10,9 +10,16 @@ const Form = ({title, func, children}) => {
             alignItems="center"
             className="grid-container"
         >
-            <Typography variant="h3" className="title" gutterBottom>
-                {title}
-            </Typography>
+            <Box sx={{display: 'flex', alignItems: 'center', mb: 3}}>
+                <Typography variant="h3" className="title" sx={{display: 'flex', alignItems: 'center'}}>
+                    {title}
+                    {Icon && (
+                        <Box sx={{display: 'inline-flex', alignItems: 'center', ml: 2}}>
+                            <Icon sx={{fontSize: 36}}/>
+                        </Box>
+                    )}
+                </Typography>
+            </Box>
             <Box className="box">
                 <form onSubmit={func} className="form">
                     {children}

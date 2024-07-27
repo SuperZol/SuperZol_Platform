@@ -16,6 +16,15 @@ export const createUser = async (email, password) => {
     }
 };
 
+export const updateUser = async (email, data) => {
+    try {
+        const response = await axios.put(`${BASE_URL}/users/edit/${email}`, data);
+        return response.status;
+    } catch (error) {
+        throw error
+    }
+};
+
 export const getUser = async (email, password) => {
     try {
         const response = await axios.get(`${BASE_URL}/users/login/${email}/${password}`);
@@ -37,13 +46,11 @@ export const getProductsByName = async (productName) => {
     return products.data;
 };
 
-export const updateUser = async (email, data) => {
-    try {
-        return await axios.put(`${BASE_URL}/users/edit/${email}`, data);
-    } catch (err) {
-        console.log(`Error: ${err.response}`);
-    }
-};
+
+
+
+
+
 
 
 export const getProductById = async (productId) => {
