@@ -1,8 +1,15 @@
 import {ProductCard} from './product-card';
-import {Button, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import _ from "lodash";
-import '../css/product-card.css';
 import {useEffect, useState} from "react";
+import {
+    AddButton,
+    ProductCardFooter,
+    ProductListContainer,
+    ProductQuantity,
+    ProductWithQuantity,
+    QuantityButton
+} from "./product-card.styled.jsx";
 
 export const ProductList = ({products, addToCart}) => {
     const [quantities, setQuantities] = useState({});
@@ -32,43 +39,40 @@ export const ProductList = ({products, addToCart}) => {
     };
 
     return (
-        <div className="test-container">
+        <ProductListContainer>
             <Grid container spacing={2}>
                 {!_.isNil(products) ? (
                     products.map((product) => (
                         <Grid item key={product.ItemCode} xs={12} sm={6} md={4} lg={2}>
-                            <div className="product-with-quantity">
+                            <ProductWithQuantity>
                                 <ProductCard product={product}/>
-                                <div className="product-card-footer">
-                                    <button
-                                        className="quantity-button"
+                                <ProductCardFooter>
+                                    <QuantityButton
                                         onClick={() => subtractQuantity(product.ItemCode)}
                                     >
                                         -
-                                    </button>
-                                    <span className="product-quantity">
+                                    </QuantityButton>
+                                    <ProductQuantity>
                                         {quantities[product.ItemCode]}
-                                    </span>
-                                    <button
-                                        className="quantity-button"
+                                    </ProductQuantity>
+                                    <QuantityButton
                                         onClick={() => addQuantity(product.ItemCode)}
                                     >
                                         +
-                                    </button>
-                                    <button
-                                        className="add-button"
+                                    </QuantityButton>
+                                    <AddButton
                                         onClick={() => addToCart(product, quantities[product.ItemCode])}
                                     >
                                         הוספה
-                                    </button>
-                                </div>
-                            </div>
+                                    </AddButton>
+                                </ProductCardFooter>
+                            </ProductWithQuantity>
                         </Grid>
                     ))
                 ) : (
                     <></>
                 )}
             </Grid>
-        </div>
+        </ProductListContainer>
     );
 };

@@ -1,37 +1,38 @@
-.product-card {
+import styled from 'styled-components';
+
+export const ProductCardDiv = styled.div`
     overflow: hidden;
     width: 250px;
     height: 250px;
     font-family: Calibri, sans-serif;
-}
+`;
 
-.product-card-header {
+export const ProductCardHeader = styled.div`
     text-align: center;
     padding: 10px;
-}
+`;
 
-.product-image {
+export const ProductImage = styled.img`
     width: 100px;
     height: 100px;
-}
+`;
 
-.product-card-body {
+export const ProductCardBody = styled.div`
     padding: 10px;
-}
+`;
 
-.product-title {
+export const ProductTitle = styled.h3`
     font-size: 16px;
     margin: 10px 0;
-}
+`;
 
-.product-price {
+export const ProductPrice = styled.span`
     color: #000;
     font-size: 18px;
     font-weight: bold;
-}
+`;
 
-
-.product-card-footer {
+export const ProductCardFooter = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -39,9 +40,9 @@
     background-color: #f8f8f8;
     flex-shrink: 0;
     border-top: 1px solid #ddd;
-}
+`;
 
-.quantity-button {
+export const QuantityButton = styled.button`
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 50%;
@@ -50,22 +51,22 @@
     font-size: 18px;
     color: #888;
     cursor: pointer;
-}
+`;
 
-.product-quantity {
+export const ProductQuantity = styled.span`
     font-size: 16px;
-}
+`;
 
-.add-button {
+export const AddButton = styled.button`
     background-color: #ff5722;
     color: #fff;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
-}
+`;
 
-.product-with-quantity {
+export const ProductWithQuantity = styled.div`
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
@@ -77,13 +78,14 @@
     transition: box-shadow 0.2s ease-in-out;
     width: 250px;
     height: 300px;
-}
 
-.product-with-quantity:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
+    &:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+`;
 
-.test-container {
+export const ProductListContainer = styled.div`
     padding: 50px;
     box-sizing: border-box;
-}
+`;
+
