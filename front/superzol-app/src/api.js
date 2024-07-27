@@ -19,9 +19,7 @@ export const createUser = async (email, password) => {
 export const updateUser = async (email, data) => {
     try {
         const response = await axios.put(`${BASE_URL}/users/edit/${email}`, data);
-        console.log(response.data);
-
-        return response.data;
+        return response.status;
     } catch (error) {
         throw error
     }

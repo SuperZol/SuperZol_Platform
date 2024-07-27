@@ -45,7 +45,6 @@ export const UserPreferences = () => {
             if (distance !== currentUser.distance_preference) {
                 data.distance_preference = distance;
             }
-
             const newPasswordValidation = validateNewPassword(currentPassword, newPassword, confirmPassword, data);
             if (newPasswordValidation !== true) {
                 setError(newPasswordValidation);
@@ -69,15 +68,13 @@ export const UserPreferences = () => {
     const savePreferences = async (data) => {
         try {
             const res = await updateUserToServer(currentUser.email, data);
-            if (res.status === 200) {
+            if (res === 200) {
                 updateCurrentUser(data);
                 setError("");
-
                 if (data.email) {
                     setCurrentEmail(data.email);
                     setNewEmail('');
                 }
-
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
