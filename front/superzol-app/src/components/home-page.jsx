@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Typography, Button} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {SearchBar} from "./search-bar";
 import {useUser} from "../contexts/user-context";
@@ -68,9 +68,6 @@ export const Home = () => {
             sx={{textAlign: "center"}}
             marginTop="70px"
         >
-            <Typography variant="h1" gutterBottom>
-                סופרזול
-            </Typography>
             <SearchBar onSearch={handleSearch}/>
             <ProductList products={products} addToCart={addToCart}/>
             {isSidebarOpen &&
