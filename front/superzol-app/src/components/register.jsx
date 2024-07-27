@@ -5,10 +5,11 @@ import {useUser} from "../contexts/user-context";
 import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
 import {validatePassword} from '../utils/passwordUtils';
-import "../css/auth.css";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
+import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
+
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -40,15 +41,14 @@ export const Register = () => {
     };
 
     return (
-        <div className="root">
-            <div className="left-section">
-                <img
+        <AuthContainer>
+            <ImageContainer>
+                <AuthImage
                     src="/path-to-your-image.jpg"
                     alt="Register Illustration"
-                    className="left-image"
                 />
-            </div>
-            <div className="right-section">
+            </ImageContainer>
+            <DataContainer>
                 <Form title="Register to SuperZol" func={handleSubmit}>
                     <Grid item xs={12}>
                         <AuthTextField
@@ -108,7 +108,7 @@ export const Register = () => {
                         </Typography>
                     </Grid>
                 </Form>
-            </div>
-        </div>
+            </DataContainer>
+        </AuthContainer>
     );
 };

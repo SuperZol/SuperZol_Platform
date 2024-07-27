@@ -5,10 +5,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import {useUser} from "../contexts/user-context";
 import axios from "axios";
-import "../css/auth.css";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
+import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -67,15 +67,14 @@ export const Login = () => {
     };
 
     return (
-        <div className="root">
-            <div className="left-section">
-                <img
+        <AuthContainer>
+            <ImageContainer>
+                <AuthImage
                     src="/path-to-your-image.jpg"
                     alt="Login Illustration"
-                    className="left-image"
                 />
-            </div>
-            <div className="right-section">
+            </ImageContainer>
+            <DataContainer>
                 <Form title="Sign in to SuperZol" func={handleSubmit}>
                     <Grid item xs={12}>
                         <AuthTextField
@@ -126,7 +125,7 @@ export const Login = () => {
                         </Typography>
                     </Grid>
                 </Form>
-            </div>
-        </div>
+            </DataContainer>
+        </AuthContainer>
     );
 };
