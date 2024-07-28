@@ -49,7 +49,7 @@ export const Register = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="Register to SuperZol" func={handleSubmit} auth>
+                <Form title="Register to SuperZol" func={handleSubmit}  auth="true">
                     <Grid item xs={12}>
                         <AuthTextField
                             label="מייל"
