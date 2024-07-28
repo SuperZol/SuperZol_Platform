@@ -6,8 +6,7 @@ const BASE_URL = 'http://localhost:8000';
 export const createUser = async (email, password) => {
     try {
         const response = await axios.post(`${BASE_URL}/users/`, {
-            email: email,
-            password: password
+            email: email, password: password
         });
         return response.data;
     } catch (error) {
@@ -34,23 +33,44 @@ export const getUser = async (email, password) => {
     }
 };
 
-export const getProducts = async () => {
-    const products = await axios.get(`${BASE_URL}/product/products`)
-        .catch((err) => console.log(`Error: ${err}`));
-    return products.data
+export const getProducts = async (page, pageSize) => {
+    try {
+        const products = await axios.get(`${BASE_URL}/product/products`, {
+            params: {
+                page, page_size: pageSize
+            }
+        })
+        return products.data
+    } catch (error) {
+        throw error
+    }
 }
 
-export const getProductsByName = async (productName) => {
-    const products = await axios.get(`${BASE_URL}/product/name/${productName}`)
-        .catch((err) => console.log(`Error: ${err}`));
-    return products.data;
-};
+export const getProductsByName = async (productName, page, pageSize) => {
+    try {
+        const products = await axios.get(`${BASE_URL}/product/name/${productName}`, {
+            params: {
+                page: page, page_size: pageSize
+            }
+        })
+        return products.data
+    } catch (error) {
+        throw error
+    }
+}
 
-
-
-
-
-
+export const getProductsByCategory = async (category, page, pageSize) => {
+    try {
+        const products = await axios.get(`${BASE_URL}/product/name/${category}`, {
+            params: {
+                page: page, page_size: pageSize
+            }
+        })
+        return products.data
+    } catch (error) {
+        throw error
+    }
+}
 
 
 export const getProductById = async (productId) => {
@@ -74,10 +94,7 @@ export const getCheapestSupermarkets = async (products, lat, lng, distance_prefe
     console.log(products, lat, lng, distance_preference)
     try {
         const supermarkets = await axios.post(`${BASE_URL}/supermarket/cheapest_supermarkets`, {
-            shopping_list: products,
-            lat: lat,
-            lng: lng,
-            distance_preference: distance_preference
+            shopping_list: products, lat: lat, lng: lng, distance_preference: distance_preference
         });
         return supermarkets.data;
     } catch (err) {
