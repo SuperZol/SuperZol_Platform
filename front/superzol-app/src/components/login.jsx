@@ -78,7 +78,7 @@ export const Login = () => {
                 <Form title="Sign in to SuperZol" func={handleSubmit} auth>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Email"
+                            label="מייל"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             icon={<EmailIcon/>}
@@ -86,7 +86,7 @@ export const Login = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Password"
+                            label="סיסמה"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -103,26 +103,24 @@ export const Login = () => {
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="Sign in"
+                            text="כניסה"
                             style={{marginTop: "16px"}}
                         />
                     </Grid>
 
                     <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Typography variant="body1">
-                            Don't have an account?
-                            <Link
-                                onClick={() => setError("")}
-                                to="/register"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#f4511e",
-                                    marginLeft: "5px",
-                                }}
-                            >
-                                Sign Up now
-                            </Link>
-                        </Typography>
+                        <Link
+                            onClick={() => setError("")}
+                            to="/register"
+                            style={{
+                                textDecoration: "none",
+                                color: "#f4511e",
+                                marginLeft: "5px",
+                            }}
+                        >
+                            ליצירת חשבון חדש
+                        </Link>
+
                     </Grid>
                 </Form>
             </DataContainer>

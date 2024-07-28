@@ -49,10 +49,10 @@ export const Register = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="Register to SuperZol" func={handleSubmit}>
+                <Form title="Register to SuperZol" func={handleSubmit} auth>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Email"
+                            label="מייל"
                             value={email}
                             icon={<EmailIcon/>}
                             onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +60,7 @@ export const Register = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Password"
+                            label="סיסמה"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -69,7 +69,7 @@ export const Register = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Confirm Password"
+                            label="הזן סיסמה בשנית"
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -86,26 +86,24 @@ export const Register = () => {
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="Register"
+                            text="הירשם"
                             style={{marginTop: "16px"}}
                         />
                     </Grid>
 
                     <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Typography variant="body1">
-                            Already have an account?
-                            <Link
-                                onClick={() => setError("")}
-                                to="/login"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#f4511e",
-                                    marginLeft: "5px",
-                                }}
-                            >
-                                Login
-                            </Link>
-                        </Typography>
+
+                        <Link
+                            onClick={() => setError("")}
+                            to="/login"
+                            style={{
+                                textDecoration: "none",
+                                color: "#f4511e",
+                                marginLeft: "5px",
+                            }}
+                        >
+                            חשבון קיים
+                        </Link>
                     </Grid>
                 </Form>
             </DataContainer>

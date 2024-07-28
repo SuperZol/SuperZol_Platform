@@ -1,25 +1,19 @@
 import React from "react";
-import {Button, CircularProgress} from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import { SubmitButton } from "./auth-button.styled";
 
-const AuthButton = ({loading, color, text, fullWidth = true,onClick, ...props}) => {
+const AuthButton = ({ loading, color, text, fullWidth = true, onClick, ...props }) => {
     return (
-        <Button
+        <SubmitButton
             disabled={loading}
             variant="contained"
             color={color}
             onClick={onClick}
             fullWidth={fullWidth}
-            sx={{
-                borderRadius: "25px",
-                fontSize: "1.2rem",
-                padding: "12px 0",
-                backgroundColor: "#f4511e",
-                ...props.sx
-            }}
             {...props}
         >
             {loading ? <CircularProgress size={24}/> : text}
-        </Button>
+        </SubmitButton>
     );
 };
 
