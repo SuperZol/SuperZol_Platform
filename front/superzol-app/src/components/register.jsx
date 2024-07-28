@@ -5,10 +5,11 @@ import {useUser} from "../contexts/user-context";
 import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
 import {validatePassword} from '../utils/passwordUtils';
-import "../css/auth.css";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
+import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
+
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -40,19 +41,18 @@ export const Register = () => {
     };
 
     return (
-        <div className="root">
-            <div className="left-section">
-                <img
+        <AuthContainer>
+            <ImageContainer>
+                <AuthImage
                     src="/path-to-your-image.jpg"
                     alt="Register Illustration"
-                    className="left-image"
                 />
-            </div>
-            <div className="right-section">
-                <Form title="Register to SuperZol" func={handleSubmit}>
+            </ImageContainer>
+            <DataContainer>
+                <Form title="Register to SuperZol" func={handleSubmit}  auth="true">
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Email"
+                            label="מייל"
                             value={email}
                             icon={<EmailIcon/>}
                             onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +60,7 @@ export const Register = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Password"
+                            label="סיסמה"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -69,7 +69,7 @@ export const Register = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Confirm Password"
+                            label="הזן סיסמה בשנית"
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -86,29 +86,27 @@ export const Register = () => {
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="Register"
+                            text="הירשם"
                             style={{marginTop: "16px"}}
                         />
                     </Grid>
 
                     <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Typography variant="body1">
-                            Already have an account?
-                            <Link
-                                onClick={() => setError("")}
-                                to="/login"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#f4511e",
-                                    marginLeft: "5px",
-                                }}
-                            >
-                                Login
-                            </Link>
-                        </Typography>
+
+                        <Link
+                            onClick={() => setError("")}
+                            to="/login"
+                            style={{
+                                textDecoration: "none",
+                                color: "#f4511e",
+                                marginLeft: "5px",
+                            }}
+                        >
+                            חשבון קיים
+                        </Link>
                     </Grid>
                 </Form>
-            </div>
-        </div>
+            </DataContainer>
+        </AuthContainer>
     );
 };

@@ -1,31 +1,26 @@
 import React from "react";
-import {Grid, Box, Typography} from "@mui/material";
+import {BoxIconStyled, FormBox, FormContainer, StyledGrid, TitleBox, TypographyTitle} from "./form.styled";
 
-const Form = ({title, func, children, icon: Icon}) => {
+const Form = ({title, func, auth, children, icon: Icon}) => {
     return (
-        <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            className="grid-container"
-        >
-            <Box sx={{display: 'flex', alignItems: 'center', mb: 3}}>
-                <Typography variant="h3" className="title" sx={{display: 'flex', alignItems: 'center'}}>
+        <StyledGrid container direction="column" justifyContent="center" alignItems="center">
+
+            <TitleBox>
+                <TypographyTitle variant="h3" auth={auth}>
                     {title}
                     {Icon && (
-                        <Box sx={{display: 'inline-flex', alignItems: 'center', ml: 2}}>
+                        <BoxIconStyled>
                             <Icon sx={{fontSize: 36}}/>
-                        </Box>
+                        </BoxIconStyled>
                     )}
-                </Typography>
-            </Box>
-            <Box className="box">
-                <form onSubmit={func} className="form">
+                </TypographyTitle>
+            </TitleBox>
+            <FormBox>
+                <FormContainer onSubmit={func}>
                     {children}
-                </form>
-            </Box>
-        </Grid>
+                </FormContainer>
+            </FormBox>
+        </StyledGrid>
     );
 };
 

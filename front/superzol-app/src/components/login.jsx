@@ -5,10 +5,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import {useUser} from "../contexts/user-context";
 import axios from "axios";
-import "../css/auth.css";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
+import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -67,19 +67,18 @@ export const Login = () => {
     };
 
     return (
-        <div className="root">
-            <div className="left-section">
-                <img
+        <AuthContainer>
+            <ImageContainer>
+                <AuthImage
                     src="/path-to-your-image.jpg"
                     alt="Login Illustration"
-                    className="left-image"
                 />
-            </div>
-            <div className="right-section">
-                <Form title="Sign in to SuperZol" func={handleSubmit}>
+            </ImageContainer>
+            <DataContainer>
+                <Form title="Sign in to SuperZol" func={handleSubmit} auth="true">
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Email"
+                            label="מייל"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             icon={<EmailIcon/>}
@@ -87,7 +86,7 @@ export const Login = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Password"
+                            label="סיסמה"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -104,29 +103,27 @@ export const Login = () => {
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="Sign in"
+                            text="כניסה"
                             style={{marginTop: "16px"}}
                         />
                     </Grid>
 
                     <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Typography variant="body1">
-                            Don't have an account?
-                            <Link
-                                onClick={() => setError("")}
-                                to="/register"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#f4511e",
-                                    marginLeft: "5px",
-                                }}
-                            >
-                                Sign Up now
-                            </Link>
-                        </Typography>
+                        <Link
+                            onClick={() => setError("")}
+                            to="/register"
+                            style={{
+                                textDecoration: "none",
+                                color: "#f4511e",
+                                marginLeft: "5px",
+                            }}
+                        >
+                            ליצירת חשבון חדש
+                        </Link>
+
                     </Grid>
                 </Form>
-            </div>
-        </div>
+            </DataContainer>
+        </AuthContainer>
     );
 };
