@@ -64,6 +64,10 @@ export const AddButton = styled.button`
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
+
+    &:hover {
+        background-color: #e14d1e;
+    }
 `;
 
 export const ProductWithQuantity = styled.div`

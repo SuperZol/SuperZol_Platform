@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {TextField, InputAdornment, IconButton} from '@mui/material';
+import {InputAdornment, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import {SearchBarContainer, SearchButton, StyledTextField} from "./search-bar.styled";
 
 export const SearchBar = ({onSearch}) => {
     const [query, setQuery] = useState('');
@@ -20,30 +21,31 @@ export const SearchBar = ({onSearch}) => {
     };
 
     return (
-        <TextField
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                    handleSearch();
-                }
-            }}
-            variant="outlined"
-            placeholder="Search Product"
-            InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchIcon/>
-                    </InputAdornment>
-                ),
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton onClick={handleClear}>
-                            <ClearIcon/>
-                        </IconButton>
-                    </InputAdornment>
-                ),
-            }}
-        />
+        <SearchBarContainer>
+            <SearchButton onClick={handleSearch}>
+                <SearchIcon/>
+            </SearchButton>
+            <StyledTextField
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearch();
+                    }
+                }}
+                variant="outlined"
+                placeholder="...חיפוש פריט, קטגוריה או מותג"
+                InputProps={{
+                    endAdornment: query && (
+                        <InputAdornment position="end">
+                            <IconButton onClick={handleClear}>
+                                <ClearIcon/>
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                }}
+                fullWidth
+            />
+        </SearchBarContainer>
     );
 };
