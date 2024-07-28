@@ -1,13 +1,12 @@
 import React from "react";
-import {Box} from "@mui/material";
-import {BoxIconStyled, BoxStyle, FormStyle, StyledGrid, TypographyTitle} from "./form.styled";
+import {BoxIconStyled, FormBox, FormContainer, StyledGrid, TitleBox, TypographyTitle} from "./form.styled";
 
-const Form = ({title, func, children, icon: Icon}) => {
+const Form = ({title, func, auth, children, icon: Icon}) => {
     return (
         <StyledGrid container direction="column" justifyContent="center" alignItems="center">
 
-            <Box sx={{display: 'flex', alignItems: 'center', mb: 3}}>
-                <TypographyTitle variant="h3">
+            <TitleBox>
+                <TypographyTitle variant="h3" auth={auth}>
                     {title}
                     {Icon && (
                         <BoxIconStyled>
@@ -15,12 +14,12 @@ const Form = ({title, func, children, icon: Icon}) => {
                         </BoxIconStyled>
                     )}
                 </TypographyTitle>
-            </Box>
-            <BoxStyle>
-                <FormStyle onSubmit={func}>
+            </TitleBox>
+            <FormBox>
+                <FormContainer onSubmit={func}>
                     {children}
-                </FormStyle>
-            </BoxStyle>
+                </FormContainer>
+            </FormBox>
         </StyledGrid>
     );
 };

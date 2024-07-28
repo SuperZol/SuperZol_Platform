@@ -75,7 +75,7 @@ export const Login = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="Sign in to SuperZol" func={handleSubmit}>
+                <Form title="Sign in to SuperZol" func={handleSubmit} auth>
                     <Grid item xs={12}>
                         <AuthTextField
                             label="Email"
