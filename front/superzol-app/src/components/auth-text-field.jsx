@@ -1,9 +1,10 @@
 import React from "react";
-import {TextField, InputAdornment} from "@mui/material";
+import {InputAdornment} from "@mui/material";
+import {StyledTextField} from "./auth-text-field.styled";
 
 const AuthTextField = ({label, value, onChange, type = "text", icon}) => {
     return (
-        <TextField
+        <StyledTextField
             label={label}
             value={value}
             onChange={onChange}
@@ -20,7 +21,6 @@ const AuthTextField = ({label, value, onChange, type = "text", icon}) => {
                     backgroundColor: "#ECECEC",
                     borderRadius: "25px",
                     fontSize: "1.2rem",
-                    padding: "10px",
                     height: "50px"
                 },
             }}
