@@ -39,3 +39,12 @@ export const SearchButton = styled(IconButton)`
         background-color: #1565c0;
     }
 `;
+
+export const CategoriesButton = styled.button`
+    margin-right: 8px;
+    background: none;
+    color: #606060;
+    border: none;
+    border-left: 3px solid #606060;
+    cursor: pointer;
+`;

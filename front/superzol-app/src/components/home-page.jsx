@@ -7,12 +7,19 @@ import {ProductList} from "./product-list";
 import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
+import {CategoriesModal} from "./categories-modal";
 
 
 export const Home = () => {
     const navigate = useNavigate();
     const {currentUser, currentSearch, logout, setError} = useUser();
-    const {products, searchProductsByName, getAllProducts, searchProductsByCategory} = useProduct();
+    const {
+        products,
+        searchProductsByName,
+        getAllProducts,
+        searchProductsByCategory,
+        searchProductsByNameAndCategory
+    } = useProduct();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [shoppingList, setShoppingList] = useState({});
     const [page, setPage] = useState(1);
@@ -21,6 +28,8 @@ export const Home = () => {
     const [isSearchByCategory, setIsSearchByCategory] = useState(false);
     const [category, setCategory] = useState("");
     const [searchName, setSearchName] = useState("");
+    const [isModalOpen, setModalOpen] = useState(false);
+
 
     useEffect(() => {
         if (!currentUser) {
@@ -30,14 +39,16 @@ export const Home = () => {
     }, [currentUser, navigate, setError]);
 
     useEffect(() => {
-        if (isSearchByName) {
+        if (isSearchByName && isSearchByCategory) {
+            searchProductsByNameAndCategory(searchName, category, page, pageSize)
+        } else if (isSearchByName) {
             searchProductsByName(searchName, page, pageSize);
         } else if (isSearchByCategory) {
             searchProductsByCategory(category, page, pageSize);
         } else {
             getAllProducts(page, pageSize)
         }
-    }, [page, pageSize, isSearchByName, isSearchByCategory]);
+    }, [page, pageSize, isSearchByName, isSearchByCategory, category, searchName, getAllProducts, searchProductsByCategory, searchProductsByName, searchProductsByNameAndCategory]);
 
     useEffect(() => {
         setPage(1);
@@ -48,14 +59,13 @@ export const Home = () => {
         if (productName !== "") {
             setIsSearchByName(true);
             setSearchName(productName);
-        }
-        else{
+        } else {
             setIsSearchByName(false);
             setSearchName("");
         }
     };
 
-    const handleSearchByCategory = (category) => {
+    const filterCategory = (category) => {
         if (currentSearch !== "") {
             searchProductsByCategory(category, page, pageSize);
             setIsSearchByCategory(true);
@@ -93,6 +103,19 @@ export const Home = () => {
         setPage(prevPage => (prevPage > 1 ? prevPage - 1 : 1));
     };
 
+    const handleCategoriesClick = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    const disableCategory = () => {
+        setCategory("");
+        setIsSearchByCategory(false);
+    }
+
 
     return (<>
         <Toolbar onLogout={logout}/>
@@ -105,7 +128,12 @@ export const Home = () => {
             sx={{textAlign: "center"}}
             marginTop="70px"
         >
-            <SearchBar onSearch={handleSearchByName}/>
+            <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
+            {isSearchByCategory && (
+                <Button onClick={() => disableCategory()}>{category} x</Button>
+            )}
+            <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
+                             filterCategory={filterCategory}></CategoriesModal>
             <ProductList products={products} addToCart={addToCart}/>
             <Button onClick={() => handleNextPage()}>הבא</Button>
             <Button onClick={() => handlePrevPage()}>הקודם</Button>

@@ -50,7 +50,7 @@ async def get_product_by_id(product_id: str):
 
 @router.get(
     '/category/{category}',
-    response_description="A product by category",
+    response_description="products by category",
     response_model=List[BaseProduct],
     response_model_by_alias=False,
     status_code=status.HTTP_200_OK
@@ -61,3 +61,20 @@ async def get_products_by_category(
         page_size: int = Query(10, ge=1, le=100)
 ):
     return await product_service.get_products_by_category(category=category, page=page, page_size=page_size)
+
+
+@router.get(
+    '/nameAndCategory',
+    response_description="products by name and category",
+    response_model=List[BaseProduct],
+    response_model_by_alias=False,
+    status_code=status.HTTP_200_OK
+)
+async def get_products_by_name_and_category(
+        name: str,
+        category: str,
+        page: int = Query(1, ge=1),
+        page_size: int = Query(10, ge=1, le=100)
+):
+    return await product_service.get_products_by_name_and_category(name=name, category=category, page=page,
+                                                                   page_size=page_size)

@@ -61,7 +61,7 @@ export const getProductsByName = async (productName, page, pageSize) => {
 
 export const getProductsByCategory = async (category, page, pageSize) => {
     try {
-        const products = await axios.get(`${BASE_URL}/product/name/${category}`, {
+        const products = await axios.get(`${BASE_URL}/product/category/${category}`, {
             params: {
                 page: page, page_size: pageSize
             }
@@ -72,6 +72,21 @@ export const getProductsByCategory = async (category, page, pageSize) => {
     }
 }
 
+export const getProductsByNameAndCategory = async (name, category, page, pageSize) => {
+    try {
+        const products = await axios.get(`${BASE_URL}/product/nameAndCategory`, {
+            params: {
+                name: name,
+                category: category,
+                page: page,
+                page_size: pageSize
+            }
+        })
+        return products.data
+    } catch (error) {
+        throw error
+    }
+}
 
 export const getProductById = async (productId) => {
     const products = await axios.get(`${BASE_URL}/product/id/${productId}`)

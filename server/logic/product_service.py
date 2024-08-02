@@ -182,3 +182,50 @@ class ProductService:
         if product is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return product
+
+    async def get_products_by_name_and_category(self, name, category, page, page_size) -> List[BaseProduct]:
+        skip = (page - 1) * page_size
+        pipeline = [
+            {
+                "$match": {"Category": category, "ItemName": {"$regex": name}}
+            },
+            {
+                "$match": {
+                    "$expr": {
+                        "$gt": [
+                            {"$toDouble": "$ItemPrice"},
+                            0
+                        ]
+                    }
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$ItemCode",
+                    "document": {"$first": "$$ROOT"},
+                    "MinPrice": {"$min": "$ItemPrice"},
+                    "MaxPrice": {"$max": "$ItemPrice"}
+                }
+            },
+            {
+                "$addFields": {
+                    "document.MinPrice": "$MinPrice",
+                    "document.MaxPrice": "$MaxPrice"
+                }
+            },
+            {
+                "$replaceRoot": {
+                    "newRoot": "$document"
+                }
+            },
+            {
+                "$skip": skip
+            },
+            {
+                "$limit": page_size
+            }
+        ]
+        product = self.collection.aggregate(pipeline)
+        if product is None:
+            raise HTTPException(status_code=404, detail="Product doesn't exists")
+        return product
