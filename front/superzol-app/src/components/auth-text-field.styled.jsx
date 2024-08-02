@@ -14,8 +14,15 @@ export const StyledTextField = styled(TextField)`
         }
 
         & input {
-            padding: 10px;
+            padding-bottom: 10px;
+            padding-top: 10px;
             text-align: left;
+        }
+
+        &:-webkit-autofill,
+        & input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px #ECECEC inset !important;
+            -webkit-text-fill-color: inherit !important;
         }
     }
 
