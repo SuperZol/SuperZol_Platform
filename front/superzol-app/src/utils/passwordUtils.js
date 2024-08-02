@@ -7,7 +7,7 @@ export const validatePassword = (password, confirmPassword) => {
         return "Passwords do not match";
     }
 
-    return true; // No errors
+    return true;
 };
 
 export const validateCurrentPassword = (currentPassword, userPassword) => {
@@ -25,11 +25,11 @@ export const validateNewPassword = (currentPassword, newPassword, confirmPasswor
 
         const passwordErrors = validatePassword(newPassword, confirmPassword);
         if (passwordErrors !== true) {
-            return passwordErrors; // Return the error message
+            return passwordErrors;
         }
 
         data.password = newPassword;
     }
 
-    return true; // No errors
+    return true;
 };

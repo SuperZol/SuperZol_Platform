@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Response
 from server.logic.user_service import UserService
 from server.data.user import User
 from server.config.database import user_collection
@@ -26,8 +26,10 @@ async def create_user(user: User):
     response_model_by_alias=False,
     status_code=status.HTTP_200_OK
 )
-async def user_login(email: str, password: str):
-    return await user_service.user_login(email, password)
+async def user_login(response: Response, email: str, password: str):
+    user = await user_service.user_login(email, password)
+    response.set_cookie(key="user_token", value=user['email'], httponly=True)
+    return user
 
 
 @router.put(
