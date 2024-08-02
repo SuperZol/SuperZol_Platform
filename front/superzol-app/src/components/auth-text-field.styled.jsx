@@ -4,7 +4,6 @@ import {TextField} from "@mui/material";
 
 
 export const StyledTextField = styled(TextField)`
-    width: 100%;
 
     & .MuiOutlinedInput-root {
         border-radius: 100px;
