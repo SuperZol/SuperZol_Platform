@@ -8,7 +8,9 @@ import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
-
+import {CartButton, CartButtonContainer} from "./cart-button.styled";
+import cartImage from '../resources/shopping-cart.png';
+import styled from "styled-components";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -115,8 +117,6 @@ export const Home = () => {
         setCategory("");
         setIsSearchByCategory(false);
     }
-
-
     return (<>
         <Toolbar onLogout={logout}/>
         <Box
@@ -141,13 +141,10 @@ export const Home = () => {
                 <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
                               removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>}
         </Box>
-        <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setSidebarOpen(true)}
-            sx={{mt: 3}}
-        >
-            Cart
-        </Button>
+        <CartButtonContainer>
+            <CartButton onClick={() => setSidebarOpen(true)}>
+                <img src={cartImage} alt="cart"/>
+            </CartButton>
+        </CartButtonContainer>
     </>)
 };
