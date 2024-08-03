@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {InputAdornment, IconButton} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import {SearchBarContainer, SearchButton, StyledTextField} from "./search-bar.styled";
-
-export const SearchBar = ({onSearch}) => {
+import {CategoriesButton, SearchBarContainer, SearchButton, StyledTextField} from "./search-bar.styled";
+import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
+export const SearchBar = ({onSearch, onCategoriesClick}) => {
     const [query, setQuery] = useState('');
 
     const handleSearch = () => {
@@ -46,6 +46,9 @@ export const SearchBar = ({onSearch}) => {
                 }}
                 fullWidth
             />
+            <CategoriesButton onClick={onCategoriesClick}>
+                <WidgetsRoundedIcon/>
+            </CategoriesButton>
         </SearchBarContainer>
     );
 };

@@ -11,3 +11,4 @@ class Product(BaseProduct):
     QtyInPackage: Optional[str] = ''
     UnitOfMeasurePrice: Optional[str] = ''
     StoreId: str
+    Category: str
