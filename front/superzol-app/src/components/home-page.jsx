@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {Box, Button} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {SearchBar} from "./search-bar";
-import {useUser} from "../contexts/user-context";
-import {ProductList} from "./product-list";
-import {useProduct} from "../contexts/product-context";
-import {ShoppingCart} from './shopping-cart';
+import React, { useEffect, useState } from "react";
+import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { SearchBar } from "./search-bar";
+import { useUser } from "../contexts/user-context";
+import { ProductList } from "./product-list";
+import { useProduct } from "../contexts/product-context";
+import { ShoppingCart } from './shopping-cart';
 import Toolbar from "./toolbar";
-import {CategoriesModal} from "./categories-modal";
-import {ClipLoader} from "react-spinners";
-
+import { CategoriesModal } from "./categories-modal";
+import { ClipLoader } from "react-spinners"; // Import the loader
 
 export const Home = () => {
     const navigate = useNavigate();
-    const {currentUser, currentSearch, logout, setError} = useUser();
+    const { currentUser, currentSearch, logout, setError } = useUser();
     const {
         products,
         searchProductsByName,
@@ -30,7 +29,7 @@ export const Home = () => {
     const [category, setCategory] = useState("");
     const [searchName, setSearchName] = useState("");
     const [isModalOpen, setModalOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         if (!currentUser) {
@@ -46,7 +45,6 @@ export const Home = () => {
                 if (isSearchByName && isSearchByCategory) {
                     await searchProductsByNameAndCategory(searchName, category, page, pageSize);
                 } else if (isSearchByName) {
-                    setLoading(false);
                     await searchProductsByName(searchName, page, pageSize);
                 } else if (isSearchByCategory) {
                     await searchProductsByCategory(category, page, pageSize);
@@ -84,11 +82,11 @@ export const Home = () => {
 
     const addToCart = (product, quantity) => {
         setShoppingList((prev) => {
-            const newList = {...prev};
+            const newList = { ...prev };
             if (newList[product.ItemCode]) {
                 newList[product.ItemCode].quantity += quantity;
             } else {
-                newList[product.ItemCode] = {...product, quantity: quantity};
+                newList[product.ItemCode] = { ...product, quantity: quantity };
             }
             return newList;
         });
@@ -137,34 +135,30 @@ export const Home = () => {
                 sx={{ textAlign: "center" }}
                 marginTop="70px"
             >
-                {loading ? (
-                    <ClipLoader size={150} color={"#123abc"} loading={loading} />
-                ) : (
-                    <>
-                        <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick} />
-                        {isSearchByCategory && (
-                            <Button onClick={() => disableCategory()}>{category} x</Button>
-                        )}
-                        <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}></CategoriesModal>
-                        <ProductList products={products} addToCart={addToCart} />
-                        <Button onClick={() => handleNextPage()}>הבא</Button>
-                        <Button onClick={() => handlePrevPage()}>הקודם</Button>
-                    </>
+                <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick} />
+                {isSearchByCategory && (
+                    <Button onClick={() => disableCategory()}>{category} x</Button>
                 )}
+                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}></CategoriesModal>
+                {loading ? (
+                    <ClipLoader size={150} color={"#123abc"} loading={loading} /> // Display the loader
+                ) : (
+                    <ProductList products={products} addToCart={addToCart} />
+                )}
+                <Button onClick={() => handleNextPage()}>הבא</Button>
+                <Button onClick={() => handlePrevPage()}>הקודם</Button>
                 {isSidebarOpen && (
                     <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList} removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen} />
                 )}
             </Box>
-            {!loading && (
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => setSidebarOpen(true)}
-                    sx={{ mt: 3 }}
-                >
-                    Cart
-                </Button>
-            )}
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setSidebarOpen(true)}
+                sx={{ mt: 3 }}
+            >
+                Cart
+            </Button>
         </>
     );
 };
