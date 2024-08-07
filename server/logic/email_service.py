@@ -6,9 +6,9 @@ from email.mime.text import MIMEText
 class EmailSender:
     SMTP_SERVER = 'smtp.gmail.com'
     SMTP_PORT = 587
-    SMTP_USERNAME = 'SuperZol2024@gmail.com'
-    SMTP_PASSWORD = 'nzkq cjam wmwe isri'
-    EMAIL_FROM = 'SuperZol2024@gmail.com'
+    SMTP_USERNAME = ''
+    SMTP_PASSWORD = ''
+    EMAIL_FROM = ''
     EMAIL_SUBJECT = 'Password Reset Request'
 
     def __init__(self):
