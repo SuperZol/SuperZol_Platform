@@ -1,4 +1,5 @@
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, status, Response, BackgroundTasks, HTTPException
+from server.logic.email_service import EmailSender
 from server.logic.user_service import UserService
 from server.data.user import User
 from server.config.database import user_collection
@@ -6,6 +7,7 @@ from typing import Dict
 
 router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
+email_sender = EmailSender()
 
 
 @router.post(
@@ -50,3 +52,29 @@ async def update_user(email: str, user_updated_fields: dict):
 )
 async def update_cart(email: str, cart: Dict[str, int]):
     await user_service.update_cart(email, cart)
+
+
+@router.post(
+    "/forgot-password/{email}",
+    response_description="Request password reset",
+    response_model_by_alias=False,
+    status_code=status.HTTP_200_OK
+)
+async def forgot_password(email: str, background_tasks: BackgroundTasks):
+    user = await user_service.find_user_by_email(email)
+    if not user:
+        raise HTTPException(status_code=404, detail="המייל שהוזן לא קיים במערכת")
+    token = await user_service.save_reset_token(email)
+    background_tasks.add_task(email_sender.send_reset_email, email, token)
+    return "קישור לאיפוס סיסמה נשלח במייל"
+
+
+@router.post(
+    "/reset-password",
+    response_description="Reset password",
+    status_code=status.HTTP_200_OK
+)
+async def reset_password(token: str, new_password: str):  #TODO:need to fix the request body
+    email = await user_service.verify_reset_token(token)
+    await user_service.update_password(email, new_password)
+    return {"message": "Password has been reset"}

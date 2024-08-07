@@ -120,7 +120,19 @@ export const Login = () => {
                         >
                             ליצירת חשבון חדש
                         </Link>
-
+                    </Grid>
+                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
+                        <Link
+                            onClick={() => setError("")}
+                            to="/forgot-password"
+                            style={{
+                                textDecoration: "none",
+                                color: "#f4511e",
+                                marginLeft: "5px",
+                            }}
+                        >
+                            שכחת סיסמה?
+                        </Link>
                     </Grid>
                 </Form>
             </DataContainer>
