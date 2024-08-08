@@ -7,7 +7,7 @@ from typing import Dict
 
 router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
-email_sender = EmailSender()
+# email_sender = EmailSender()
 
 
 @router.post(
@@ -65,6 +65,7 @@ async def forgot_password(email: str, background_tasks: BackgroundTasks):
     if not user:
         raise HTTPException(status_code=404, detail="המייל שהוזן לא קיים במערכת")
     token = await user_service.save_reset_token(email)
+    email_sender = EmailSender()
     background_tasks.add_task(email_sender.send_reset_email, email, token)
     return "קישור לאיפוס סיסמה נשלח במייל"
 
@@ -74,7 +75,7 @@ async def forgot_password(email: str, background_tasks: BackgroundTasks):
     response_description="Reset password",
     status_code=status.HTTP_200_OK
 )
-async def reset_password(token: str, new_password: str):  #TODO:need to fix the request body
+async def reset_password(token: str, new_password: str):
     email = await user_service.verify_reset_token(token)
     await user_service.update_password(email, new_password)
-    return {"message": "Password has been reset"}
+    return "סיסמה אופסה בהצלחה!"

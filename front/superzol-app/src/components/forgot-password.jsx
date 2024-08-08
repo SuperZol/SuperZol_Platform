@@ -6,7 +6,7 @@ import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import EmailIcon from "@mui/icons-material/Email";
-import {forgot_password} from "../api";
+import {forgotPassword} from "../api";
 export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ export const ForgotPassword = () => {
         setLoading(true);
 
         try {
-            const response = await forgot_password(email);
+            const response = await forgotPassword(email);
             if (response.status === 200) {
                 setMessage(response.data || "קישור לאיפוס סיסמה נשלח במייל");
             } else {

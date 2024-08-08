@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
-import { Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import React, {useState} from "react";
+import {Grid, Typography} from "@mui/material";
+import {Link, useSearchParams} from "react-router-dom";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
-import { AuthContainer, AuthImage, DataContainer, ImageContainer } from "./auth.styled";
+import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import LockIcon from "@mui/icons-material/Lock";
+import {resetPassword} from "../api";
 
 export const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -30,16 +30,18 @@ export const ResetPassword = () => {
         }
 
         try {
-            console.log(`token ${token} new_password ${newPassword}`)
-            await axios.post("http://localhost:8000/users/reset-password", {
-                token:token, new_password: newPassword });
-            setMessage("Password has been reset successfully. You can now log in.");
+            const response = await resetPassword(token, newPassword);
+            if (response.status === 200) {
+                setMessage(response.data || "קישור לאיפוס סיסמה נשלח במייל");
+            } else {
+                setError(response.data.detail || "המייל שהוזן לא קיים במערכת");
+            }
         } catch (err) {
-            setError("Error resetting password. Please try again.");
+            setError("שגיאה בעת שליחת מידע לשרת");
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <AuthContainer>
@@ -50,32 +52,32 @@ export const ResetPassword = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="Reset Your Password" func={handleSubmit} auth="true">
+                <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="New Password"
+                            label="סיסמה חדשה"
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            icon={<LockIcon />}
+                            icon={<LockIcon/>}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <AuthTextField
-                            label="Confirm New Password"
+                            label="אימות סיסמה"
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            icon={<LockIcon />}
+                            icon={<LockIcon/>}
                         />
                     </Grid>
                     {error && (
-                        <Typography color="error" variant="body2" align="center" style={{ marginTop: '10px' }}>
+                        <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
                             {error}
                         </Typography>
                     )}
                     {message && (
-                        <Typography color="primary" variant="body2" align="center" style={{ marginTop: '10px' }}>
+                        <Typography color="primary" variant="body2" align="center" style={{marginTop: '10px'}}>
                             {message}
                         </Typography>
                     )}
@@ -84,11 +86,11 @@ export const ResetPassword = () => {
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="Reset Password"
-                            style={{ marginTop: "16px" }}
+                            text="אפס סיסמה"
+                            style={{marginTop: "16px"}}
                         />
                     </Grid>
-                    <Grid item xs={12} style={{ textAlign: "center", marginTop: "16px" }}>
+                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
                         <Link
                             onClick={() => setError("")}
                             to="/login"
@@ -98,7 +100,7 @@ export const ResetPassword = () => {
                                 marginLeft: "5px",
                             }}
                         >
-                            Back to Login
+                            כניסה
                         </Link>
                     </Grid>
                 </Form>
