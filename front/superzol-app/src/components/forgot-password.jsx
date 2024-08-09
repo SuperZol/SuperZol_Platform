@@ -1,40 +1,33 @@
 import React, {useState} from "react";
 import {Grid, Typography} from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
-import {useUser} from "../contexts/user-context";
-import LockIcon from "@mui/icons-material/Lock";
-import EmailIcon from "@mui/icons-material/Email";
-import {validatePassword} from '../utils/passwordUtils';
+import {Link} from "react-router-dom";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
-
-
-export const Register = () => {
-    const navigate = useNavigate();
+import EmailIcon from "@mui/icons-material/Email";
+import {forgotPassword} from "../api";
+export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const {register, setError, error} = useUser();
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
 
-    const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const passwordErrors = validatePassword(password, confirmPassword);
-        if (passwordErrors.length > 0) {
-            setError(passwordErrors.join(", "));
-            return;
-        }
+        setError("");
+        setMessage("");
+        setLoading(true);
 
         try {
-            setError("");
-            setLoading(true);
-            await register(email, password);
-            navigate("/login");
-        } catch (e) {
-            setError(e.message);
+            const response = await forgotPassword(email);
+            if (response.status === 200) {
+                setMessage(response.data || "קישור לאיפוס סיסמה נשלח במייל");
+            } else {
+                setError(response.data.detail || "המייל שהוזן לא קיים במערכת");
+            }
+        } catch (err) {
+            setError("שגיאה בעת שליחת מידע לשרת");
         } finally {
             setLoading(false);
         }
@@ -45,35 +38,17 @@ export const Register = () => {
             <ImageContainer>
                 <AuthImage
                     src="/path-to-your-image.jpg"
-                    alt="Register Illustration"
+                    alt="Forgot Password Illustration"
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="SuperZol הרשמה" func={handleSubmit}  auth="true">
+                <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
                     <Grid item xs={12}>
                         <AuthTextField
                             label="מייל"
                             value={email}
-                            icon={<EmailIcon/>}
                             onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <AuthTextField
-                            label="סיסמה"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            icon={<LockIcon/>}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <AuthTextField
-                            label="הזן סיסמה בשנית"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            icon={<LockIcon/>}
+                            icon={<EmailIcon/>}
                         />
                     </Grid>
                     {error && (
@@ -81,18 +56,21 @@ export const Register = () => {
                             {error}
                         </Typography>
                     )}
+                    {message && (
+                        <Typography color="primary" variant="body2" align="center" style={{marginTop: '10px'}}>
+                            {message}
+                        </Typography>
+                    )}
                     <Grid item xs={12}>
                         <AuthButton
                             type="submit"
                             loading={loading}
                             color="primary"
-                            text="הירשם"
+                            text="שלח"
                             style={{marginTop: "16px"}}
                         />
                     </Grid>
-
                     <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-
                         <Link
                             onClick={() => setError("")}
                             to="/login"
@@ -102,7 +80,7 @@ export const Register = () => {
                                 marginLeft: "5px",
                             }}
                         >
-                            חשבון קיים
+                            חזרה להתחברות
                         </Link>
                     </Grid>
                 </Form>

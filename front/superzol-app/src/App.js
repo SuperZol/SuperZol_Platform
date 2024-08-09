@@ -6,6 +6,8 @@ import {Register} from "./components/register";
 import {Home} from "./components/home-page";
 import {UserPreferences} from "./components/user-preferences";
 import {ProductProvider} from "./contexts/product-context";
+import {ForgotPassword} from "./components/forgot-password";
+import {ResetPassword} from "./components/reset-password-page";
 
 export default function App() {
     return (
@@ -15,7 +17,8 @@ export default function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/" element={<Navigate to="/login"/>}/>
-
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
                     <Route path="/user_preferences" element={<UserPreferences/>}/>
                 </Routes>
                 <ProductProvider>

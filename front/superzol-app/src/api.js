@@ -117,3 +117,26 @@ export const getCheapestSupermarkets = async (products, lat, lng, distance_prefe
         return null;
     }
 }
+
+export const forgotPassword = async (email) => {
+    try {
+        return await axios.post(`${BASE_URL}/users/forgot-password/${email}`);
+    } catch (err) {
+        return err.response;
+    }
+}
+
+
+export const resetPassword = async (token,newPassword) => {
+    try {
+
+        return await axios.post(`${BASE_URL}/users/reset-password`, null, {
+            params: {
+                token: token,
+                new_password: newPassword
+            }
+        });
+    } catch (err) {
+        return err.response;
+    }
+}

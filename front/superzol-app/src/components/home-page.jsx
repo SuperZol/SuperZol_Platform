@@ -8,6 +8,7 @@ import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
+import {ClipLoader} from "react-spinners"; // Import the loader
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import styled from "styled-components";
@@ -31,7 +32,7 @@ export const Home = () => {
     const [category, setCategory] = useState("");
     const [searchName, setSearchName] = useState("");
     const [isModalOpen, setModalOpen] = useState(false);
-
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         if (!currentUser) {
@@ -41,21 +42,28 @@ export const Home = () => {
     }, [currentUser, navigate, setError]);
 
     useEffect(() => {
-        if (isSearchByName && isSearchByCategory) {
-            searchProductsByNameAndCategory(searchName, category, page, pageSize)
-        } else if (isSearchByName) {
-            searchProductsByName(searchName, page, pageSize);
-        } else if (isSearchByCategory) {
-            searchProductsByCategory(category, page, pageSize);
-        } else {
-            getAllProducts(page, pageSize)
-        }
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                if (isSearchByName && isSearchByCategory) {
+                    await searchProductsByNameAndCategory(searchName, category, page, pageSize);
+                } else if (isSearchByName) {
+                    await searchProductsByName(searchName, page, pageSize);
+                } else if (isSearchByCategory) {
+                    await searchProductsByCategory(category, page, pageSize);
+                } else {
+                    await getAllProducts(page, pageSize);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
     }, [page, pageSize, isSearchByName, isSearchByCategory, category, searchName, getAllProducts, searchProductsByCategory, searchProductsByName, searchProductsByNameAndCategory]);
 
     useEffect(() => {
         setPage(1);
     }, [isSearchByName, isSearchByCategory]);
-
 
     const handleSearchByName = (productName) => {
         if (productName !== "") {
@@ -117,34 +125,41 @@ export const Home = () => {
         setCategory("");
         setIsSearchByCategory(false);
     }
-    return (<>
-        <Toolbar onLogout={logout}/>
-        <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            minHeight="100vh"
-            sx={{textAlign: "center"}}
-            marginTop="70px"
-        >
-            <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
-            {isSearchByCategory && (
-                <Button onClick={() => disableCategory()}>{category} x</Button>
-            )}
-            <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
-                             filterCategory={filterCategory}></CategoriesModal>
-            <ProductList products={products} addToCart={addToCart}/>
-            <Button onClick={() => handleNextPage()}>הבא</Button>
-            <Button onClick={() => handlePrevPage()}>הקודם</Button>
-            {isSidebarOpen &&
-                <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
-                              removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>}
-        </Box>
-        <CartButtonContainer>
-            <CartButton onClick={() => setSidebarOpen(true)}>
-                <img src={cartImage} alt="cart"/>
-            </CartButton>
-        </CartButtonContainer>
-    </>)
+
+    return (
+        <>
+            <Toolbar onLogout={logout}/>
+            <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                minHeight="100vh"
+                sx={{textAlign: "center"}}
+                marginTop="70px"
+            >
+                <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
+                {isSearchByCategory && (
+                    <Button onClick={() => disableCategory()}>{category} x</Button>
+                )}
+                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
+                                 filterCategory={filterCategory}></CategoriesModal>
+                {loading ? (
+                    <ClipLoader size={150} color={"#123abc"} loading={loading}/> // Display the loader
+                ) : (
+                    <ProductList products={products} addToCart={addToCart}/>
+                )}
+                <Button onClick={() => handleNextPage()}>הבא</Button>
+                <Button onClick={() => handlePrevPage()}>הקודם</Button>
+                {isSidebarOpen && (
+                    <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
+                                  removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen}/>
+                )}
+            </Box>
+            <CartButtonContainer>
+                <CartButton onClick={() => setSidebarOpen(true)}>
+                    <img src={cartImage} alt="cart"/>
+                </CartButton>
+            </CartButtonContainer>
+        </>);
 };
