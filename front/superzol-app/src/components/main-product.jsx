@@ -1,28 +1,28 @@
 import default_product_image from '../resources/default_product.png';
 import {
-    ProductCardHeader,
-    ProductCardDiv,
+    ProductHeader,
+    MainProductDiv,
     ProductImage,
-    ProductCardBody,
+    MainProductBody,
     ProductTitle,
     ProductPrice
-} from "./product-card.styled.jsx";
+} from "./main-product.styled.jsx";
 
-export const ProductCard = ({product}) => {
+export const MainProduct = ({product}) => {
     const {ItemName, ItemPrice, MinPrice, MaxPrice} = product;
     return (
-        <ProductCardDiv>
-            <ProductCardHeader>
+        <MainProductDiv>
+            <ProductHeader>
                 <ProductImage src={default_product_image} alt={ItemName}/>
-            </ProductCardHeader>
-            <ProductCardBody>
+            </ProductHeader>
+            <MainProductBody>
                 <ProductTitle>{ItemName}</ProductTitle>
                 <ProductPrice>
                     {MinPrice !== MaxPrice
                         ? `${MinPrice} - ${MaxPrice} ₪`
                         : `${ItemPrice} ₪`}
                 </ProductPrice>
-            </ProductCardBody>
-        </ProductCardDiv>
+            </MainProductBody>
+        </MainProductDiv>
     );
 };

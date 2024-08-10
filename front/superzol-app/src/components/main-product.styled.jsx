@@ -1,15 +1,16 @@
 import styled from 'styled-components';
+import {media} from "./styles";
 
-export const ProductCardDiv = styled.div`
+export const MainProductDiv = styled.div`
     overflow: hidden;
     width: 250px;
     height: 250px;
-    font-family: Calibri, sans-serif;
 `;
 
-export const ProductCardHeader = styled.div`
+export const ProductHeader = styled.div`
     text-align: center;
     padding: 10px;
+    font-family: Calibri, sans-serif;
 `;
 
 export const ProductImage = styled.img`
@@ -17,13 +18,12 @@ export const ProductImage = styled.img`
     height: 100px;
 `;
 
-export const ProductCardBody = styled.div`
+export const MainProductBody = styled.div`
     padding: 10px;
 `;
 
 export const ProductTitle = styled.h3`
     font-size: 16px;
-    margin: 10px 0;
 `;
 
 export const ProductPrice = styled.span`
@@ -32,7 +32,7 @@ export const ProductPrice = styled.span`
     font-weight: bold;
 `;
 
-export const ProductCardFooter = styled.div`
+export const MainProductFooter = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,7 +74,6 @@ export const ProductWithQuantity = styled.div`
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
-    font-family: Calibri, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -82,6 +81,8 @@ export const ProductWithQuantity = styled.div`
     transition: box-shadow 0.2s ease-in-out;
     width: 250px;
     height: 300px;
+    font-family: Calibri, sans-serif;
+
 
     &:hover {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -93,3 +94,37 @@ export const ProductListContainer = styled.div`
     box-sizing: border-box;
 `;
 
+export const GridContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+    ${media.xs`
+        flex-direction: column;
+    `}
+    ${media.sm`
+        flex-direction: row;
+    `}
+`;
+
+
+export const GridItem = styled.div`
+    flex: 1 1 20%;
+    max-width: calc(20% - 12px);
+    ${media.xs`
+        flex: 1 1 100%;
+        max-width: 100%;
+    `}
+    ${media.sm`
+        flex: 1 1 50%;
+        max-width: calc(50% - 12px);
+    `}
+    ${media.md`
+        flex: 1 1 calc(33.333% - 12px);
+        max-width: calc(33.333% - 12px);
+    `}
+    ${media.lg`
+        flex: 1 1 calc(15% - 12px);
+        max-width: calc(20% - 12px);
+    `}
+`;

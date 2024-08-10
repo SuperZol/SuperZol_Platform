@@ -4,7 +4,7 @@ export const CartButtonContainer = styled.div`
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 1000;
+    z-index: 1;
 `;
 
 export const CartButton = styled.button`
