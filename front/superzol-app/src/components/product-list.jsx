@@ -1,15 +1,14 @@
-import {ProductCard} from './product-card';
-import {Grid} from "@mui/material";
+import {MainProduct} from './main-product';
 import _ from "lodash";
 import {useEffect, useState} from "react";
 import {
-    AddButton,
-    ProductCardFooter,
+    AddButton, GridContainer, GridItem,
+    MainProductFooter,
     ProductListContainer,
     ProductQuantity,
     ProductWithQuantity,
     QuantityButton
-} from "./product-card.styled.jsx";
+} from "./main-product.styled.jsx";
 
 export const ProductList = ({products, addToCart}) => {
     const [quantities, setQuantities] = useState({});
@@ -40,13 +39,13 @@ export const ProductList = ({products, addToCart}) => {
 
     return (
         <ProductListContainer>
-            <Grid container spacing={2}>
+            <GridContainer>
                 {!_.isNil(products) ? (
                     products.map((product) => (
-                        <Grid item key={product.ItemCode} xs={12} sm={6} md={4} lg={2}>
+                        <GridItem item key={product.ItemCode}>
                             <ProductWithQuantity>
-                                <ProductCard product={product}/>
-                                <ProductCardFooter>
+                                <MainProduct product={product}/>
+                                <MainProductFooter>
                                     <QuantityButton
                                         onClick={() => subtractQuantity(product.ItemCode)}
                                     >
@@ -65,14 +64,14 @@ export const ProductList = ({products, addToCart}) => {
                                     >
                                         הוספה
                                     </AddButton>
-                                </ProductCardFooter>
+                                </MainProductFooter>
                             </ProductWithQuantity>
-                        </Grid>
+                        </GridItem>
                     ))
                 ) : (
                     <></>
                 )}
-            </Grid>
+            </GridContainer>
         </ProductListContainer>
     );
 };

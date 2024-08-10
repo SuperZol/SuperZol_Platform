@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { SearchBar } from "./search-bar";
-import { useUser } from "../contexts/user-context";
-import { ProductList } from "./product-list";
-import { useProduct } from "../contexts/product-context";
-import { ShoppingCart } from './shopping-cart';
+import React, {useEffect, useState} from "react";
+import {Button} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {SearchBar} from "./search-bar";
+import {useUser} from "../contexts/user-context";
+import {ProductList} from "./product-list";
+import {useProduct} from "../contexts/product-context";
+import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
-import { CategoriesModal } from "./categories-modal";
-import { ClipLoader } from "react-spinners"; // Import the loader
+import {CategoriesModal} from "./categories-modal";
+import {ClipLoader} from "react-spinners";
+import {CartButton, CartButtonContainer} from "./cart-button.styled";
+import cartImage from '../resources/shopping-cart.png';
+import {MainContainer, ProductsBox} from "./home-page.styled";
 
 export const Home = () => {
     const navigate = useNavigate();
-    const { currentUser, currentSearch, logout, setError } = useUser();
+    const {currentUser, currentSearch, logout, setError} = useUser();
     const {
         products,
         searchProductsByName,
@@ -20,7 +23,7 @@ export const Home = () => {
         searchProductsByCategory,
         searchProductsByNameAndCategory
     } = useProduct();
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [shoppingList, setShoppingList] = useState({});
     const [page, setPage] = useState(1);
     const [pageSize] = useState(24);
@@ -82,11 +85,11 @@ export const Home = () => {
 
     const addToCart = (product, quantity) => {
         setShoppingList((prev) => {
-            const newList = { ...prev };
+            const newList = {...prev};
             if (newList[product.ItemCode]) {
                 newList[product.ItemCode].quantity += quantity;
             } else {
-                newList[product.ItemCode] = { ...product, quantity: quantity };
+                newList[product.ItemCode] = {...product, quantity: quantity};
             }
             return newList;
         });
@@ -94,7 +97,7 @@ export const Home = () => {
 
     const removeFromCart = (productId) => {
         setShoppingList((prev) => {
-            const newList = { ...prev };
+            const newList = {...prev};
             if (newList[productId]) {
                 delete newList[productId];
             }
@@ -124,41 +127,31 @@ export const Home = () => {
     }
 
     return (
-        <>
-            <Toolbar onLogout={logout} />
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                minHeight="100vh"
-                sx={{ textAlign: "center" }}
-                marginTop="70px"
-            >
-                <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick} />
+        <MainContainer isOpen={isSidebarOpen}>
+            <Toolbar onLogout={logout}/>
+            <ProductsBox>
+                <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
                 {isSearchByCategory && (
                     <Button onClick={() => disableCategory()}>{category} x</Button>
                 )}
-                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}></CategoriesModal>
+                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
+                                 filterCategory={filterCategory}></CategoriesModal>
                 {loading ? (
-                    <ClipLoader size={150} color={"#123abc"} loading={loading} /> // Display the loader
+                    <ClipLoader size={150} color={"#123abc"} loading={loading}/> // Display the loader
                 ) : (
-                    <ProductList products={products} addToCart={addToCart} />
+                    <ProductList products={products} addToCart={addToCart}/>
                 )}
                 <Button onClick={() => handleNextPage()}>הבא</Button>
                 <Button onClick={() => handlePrevPage()}>הקודם</Button>
                 {isSidebarOpen && (
-                    <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList} removeFromCart={removeFromCart} setSidebarOpen={setSidebarOpen} />
+                    <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
+                                  removeFromCart={removeFromCart} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
                 )}
-            </Box>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => setSidebarOpen(true)}
-                sx={{ mt: 3 }}
-            >
-                Cart
-            </Button>
-        </>
-    );
+            </ProductsBox>
+            <CartButtonContainer>
+                <CartButton onClick={() => setIsSidebarOpen(true)}>
+                    <img src={cartImage} alt="cart"/>
+                </CartButton>
+            </CartButtonContainer>
+        </MainContainer>);
 };

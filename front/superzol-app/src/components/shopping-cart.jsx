@@ -1,13 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import '../css/shopping-cart.css';
-import {Button} from "@mui/material";
-import {ProductCard} from "./product-card";
 import {useUser} from "../contexts/user-context";
 import {ShoppingListHistory} from "./shopping-list-history";
 import {useProduct} from "../contexts/product-context";
 import {SupermarketsCard} from "./supermarkets-card";
+import {CartProduct} from "./cart-product";
+import {
+    ExitButton, HorizontalDiv,
+    Item,
+    ShoppingCartContainer,
+    ShoppingCartContent,
+    SubmitButton,
+    Title, TopBarButton
+} from "./shopping-cart.styled";
+import loadIcon from "../resources/load.png";
+import saveIcon from "../resources/bookmark.png";
+import deleteIcon from "../resources/delete.png";
 
-export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, setSidebarOpen}) => {
+
+export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isSidebarOpen, setIsSidebarOpen}) => {
 
     const {currentUser, saveShoppingListToHistory} = useUser();
     const {getProductsById, findCheapestSupermarkets} = useProduct();
@@ -70,14 +80,23 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
 
 
     return (
-        <div className="shopping-cart">
-            <Button onClick={() => setSidebarOpen(false)}>x</Button>
-            <h2>עגלת הקניות</h2>
-            <>
-                <Button onClick={() => setShowShoppingHistory(!showShoppingHistory)}>Load</Button>
-                <Button onClick={() => setShoppingList({})}>Delete</Button>
-                <Button onClick={() => saveShoppingListToHistory(shoppingList)}>Save</Button>
-            </>
+        <ShoppingCartContainer isOpen={isSidebarOpen}>
+            <ExitButton onClick={() => setIsSidebarOpen(false)}>x</ExitButton>
+            <Title>עגלת הקניות</Title>
+            <HorizontalDiv>
+                <TopBarButton onClick={() => setShowShoppingHistory(!showShoppingHistory)}>
+                    טעינת סל קניות
+                    <img src={loadIcon} alt="Load"/>
+                </TopBarButton>
+                <TopBarButton onClick={() => setShoppingList({})}>
+                    נקה עגלה
+                    <img src={deleteIcon} alt="Load"/>
+                </TopBarButton>
+                <TopBarButton onClick={() => saveShoppingListToHistory(shoppingList)}>
+                    שמירת רשימה
+                    <img src={saveIcon} alt="Load"/>
+                </TopBarButton>
+            </HorizontalDiv>
             {(showShoppingHistory
                 ?
                 <ShoppingListHistory shoppingLists={currentUser.shopping_history}
@@ -86,21 +105,18 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, set
                     ?
                     <SupermarketsCard supermarkets={supermarkets}/>
                     :
-                    <div className="shopping-cart-content">
+                    <ShoppingCartContent>
                         {Object.keys(shoppingList).map((productId) => {
                             const product = shoppingList[productId];
                             return (
-                                <div className="item" key={productId}>
-                                    <ProductCard product={product}/>
-                                    <p>כמות: {product.quantity}</p>
-                                    <Button onClick={() => handleAdd(productId)}>add</Button>
-                                    <Button onClick={() => handleSubtract(productId)}>subtract</Button>
-                                    <Button onClick={() => handleRemove(productId)}>remove</Button>
-                                </div>
+                                <Item key={productId}>
+                                    <CartProduct product={product} productId={productId} handleAdd={handleAdd}
+                                                 handleSubtract={handleSubtract} handleRemove={handleRemove}/>
+                                </Item>
                             );
                         })}
-                    </div>))}
-            <Button onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</Button>
-        </div>
+                    </ShoppingCartContent>))}
+            <SubmitButton onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
+        </ShoppingCartContainer>
     );
 };
