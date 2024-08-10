@@ -38,10 +38,17 @@ export const Item = styled.div`
     border-radius: 5px;
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
+    margin-right: 4px;
     p {
         margin: 0;
     }
+`;
+
+
+export const NoItemsTitle = styled.h2`
+    font-size: 26px;
+    font-family: Calibri, sans-serif;
+    margin-top: 80%;
 `;
 
 export const SubmitButton = styled.button`

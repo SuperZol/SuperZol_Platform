@@ -1,18 +1,36 @@
 import React from "react";
-import {Button} from "@mui/material";
+import {
+    Address,
+    GoogleMapsButton,
+    RowDiv,
+    SupermarketImage,
+    SupermarketsContainer,
+    TotalCost
+} from "./supermarkets-card.styled";
+import {Item} from "./shopping-cart.styled";
+import googleMapsIcons from "../resources/google-maps.png";
+import victoryIcon from "../resources/victoryIcon.png";
+import yenotBitanIcon from "../resources/yenotBitanIcon.png";
 
 export const SupermarketsCard = ({supermarkets}) => {
+
+    const storesImages = {"Victory": victoryIcon, "Yenot_bitan": yenotBitanIcon}
     return (
-        <div>
-            <h3>:הסופרים הזולים</h3>
-            {supermarkets.map((list, index) => (
-                <div className="item" key={index}>
-                    <p>address: {list.store_address}</p>
-                    <p>city: {list.store_city}</p>
-                    <p>cost: {list.total_cost}</p>
-                    <Button>גוגל</Button>
-                </div>
+        <SupermarketsContainer>
+            {supermarkets.map((supermarket, index) => (
+                <Item className="item" key={index}>
+                    <RowDiv>
+                        <TotalCost>{supermarket.total_cost}₪</TotalCost>
+                        <SupermarketImage src={storesImages[supermarket.store_name]} alt={supermarket.store_name}/>
+                    </RowDiv>
+                    <RowDiv>
+                        <GoogleMapsButton>
+                            <img src={googleMapsIcons} alt={"googleMaps"}/>
+                        </GoogleMapsButton>
+                        <Address>{supermarket.store_address},{supermarket.store_city}</Address>
+                    </RowDiv>
+                </Item>
             ))}
-        </div>
+        </SupermarketsContainer>
     );
 };
