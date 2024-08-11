@@ -25,10 +25,7 @@ export const Home = () => {
         searchProductsByNameAndCategory
     } = useProduct();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [shoppingList, setShoppingList] = useState(() => {
-        const savedList = Cookies.get("shoppingList");
-        return savedList ? JSON.parse(savedList) : {};
-    });
+    const [shoppingList, setShoppingList] = useState({});
     const [page, setPage] = useState(1);
     const [pageSize] = useState(24);
     const [isSearchByName, setIsSearchByName] = useState(false);
@@ -46,9 +43,20 @@ export const Home = () => {
     }, [currentUser, navigate, setError]);
 
     useEffect(() => {
-        Cookies.set("shoppingList", JSON.stringify(shoppingList), {expires: 2});
-    }, [shoppingList]);
-
+        if (currentUser) {
+            const savedList = Cookies.get(`shoppingList_${currentUser.email}`);
+            if (savedList) {
+                setShoppingList(JSON.parse(savedList));
+            } else {
+                setShoppingList({});
+            }
+        }
+    }, [currentUser]);
+    useEffect(() => {
+        if (currentUser) {
+            Cookies.set(`shoppingList_${currentUser.email}`, JSON.stringify(shoppingList), {expires: 2});
+        }
+    }, [shoppingList, currentUser]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -110,6 +118,7 @@ export const Home = () => {
             if (newList[productId]) {
                 delete newList[productId];
             }
+
             return newList;
         });
     };
