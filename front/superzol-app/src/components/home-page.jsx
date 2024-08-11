@@ -145,7 +145,8 @@ export const Home = () => {
                 <Button onClick={() => handlePrevPage()}>הקודם</Button>
                 {isSidebarOpen && (
                     <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
-                                  removeFromCart={removeFromCart} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
+                                  removeFromCart={removeFromCart} isSidebarOpen={isSidebarOpen}
+                                  setIsSidebarOpen={setIsSidebarOpen}/>
                 )}
             </ProductsBox>
             <CartButtonContainer>

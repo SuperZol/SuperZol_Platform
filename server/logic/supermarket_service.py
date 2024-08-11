@@ -64,7 +64,8 @@ class SupermarketService:
                     'store_id': store_id,
                     'store_address': store['Address'],
                     'store_city': store['City'],
-                    'total_cost': cart_info['total_cost'],
+                    'store_name': store['StoreName'],
+                    'total_cost': round(cart_info['total_cost'], 2),
                     'products_available': cart_info['products_available'],
                     'distance': distance
                 })
