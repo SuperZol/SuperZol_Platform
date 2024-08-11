@@ -12,6 +12,7 @@ import {ClipLoader} from "react-spinners";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import {MainContainer, ProductsBox} from "./home-page.styled";
+import Cookies from "js-cookie";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -24,7 +25,10 @@ export const Home = () => {
         searchProductsByNameAndCategory
     } = useProduct();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [shoppingList, setShoppingList] = useState({});
+    const [shoppingList, setShoppingList] = useState(() => {
+        const savedList = Cookies.get("shoppingList");
+        return savedList ? JSON.parse(savedList) : {};
+    });
     const [page, setPage] = useState(1);
     const [pageSize] = useState(24);
     const [isSearchByName, setIsSearchByName] = useState(false);
@@ -40,6 +44,11 @@ export const Home = () => {
             navigate("/login");
         }
     }, [currentUser, navigate, setError]);
+
+    useEffect(() => {
+        Cookies.set("shoppingList", JSON.stringify(shoppingList), {expires: 2});
+    }, [shoppingList]);
+
 
     useEffect(() => {
         const fetchProducts = async () => {
