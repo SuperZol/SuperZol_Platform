@@ -1,8 +1,14 @@
+import os
 from pymongo import MongoClient
+from dotenv import load_dotenv
 
-mongo_uri = "mongodb://localhost:27017/"
+current_dir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(current_dir, '../.env'))
+mongo_uri = os.getenv("MONGODB_URI")
 client = MongoClient(mongo_uri)
-db = client['SuperZol']
-user_collection = db["user_collection"]
-product_collection = db["products"]
-supermarket_collection = db["superMarkets"]
+
+db_name = os.getenv("MONGODB_DATABASE")
+db = client[db_name]
+user_collection = db[os.getenv("MONGODB_USER_COLLECTION", "user_collection")]
+product_collection = db[os.getenv("MONGODB_PRODUCTS_COLLECTION")]
+supermarket_collection = db[os.getenv("MONGODB_SUPER_MARKETS_COLLECTION")]
