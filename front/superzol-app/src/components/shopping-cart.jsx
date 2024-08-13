@@ -147,11 +147,14 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                                 </ShoppingCartContent>
                         )
                 ))}
-            {
-                !showCheapestSupermarkets ?
-                    <SubmitButton onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
-                    : <></>
-            }
+            {!showCheapestSupermarkets && (
+                <SubmitButton
+                    onClick={handleFindCheapestSupermarkets}
+                    disabled={Object.keys(shoppingList).length < 1}
+                >
+                    מציאת הסופרים
+                </SubmitButton>
+            )}
         </ShoppingCartContainer>
     )
         ;

@@ -70,8 +70,17 @@ export const SubmitButton = styled.button`
     &:hover {
         background-color: #0056b3;
     }
-`;
 
+    &:disabled {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: #cccccc;
+        }
+    }
+`;
 
 export const ExitButton = styled.button`
     position: fixed;
