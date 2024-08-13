@@ -133,3 +133,15 @@ export const HorizontalDiv = styled.div`
     flex-direction: row;
     gap: 5px;
 `;
+export const LoaderContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8); // semi-transparent white background
+    z-index: 1000; // ensure it's on top of other elements
+`;
