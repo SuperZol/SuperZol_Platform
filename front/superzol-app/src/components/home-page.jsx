@@ -12,6 +12,7 @@ import {ClipLoader} from "react-spinners";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import {MainContainer, ProductsBox} from "./home-page.styled";
+import Cookies from "js-cookie";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -40,6 +41,22 @@ export const Home = () => {
             navigate("/login");
         }
     }, [currentUser, navigate, setError]);
+
+    useEffect(() => {
+        if (currentUser) {
+            const savedList = Cookies.get(`shoppingList_${currentUser.email}`);
+            if (savedList) {
+                setShoppingList(JSON.parse(savedList));
+            } else {
+                setShoppingList({});
+            }
+        }
+    }, [currentUser]);
+    useEffect(() => {
+        if (currentUser) {
+            Cookies.set(`shoppingList_${currentUser.email}`, JSON.stringify(shoppingList), {expires: 2});
+        }
+    }, [shoppingList, currentUser]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -101,6 +118,7 @@ export const Home = () => {
             if (newList[productId]) {
                 delete newList[productId];
             }
+
             return newList;
         });
     };
