@@ -4,6 +4,7 @@ import {ShoppingListHistory} from "./shopping-list-history";
 import {useProduct} from "../contexts/product-context";
 import {SupermarketsCard} from "./supermarkets-card";
 import {CartProduct} from "./cart-product";
+import _ from "lodash";
 import {
     ExitButton, HorizontalDiv,
     Item, NoItemsTitle,
@@ -19,7 +20,7 @@ import deleteIcon from "../resources/delete.png";
 
 export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isSidebarOpen, setIsSidebarOpen}) => {
 
-    const {currentUser, saveShoppingListToHistory} = useUser();
+    const {currentUser, memoizedSaveShoppingListToHistory} = useUser();
     const {getProductsById, findCheapestSupermarkets} = useProduct();
     const [showShoppingHistory, setShowShoppingHistory] = useState(false);
     const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
@@ -78,8 +79,9 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
         setSupermarkets(response);
     }
 
-    const closeCheapestSupermarkets = () => {
+    const handleBackToCart = () => {
         setShowCheapestSupermarkets(false);
+        setShowShoppingHistory(false);
         setSupermarkets([]);
     }
 
@@ -87,21 +89,21 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
     return (
         <ShoppingCartContainer isOpen={isSidebarOpen}>
             <ExitButton onClick={() => setIsSidebarOpen(false)}>x</ExitButton>
-            <Title>{showCheapestSupermarkets ? "הסופרים הזולים באזורך" : "סל הקניות"}</Title>
-            {showCheapestSupermarkets ?
-                <TopBarButton onClick={() => closeCheapestSupermarkets()}>חזור</TopBarButton> :
+            <Title>{showCheapestSupermarkets ? "הסופרים הזולים באזורך" : showShoppingHistory ? "היסטוריית קניות" : "סל הקניות"}</Title>
+            {showCheapestSupermarkets || showShoppingHistory ?
+                <TopBarButton onClick={() => handleBackToCart()}>חזור</TopBarButton> :
                 <HorizontalDiv>
                     <TopBarButton onClick={() => setShowShoppingHistory(!showShoppingHistory)}>
                         טעינת סל קניות
-                        <img src={loadIcon} alt="Load"/>
+                        <img src={loadIcon} alt="טעינה"/>
                     </TopBarButton>
                     <TopBarButton onClick={() => setShoppingList({})}>
                         נקה עגלה
-                        <img src={deleteIcon} alt="Load"/>
+                        <img src={deleteIcon} alt="נקה"/>
                     </TopBarButton>
-                    <TopBarButton onClick={() => saveShoppingListToHistory(shoppingList)}>
+                    <TopBarButton onClick={() => memoizedSaveShoppingListToHistory(shoppingList)}>
                         שמירת רשימה
-                        <img src={saveIcon} alt="Load"/>
+                        <img src={saveIcon} alt="שמור"/>
                     </TopBarButton>
                 </HorizontalDiv>
             }
@@ -135,8 +137,9 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                         )
                 ))}
             {
-                !showCheapestSupermarkets ?
-                <SubmitButton onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
+                !showCheapestSupermarkets && !showShoppingHistory ?
+                    <SubmitButton disabled={_.isNil(shoppingList) || _.isEmpty(shoppingList)} isShoppingListEmpty="true"
+                                  onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
                     : <></>
             }
         </ShoppingCartContainer>

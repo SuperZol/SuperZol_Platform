@@ -98,7 +98,7 @@ export const GridContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     ${media.xs`
         flex-direction: column;
     `}

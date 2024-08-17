@@ -39,6 +39,7 @@ export const Item = styled.div`
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-right: 4px;
+
     p {
         margin: 0;
     }
@@ -66,6 +67,15 @@ export const SubmitButton = styled.button`
     font-size: 18px;
     font-family: Calibri, sans-serif;
     font-weight: bold;
+
+    &:disabled {
+        background-color: #9bbadc;
+    }
+
+    &:disabled:hover {
+        background-color: #9bbadc;
+        cursor: not-allowed;
+    }
 
     &:hover {
         background-color: #0056b3;
