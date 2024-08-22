@@ -70,8 +70,17 @@ export const SubmitButton = styled.button`
     &:hover {
         background-color: #0056b3;
     }
-`;
 
+    &:disabled {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: #cccccc;
+        }
+    }
+`;
 
 export const ExitButton = styled.button`
     position: fixed;
@@ -132,4 +141,16 @@ export const HorizontalDiv = styled.div`
     display: flex;
     flex-direction: row;
     gap: 5px;
+`;
+export const LoaderContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8); // semi-transparent white background
+    z-index: 1000; // ensure it's on top of other elements
 `;
