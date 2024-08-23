@@ -98,7 +98,7 @@ export const GridContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     ${media.xs`
         flex-direction: column;
     `}
@@ -117,14 +117,14 @@ export const GridItem = styled.div`
     `}
     ${media.sm`
         flex: 1 1 50%;
-        max-width: calc(50% - 12px);
+        max-width: calc(50% - 2px);
     `}
     ${media.md`
-        flex: 1 1 calc(33.333% - 12px);
-        max-width: calc(33.333% - 12px);
+        flex: 1 1 calc(33.333% - 2px);
+        max-width: calc(33.333% - 2px);
     `}
     ${media.lg`
-        flex: 1 1 calc(15% - 12px);
-        max-width: calc(20% - 12px);
+        flex: 1 1 calc(15% - 2px);
+        max-width: calc(40% - 2px);
     `}
 `;

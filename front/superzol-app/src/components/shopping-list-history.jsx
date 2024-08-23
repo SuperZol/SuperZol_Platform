@@ -1,17 +1,38 @@
 import React from 'react';
-import {Button} from "@mui/material";
+import {
+    HorizontalDiv,
+    SelectButton,
+    ShoppingListHistoryContainer,
+    ShoppingListItem
+} from "./shopping-list-history.styled";
+import {RemoveButton} from "./cart-product.styled";
+import deleteIcon from "../resources/delete.png";
 
 export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) => {
     return (
-        <div>
-            <h3>Total Shopping Lists: {shoppingLists.length}</h3>
-            {shoppingLists.map((list, index) => (
-                <div key={index}>
-                    <h4>Shopping List {index + 1}</h4>
-                    <p>Number of products: {Object.keys(list).length}</p>
-                    <Button onClick={()=>handleChosenShoppingList(shoppingLists[index])}>בחירה</Button>
-                </div>
-            ))}
-        </div>
+        <ShoppingListHistoryContainer>
+            {shoppingLists.map((list, index) => {
+                const {CreatedAt, Products, CartMinPrice, CartMaxPrice} = list;
+
+                return (
+                    <ShoppingListItem key={index}>
+                        <p>תאריך: {new Date(CreatedAt).toLocaleDateString()}</p>
+                        <p>מספר
+                            המוצרים: {Object.values(Products).reduce((acc, quantity) => acc + quantity, 0)}</p>
+                        <p>{CartMinPrice}-{CartMaxPrice}₪ :סה"כ עלות</p>
+                        <HorizontalDiv>
+                            <RemoveButton>
+                                <img src={deleteIcon} alt={"delsete"}/>
+                            </RemoveButton>
+                            <SelectButton
+                                onClick={() => handleChosenShoppingList(Products)}
+                            >
+                                בחירה
+                            </SelectButton>
+                        </HorizontalDiv>
+                    </ShoppingListItem>
+                );
+            })}
+        </ShoppingListHistoryContainer>
     );
 };

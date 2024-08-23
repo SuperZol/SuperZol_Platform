@@ -1,4 +1,4 @@
-import {createContext, useCallback, useContext, useMemo, useState} from "react";
+import {createContext, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import _ from "lodash";
 import {
     getCheapestSupermarkets,
@@ -6,7 +6,8 @@ import {
     getProducts,
     getProductsByCategory,
     getProductsByName,
-    getProductsByNameAndCategory
+    getProductsByNameAndCategory,
+    getProductsImages
 } from '../api'
 
 const ProductContext = createContext(undefined);
@@ -14,10 +15,26 @@ export const useProduct = () => useContext(ProductContext);
 
 export const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
+    const [productsImages, setProductsImages] = useState([]);
     const [error, setError] = useState("");
 
+
+    const imagesFetched = useRef(false);
+
+    useEffect(() => {
+        const fetchProductsImages = async () => {
+            console.log(imagesFetched);
+            if (!imagesFetched.current) {
+                await getProductImage();
+                imagesFetched.current = true;
+            }
+        }
+        console.log(imagesFetched);
+        fetchProductsImages();
+    });
+
     const getAllProducts = useCallback(async (page, pageSize) => {
-        setProducts(await getProducts(page, pageSize))
+        setProducts(await getProducts(page, pageSize));
     }, []);
 
     const getProductsById = async (shoppingList) => {
@@ -31,24 +48,29 @@ export const ProductProvider = ({children}) => {
 
     const searchProductsByName = useCallback(async (product, page, pageSize) => {
         if (!_.isNil(product) && !_.isEmpty(product)) {
-            setProducts(await getProductsByName(product, page, pageSize))
+            setProducts(await getProductsByName(product, page, pageSize));
         }
     }, []);
     const searchProductsByCategory = useCallback(async (category, page, pageSize) => {
         if (!_.isNil(category) && !_.isEmpty(category)) {
-            setProducts(await getProductsByCategory(category, page, pageSize))
+            setProducts(await getProductsByCategory(category, page, pageSize));
         }
     }, []);
 
     const findCheapestSupermarkets = async (products, lat, lng, distance_preference) => {
-        return await getCheapestSupermarkets(products, lat, lng, distance_preference)
+        return await getCheapestSupermarkets(products, lat, lng, distance_preference);
     };
 
     const searchProductsByNameAndCategory = useCallback(async (name, category, page, pageSize) => {
         if (!_.isNil(name) && !_.isEmpty(name) && !_.isNil(category) && !_.isEmpty(category)) {
-            setProducts(await getProductsByNameAndCategory(name, category, page, pageSize))
+            setProducts(await getProductsByNameAndCategory(name, category, page, pageSize));
         }
     }, []);
+
+    const getProductImage = useCallback(async () => {
+        setProductsImages(await getProductsImages());
+    }, []);
+
     const value = useMemo(() => ({
         error,
         setError,
@@ -58,8 +80,9 @@ export const ProductProvider = ({children}) => {
         getProductsById,
         findCheapestSupermarkets,
         searchProductsByCategory,
-        searchProductsByNameAndCategory
-    }), [error, products]);
+        searchProductsByNameAndCategory,
+        productsImages
+    }), [error, products, getAllProducts, productsImages, searchProductsByCategory, searchProductsByName, searchProductsByNameAndCategory]);
 
     return (
         <ProductContext.Provider value={value}>

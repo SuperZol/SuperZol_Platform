@@ -7,13 +7,17 @@ import {
     ProductTitle,
     ProductPrice
 } from "./main-product.styled.jsx";
+import _ from "lodash";
 
-export const MainProduct = ({product}) => {
+export const MainProduct = ({product, productImage}) => {
     const {ItemName, ItemPrice, MinPrice, MaxPrice} = product;
+    const isImageValid = () => {
+        return _.isEmpty(productImage) || (!productImage.endsWith("jpg") && !productImage.endsWith("png")) || productImage.includes("not-available");
+    }
     return (
         <MainProductDiv>
             <ProductHeader>
-                <ProductImage src={default_product_image} alt={ItemName}/>
+                <ProductImage src={isImageValid() ? default_product_image : productImage} alt={ItemName}/>
             </ProductHeader>
             <MainProductBody>
                 <ProductTitle>{ItemName}</ProductTitle>

@@ -1,11 +1,15 @@
-from typing import List
+from typing import List, Dict
+
+from bson import ObjectId
 from fastapi import HTTPException
 from server.data.base_product import BaseProduct
+from server.data.product_image import ProductImage
 
 
 class ProductService:
-    def __init__(self, collection):
-        self.collection = collection
+    def __init__(self, product_collection, product_image_collection):
+        self.product_collection = product_collection
+        self.product_image_collection = product_image_collection
 
     async def get_all_products(self, page: int, page_size: int) -> List[BaseProduct]:
         skip = (page - 1) * page_size
@@ -46,7 +50,7 @@ class ProductService:
                 "$limit": page_size
             }
         ]
-        products = self.collection.aggregate(pipeline)
+        products = self.product_collection.aggregate(pipeline)
         return products
 
     async def get_products_by_name(self, name, page: int, page_size: int) -> List[BaseProduct]:
@@ -91,7 +95,7 @@ class ProductService:
                 "$limit": page_size
             }
         ]
-        products = self.collection.aggregate(pipeline)
+        products = self.product_collection.aggregate(pipeline)
         if products is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return products
@@ -131,7 +135,7 @@ class ProductService:
                 }
             }
         ]
-        product = self.collection.aggregate(pipeline)
+        product = self.product_collection.aggregate(pipeline)
         if product is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return product
@@ -178,7 +182,7 @@ class ProductService:
                 "$limit": page_size
             }
         ]
-        product = self.collection.aggregate(pipeline)
+        product = self.product_collection.aggregate(pipeline)
         if product is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return product
@@ -225,7 +229,13 @@ class ProductService:
                 "$limit": page_size
             }
         ]
-        product = self.collection.aggregate(pipeline)
+        product = self.product_collection.aggregate(pipeline)
         if product is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return product
+
+    async def get_all_products_images(self) -> List[ProductImage]:
+        products_images = list(self.product_image_collection.find())
+        if products_images is None:
+            return []
+        return products_images

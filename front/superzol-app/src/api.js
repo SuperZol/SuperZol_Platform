@@ -48,7 +48,7 @@ export const getProducts = async (page, pageSize) => {
 
 export const getProductsByName = async (productName, page, pageSize) => {
     try {
-        const products = await axios.get(`${BASE_URL}/product/name/${productName}`, {
+        const products = await axios.get(`${BASE_URL}/product/name/${encodeURIComponent(productName)}`, {
             params: {
                 page: page, page_size: pageSize
             }
@@ -84,7 +84,7 @@ export const getProductsByNameAndCategory = async (name, category, page, pageSiz
         })
         return products.data
     } catch (error) {
-        throw error
+        return error.response;
     }
 }
 
@@ -94,6 +94,10 @@ export const getProductById = async (productId) => {
     return products.data[0];
 };
 
+export const getProductsImages = async () => {
+    const productsImages = await axios.get(`${BASE_URL}/product/images`).catch((err) => console.log(`Error: ${err}`));
+    return productsImages.data;
+};
 
 export const saveShoppingList = async (email, shoppingList) => {
     try {
@@ -127,7 +131,7 @@ export const forgotPassword = async (email) => {
 }
 
 
-export const resetPassword = async (token,newPassword) => {
+export const resetPassword = async (token, newPassword) => {
     try {
 
         return await axios.post(`${BASE_URL}/users/reset-password`, null, {

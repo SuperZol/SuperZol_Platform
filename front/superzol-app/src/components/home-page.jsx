@@ -22,7 +22,8 @@ export const Home = () => {
         searchProductsByName,
         getAllProducts,
         searchProductsByCategory,
-        searchProductsByNameAndCategory
+        searchProductsByNameAndCategory,
+        productsImages
     } = useProduct();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [shoppingList, setShoppingList] = useState({});
@@ -33,7 +34,7 @@ export const Home = () => {
     const [category, setCategory] = useState("");
     const [searchName, setSearchName] = useState("");
     const [isModalOpen, setModalOpen] = useState(false);
-    const [loading, setLoading] = useState(false); // Add loading state
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!currentUser) {
@@ -155,9 +156,9 @@ export const Home = () => {
                 <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
                                  filterCategory={filterCategory}></CategoriesModal>
                 {loading ? (
-                    <ClipLoader size={150} color={"#123abc"} loading={loading}/> // Display the loader
+                    <ClipLoader size={150} color={"#123abc"} loading={loading}/>
                 ) : (
-                    <ProductList products={products} addToCart={addToCart}/>
+                    <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
                 )}
                 <Button onClick={() => handleNextPage()}>הבא</Button>
                 <Button onClick={() => handlePrevPage()}>הקודם</Button>

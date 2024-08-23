@@ -1,12 +1,12 @@
 import React from "react";
-import {Box, Typography, Button} from "@mui/material";
-import {useNavigate, useLocation} from "react-router-dom"; // Import useLocation
-import '../css/toolbar.css';
+import {Box} from "@mui/material";
+import {useNavigate, useLocation} from "react-router-dom";
 import {useUser} from '../contexts/user-context';
+import {ToolbarButton, ToolbarContainer, ToolbarTitle} from "./toolbar.styled";
 
 const Toolbar = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // Get the current location
+    const location = useLocation();
     const {logout} = useUser();
 
     const handleLogout = () => {
@@ -21,19 +21,19 @@ const Toolbar = () => {
     };
 
     return (
-        <Box className="toolbar">
+        <ToolbarContainer>
             <Box>
-                <Button className="toolbar-button" onClick={handleLogout}>
-                    <Typography variant="body1">התנתקות</Typography>
-                </Button>
-                <Button className="toolbar-button" onClick={() => handleNavigation('/user_preferences')}>
-                    <Typography variant="body1">הגדרות</Typography>
-                </Button>
+                <ToolbarButton onClick={handleLogout}>
+                    התנתקות
+                </ToolbarButton>
+                <ToolbarButton onClick={() => handleNavigation('/user_preferences')}>
+                    הגדרות
+                </ToolbarButton>
             </Box>
-            <Typography className="toolbar-title" onClick={() => handleNavigation('/home')}>
+            <ToolbarTitle onClick={() => handleNavigation('/home')}>
                 סופרזול
-            </Typography>
-        </Box>
+            </ToolbarTitle>
+        </ToolbarContainer>
     );
 };
 

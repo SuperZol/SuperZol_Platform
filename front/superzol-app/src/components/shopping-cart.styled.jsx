@@ -67,20 +67,20 @@ export const SubmitButton = styled.button`
     font-family: Calibri, sans-serif;
     font-weight: bold;
 
+    &:disabled {
+        background-color: #9bbadc;
+    }
+
+    &:disabled:hover {
+        background-color: #9bbadc;
+        cursor: not-allowed;
+    }
+
     &:hover {
         background-color: #0056b3;
     }
-
-    &:disabled {
-        background-color: #cccccc;
-        color: #666666;
-        cursor: not-allowed;
-
-        &:hover {
-            background-color: #cccccc;
-        }
-    }
 `;
+
 
 export const ExitButton = styled.button`
     position: fixed;
@@ -153,4 +153,14 @@ export const LoaderContainer = styled.div`
     left: 0;
     background-color: rgba(255, 255, 255, 0.8); // semi-transparent white background
     z-index: 1000; // ensure it's on top of other elements
+`;
+
+export const SubmitDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const CartCost = styled.h3`
+    color: blue;
+    padding: 10px;
 `;

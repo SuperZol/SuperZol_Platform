@@ -9,6 +9,8 @@ import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
+import loginBackground from "../resources/login-background.jpg";
+import Cookies from "js-cookie";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -16,7 +18,7 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const {currentUser, login, setError, error} = useUser();
+    const {currentUser, updateCurrentUser, login, setError, error} = useUser();
 
     const getLocation = useCallback(async () => {
         if (!navigator.geolocation) {
@@ -31,8 +33,9 @@ export const Login = () => {
                     `http://ip-api.com/json?lat=${latitude}&lon=${longitude}`
                 );
                 if (res.status === 200) {
-                    currentUser.lat = res.data.lat;
-                    currentUser.lng = res.data.lon;
+                    Cookies.set("lat", res.data.lat, {expires: 7});
+                    Cookies.set("lng", res.data.lon, {expires: 7});
+                    updateCurrentUser({lat: res.data.lat, lng: res.data.lon});
                 }
             },
             (error) => {
@@ -70,7 +73,7 @@ export const Login = () => {
         <AuthContainer>
             <ImageContainer>
                 <AuthImage
-                    src="/path-to-your-image.jpg"
+                    src={loginBackground}
                     alt="Login Illustration"
                 />
             </ImageContainer>

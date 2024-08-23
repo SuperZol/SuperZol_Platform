@@ -7,7 +7,6 @@ from typing import Dict
 
 router = APIRouter(prefix='/users')
 user_service = UserService(user_collection)
-# email_sender = EmailSender()
 
 
 @router.post(
@@ -46,12 +45,12 @@ async def update_user(email: str, user_updated_fields: dict):
 
 @router.put(
     "/history/{email}",
-    response_description="Updates user history cart",
+    response_description="Updates user shopping history",
     response_model_by_alias=False,
     status_code=status.HTTP_200_OK
 )
-async def update_cart(email: str, cart: Dict[str, int]):
-    await user_service.update_cart(email, cart)
+async def update_shopping_history(email: str, cart: Dict[str, object]):
+    await user_service.update_shopping_history(email, cart)
 
 
 @router.post(
