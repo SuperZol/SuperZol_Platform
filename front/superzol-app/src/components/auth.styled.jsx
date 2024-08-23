@@ -27,9 +27,14 @@ export const ImageContainer = styled.div`
 export const DataContainer = styled.div`
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
     height: 100%;
-
 `
+
+export const Logo = styled.img`
+    width: 300px;
+    height: 100px;
+`;

@@ -9,6 +9,7 @@ import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
+import loginBackground from "../resources/man-supermarket.webp";
 
 
 export const Register = () => {
@@ -44,7 +45,7 @@ export const Register = () => {
         <AuthContainer>
             <ImageContainer>
                 <AuthImage
-                    src="/path-to-your-image.jpg"
+                    src={loginBackground}
                     alt="Register Illustration"
                 />
             </ImageContainer>

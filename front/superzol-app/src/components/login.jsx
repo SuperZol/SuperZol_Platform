@@ -9,7 +9,7 @@ import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
-import loginBackground from "../resources/login-background.jpg";
+import loginBackground from "../resources/man-supermarket.webp";
 import Cookies from "js-cookie";
 
 export const Login = () => {
@@ -42,7 +42,7 @@ export const Login = () => {
                 console.error("Error getting geolocation:", error);
             }
         );
-    }, [currentUser]);
+    }, [updateCurrentUser]);
 
     useEffect(() => {
         if (currentUser) {

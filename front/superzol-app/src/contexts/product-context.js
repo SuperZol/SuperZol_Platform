@@ -23,13 +23,11 @@ export const ProductProvider = ({children}) => {
 
     useEffect(() => {
         const fetchProductsImages = async () => {
-            console.log(imagesFetched);
             if (!imagesFetched.current) {
                 await getProductImage();
                 imagesFetched.current = true;
             }
         }
-        console.log(imagesFetched);
         fetchProductsImages();
     });
 

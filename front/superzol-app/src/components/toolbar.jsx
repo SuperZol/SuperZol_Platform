@@ -4,7 +4,7 @@ import {useNavigate, useLocation} from "react-router-dom";
 import {useUser} from '../contexts/user-context';
 import {ToolbarButton, ToolbarContainer, ToolbarTitle} from "./toolbar.styled";
 
-const Toolbar = () => {
+const Toolbar = (isOpen) => {
     const navigate = useNavigate();
     const location = useLocation();
     const {logout} = useUser();
@@ -19,9 +19,8 @@ const Toolbar = () => {
             navigate(path);
         }
     };
-
     return (
-        <ToolbarContainer>
+        <ToolbarContainer isOpen={isOpen.isOpen}>
             <Box>
                 <ToolbarButton onClick={handleLogout}>
                     התנתקות

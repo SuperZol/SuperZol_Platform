@@ -22,7 +22,6 @@ export const SelectButton = styled.button`
     padding: 3px 3px;
     cursor: pointer;
     font-size: 13px;
-    font-family: Calibri, sans-serif;
 
     &:hover {
         background-color: #0056b3;

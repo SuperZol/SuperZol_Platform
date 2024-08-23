@@ -10,7 +10,6 @@ export const MainProductDiv = styled.div`
 export const ProductHeader = styled.div`
     text-align: center;
     padding: 10px;
-    font-family: Calibri, sans-serif;
 `;
 
 export const ProductImage = styled.img`
@@ -81,8 +80,6 @@ export const ProductWithQuantity = styled.div`
     transition: box-shadow 0.2s ease-in-out;
     width: 250px;
     height: 300px;
-    font-family: Calibri, sans-serif;
-
 
     &:hover {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

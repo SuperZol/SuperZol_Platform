@@ -4,9 +4,10 @@ import {Box} from "@mui/material";
 export const ToolbarContainer = styled(Box)`
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+    left: ${(props) => (props.isOpen ? '300px' : '0')};
+    width: ${(props) => (props.isOpen ? 'calc(100% - 300px)' : '100%')};
+    margin-right: 300px;
+    z-index: 3;
     background-color: #eaeaea;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;

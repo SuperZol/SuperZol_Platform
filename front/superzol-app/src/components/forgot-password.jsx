@@ -7,6 +7,8 @@ import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import EmailIcon from "@mui/icons-material/Email";
 import {forgotPassword} from "../api";
+import loginBackground from "../resources/man-supermarket.webp";
+
 export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ export const ForgotPassword = () => {
         <AuthContainer>
             <ImageContainer>
                 <AuthImage
-                    src="/path-to-your-image.jpg"
+                    src={loginBackground}
                     alt="Forgot Password Illustration"
                 />
             </ImageContainer>

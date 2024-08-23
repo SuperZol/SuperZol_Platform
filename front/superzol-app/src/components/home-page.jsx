@@ -98,6 +98,7 @@ export const Home = () => {
             searchProductsByCategory(category, page, pageSize);
             setIsSearchByCategory(true);
             setCategory(category);
+            setModalOpen(false);
         }
     };
 
@@ -147,7 +148,7 @@ export const Home = () => {
 
     return (
         <MainContainer isOpen={isSidebarOpen}>
-            <Toolbar onLogout={logout}/>
+            <Toolbar onLogout={logout} isOpen={isSidebarOpen}/>
             <ProductsBox>
                 <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
                 {isSearchByCategory && (

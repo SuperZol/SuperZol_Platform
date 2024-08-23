@@ -17,9 +17,8 @@ export const ShoppingCartContainer = styled(
     background-color: #f4f4f4;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    z-index: 2;
+    z-index: 4;
     transition: left 0.2s ease;
-    margin-top: 40px;
 `;
 
 export const ShoppingCartContent = styled.div`
@@ -47,7 +46,6 @@ export const Item = styled.div`
 
 export const NoItemsTitle = styled.h2`
     font-size: 26px;
-    font-family: Calibri, sans-serif;
     margin-top: 80%;
 `;
 
@@ -64,7 +62,6 @@ export const SubmitButton = styled.button`
     cursor: pointer;
     text-align: center;
     font-size: 18px;
-    font-family: Calibri, sans-serif;
     font-weight: bold;
 
     &:disabled {
@@ -94,7 +91,6 @@ export const ExitButton = styled.button`
     cursor: pointer;
     text-align: center;
     font-size: 26px;
-    font-family: Calibri, sans-serif;
     font-weight: bold;
 
     &:hover {
@@ -107,7 +103,6 @@ export const Title = styled.h2`
     color: #007bff;
     top: 70px;
     font-size: 30px;
-    font-family: Calibri, sans-serif;
 `;
 
 
@@ -124,7 +119,6 @@ export const TopBarButton = styled.button`
     padding: 3px 3px;
     cursor: pointer;
     font-size: 13px;
-    font-family: Calibri, sans-serif;
 
     &:hover {
         background-color: #0056b3;
