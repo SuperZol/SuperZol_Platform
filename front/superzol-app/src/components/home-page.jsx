@@ -11,7 +11,7 @@ import {CategoriesModal} from "./categories-modal";
 import {ClipLoader} from "react-spinners";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
-import {MainContainer, ProductsBox} from "./home-page.styled";
+import {MainContainer, NavigationButtons, ProductsBox} from "./home-page.styled";
 import Cookies from "js-cookie";
 
 export const Home = () => {
@@ -153,19 +153,26 @@ export const Home = () => {
                 {isSearchByCategory && (
                     <Button onClick={() => disableCategory()}>{category} x</Button>
                 )}
-                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal}
-                                 filterCategory={filterCategory}></CategoriesModal>
+                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>
                 {loading ? (
                     <ClipLoader size={150} color={"#123abc"} loading={loading}/>
                 ) : (
-                    <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
+                    <>
+                        <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
+                        <NavigationButtons visible={products.length > 0}>
+                            <Button onClick={() => handleNextPage()}>הבא</Button>
+                            <Button onClick={() => handlePrevPage()}>הקודם</Button>
+                        </NavigationButtons>
+                    </>
                 )}
-                <Button onClick={() => handleNextPage()}>הבא</Button>
-                <Button onClick={() => handlePrevPage()}>הקודם</Button>
                 {isSidebarOpen && (
-                    <ShoppingCart shoppingList={shoppingList} setShoppingList={setShoppingList}
-                                  removeFromCart={removeFromCart} isSidebarOpen={isSidebarOpen}
-                                  setIsSidebarOpen={setIsSidebarOpen}/>
+                    <ShoppingCart
+                        shoppingList={shoppingList}
+                        setShoppingList={setShoppingList}
+                        removeFromCart={removeFromCart}
+                        isSidebarOpen={isSidebarOpen}
+                        setIsSidebarOpen={setIsSidebarOpen}
+                    />
                 )}
             </ProductsBox>
             <CartButtonContainer>
@@ -173,5 +180,6 @@ export const Home = () => {
                     <img src={cartImage} alt="cart"/>
                 </CartButton>
             </CartButtonContainer>
-        </MainContainer>);
+        </MainContainer>
+    );
 };
