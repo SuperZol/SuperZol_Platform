@@ -94,26 +94,9 @@ export const getProductById = async (productId) => {
     return products.data[0];
 };
 
-export const getProductsImages = async (productsIds) => {
+export const getProductsImages = async () => {
     const productsImages = await axios.get(`${BASE_URL}/product/images`).catch((err) => console.log(`Error: ${err}`));
     return productsImages.data;
-    // try {
-    //     const response = await axios.get(`${BASE_URL}/product/images`, {
-    //         params: {
-    //             products_ids: productsIds
-    //         },
-    //         paramsSerializer: (params) => {
-    //             return Object.keys(params)
-    //                 .map(key => params[key]
-    //                     .map(value => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    //                     .join('&'))
-    //                 .join('&');
-    //         }
-    //     });
-    //     return response.data;
-    // } catch (err) {
-    //     console.log(`Error: ${err}`);
-    // }
 };
 
 export const saveShoppingList = async (email, shoppingList) => {

@@ -23,11 +23,13 @@ export const ProductProvider = ({children}) => {
 
     useEffect(() => {
         const fetchProductsImages = async () => {
-            if (!imagesFetched) {
-                await getProductImage(products);
+            console.log(imagesFetched);
+            if (!imagesFetched.current) {
+                await getProductImage();
                 imagesFetched.current = true;
             }
         }
+        console.log(imagesFetched);
         fetchProductsImages();
     });
 
@@ -65,13 +67,10 @@ export const ProductProvider = ({children}) => {
         }
     }, []);
 
-    const getProductImage = useCallback(async (products) => {
-        if (!_.isNil(products) && !_.isEmpty(products)) {
-            const productsIds = products.map(product => product.ItemCode);
-            setProductsImages(await getProductsImages(productsIds));
-        }
-        return "";
+    const getProductImage = useCallback(async () => {
+        setProductsImages(await getProductsImages());
     }, []);
+
     const value = useMemo(() => ({
         error,
         setError,

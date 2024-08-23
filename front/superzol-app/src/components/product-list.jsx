@@ -40,7 +40,7 @@ export const ProductList = ({products, addToCart, productsImages}) => {
     };
 
     const getImageUrlByItemCode = (itemCode) => {
-        console.log("check:",productsImages, itemCode);
+        console.log(productsImages, itemCode)
         const productImage = productsImages.find(product => product.ItemCode === itemCode);
         return productImage ? productImage.image_url : "";
     };

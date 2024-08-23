@@ -32,7 +32,7 @@ class UserService:
                 raise HTTPException(status_code=404, detail="Email already exists.")
         self.collection.update_one({'email': email}, {'$set': update})
 
-    async def update_cart(self, email: str, cart: Dict[str, int]):
+    async def update_shopping_history(self, email: str, cart: Dict[str, object]):
         user = self.collection.find_one({'email': email})
         if user is None:
             raise HTTPException(status_code=404, detail="Email not found")

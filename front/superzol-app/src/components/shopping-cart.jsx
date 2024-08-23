@@ -4,6 +4,8 @@ import {ShoppingListHistory} from "./shopping-list-history";
 import {useProduct} from "../contexts/product-context";
 import {SupermarketsCard} from "./supermarkets-card";
 import {CartProduct} from "./cart-product";
+import {ClipLoader} from "react-spinners";
+
 import _ from "lodash";
 import {
     CartCost,
@@ -14,8 +16,9 @@ import {
     ShoppingCartContainer,
     ShoppingCartContent,
     SubmitButton,
-    SubmitDiv,
+    LoaderContainer,
     Title,
+    SubmitDiv,
     TopBarButton
 } from "./shopping-cart.styled";
 import loadIcon from "../resources/load.png";
@@ -30,6 +33,8 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
     const [showShoppingHistory, setShowShoppingHistory] = useState(false);
     const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
     const [supermarkets, setSupermarkets] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         if (supermarkets && supermarkets.length > 0) {
@@ -84,8 +89,11 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
     };
 
     const handleFindCheapestSupermarkets = async () => {
+        setLoading(true);
         let response = await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference);
         setSupermarkets(response);
+        setLoading(false);
+
     }
 
     const handleBackToCart = () => {
@@ -122,7 +130,13 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                     שמירת רשימה
                     <img src={saveIcon} alt="שמור"/>
                 </TopBarButton>
-            </HorizontalDiv>}
+            </HorizontalDiv>
+        }
+        {loading && (
+            <LoaderContainer>
+                <ClipLoader loading={loading} size={50}/>
+            </LoaderContainer>
+        )}
         {(showShoppingHistory ? <ShoppingListHistory shoppingLists={currentUser.shopping_history}
                                                      handleChosenShoppingList={handleChosenShoppingList}/> : (showCheapestSupermarkets ?
             <SupermarketsCard supermarkets={supermarkets}/> : (Object.keys(shoppingList).length < 1 ?

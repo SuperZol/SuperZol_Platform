@@ -39,7 +39,6 @@ export const Item = styled.div`
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-right: 4px;
-
     p {
         margin: 0;
     }
@@ -142,6 +141,18 @@ export const HorizontalDiv = styled.div`
     display: flex;
     flex-direction: row;
     gap: 5px;
+`;
+export const LoaderContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8); // semi-transparent white background
+    z-index: 1000; // ensure it's on top of other elements
 `;
 
 export const SubmitDiv = styled.div`
