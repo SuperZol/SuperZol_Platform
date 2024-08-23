@@ -22,7 +22,7 @@ export const SupermarketsCard = ({supermarkets}) => {
     return (
         <SupermarketsContainer>
             {supermarkets.map((supermarket, index) => (
-                <Item className="item" key={index}>
+                <Item key={index}>
                     <RowDiv>
                         <TotalCost>{supermarket.total_cost}₪</TotalCost>
                         <SupermarketImage src={storesImages[supermarket.store_name]} alt={supermarket.store_name}/>

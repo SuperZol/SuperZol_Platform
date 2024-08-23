@@ -143,3 +143,13 @@ export const HorizontalDiv = styled.div`
     flex-direction: row;
     gap: 5px;
 `;
+
+export const SubmitDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const CartCost = styled.h3`
+    color: blue;
+    padding: 10px;
+`;

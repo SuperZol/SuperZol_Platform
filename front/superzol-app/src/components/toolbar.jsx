@@ -1,13 +1,12 @@
 import React from "react";
-import {Box, Typography, Button} from "@mui/material";
-import {useNavigate, useLocation} from "react-router-dom"; // Import useLocation
-import '../css/toolbar.css';
+import {Box} from "@mui/material";
+import {useNavigate, useLocation} from "react-router-dom";
 import {useUser} from '../contexts/user-context';
 import {ToolbarButton, ToolbarContainer, ToolbarTitle} from "./toolbar.styled";
 
 const Toolbar = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // Get the current location
+    const location = useLocation();
     const {logout} = useUser();
 
     const handleLogout = () => {

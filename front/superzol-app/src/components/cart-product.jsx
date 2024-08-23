@@ -8,15 +8,19 @@ import {
 } from "./cart-product.styled";
 import React from "react";
 import deleteIcon from "../resources/delete.png";
+import _ from "lodash";
 
-export const CartProduct = ({product, productId, handleAdd, handleSubtract, handleRemove}) => {
+export const CartProduct = ({product, productId, productImage, handleAdd, handleSubtract, handleRemove}) => {
     const {ItemName, ItemPrice, MinPrice, MaxPrice} = product;
+
+    const isImageValid = () => {
+        return _.isEmpty(productImage) || (!productImage.endsWith("jpg") && !productImage.endsWith("png")) || productImage.includes("not-available");
+    }
     return (
         <CartProductDiv>
             <CartProductBody>
-
                 <CartProductTitle>{ItemName}</CartProductTitle>
-                <CartProductImage src={default_product_image} alt={ItemName}/>
+                <CartProductImage src={isImageValid() ? default_product_image : productImage} alt={ItemName}/>
             </CartProductBody>
             <CartProductFooter>
                 <ButtonsDiv>

@@ -48,7 +48,7 @@ export const getProducts = async (page, pageSize) => {
 
 export const getProductsByName = async (productName, page, pageSize) => {
     try {
-        const products = await axios.get(`${BASE_URL}/product/name/${productName}`, {
+        const products = await axios.get(`${BASE_URL}/product/name/${encodeURIComponent(productName)}`, {
             params: {
                 page: page, page_size: pageSize
             }
@@ -84,7 +84,7 @@ export const getProductsByNameAndCategory = async (name, category, page, pageSiz
         })
         return products.data
     } catch (error) {
-        throw error
+        return error.response;
     }
 }
 
@@ -94,6 +94,27 @@ export const getProductById = async (productId) => {
     return products.data[0];
 };
 
+export const getProductsImages = async (productsIds) => {
+    const productsImages = await axios.get(`${BASE_URL}/product/images`).catch((err) => console.log(`Error: ${err}`));
+    return productsImages.data;
+    // try {
+    //     const response = await axios.get(`${BASE_URL}/product/images`, {
+    //         params: {
+    //             products_ids: productsIds
+    //         },
+    //         paramsSerializer: (params) => {
+    //             return Object.keys(params)
+    //                 .map(key => params[key]
+    //                     .map(value => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    //                     .join('&'))
+    //                 .join('&');
+    //         }
+    //     });
+    //     return response.data;
+    // } catch (err) {
+    //     console.log(`Error: ${err}`);
+    // }
+};
 
 export const saveShoppingList = async (email, shoppingList) => {
     try {
@@ -127,7 +148,7 @@ export const forgotPassword = async (email) => {
 }
 
 
-export const resetPassword = async (token,newPassword) => {
+export const resetPassword = async (token, newPassword) => {
     try {
 
         return await axios.post(`${BASE_URL}/users/reset-password`, null, {

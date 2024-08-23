@@ -2,7 +2,9 @@ import {MainProduct} from './main-product';
 import _ from "lodash";
 import {useEffect, useState} from "react";
 import {
-    AddButton, GridContainer, GridItem,
+    AddButton,
+    GridContainer,
+    GridItem,
     MainProductFooter,
     ProductListContainer,
     ProductQuantity,
@@ -10,7 +12,7 @@ import {
     QuantityButton
 } from "./main-product.styled.jsx";
 
-export const ProductList = ({products, addToCart}) => {
+export const ProductList = ({products, addToCart, productsImages}) => {
     const [quantities, setQuantities] = useState({});
 
     useEffect(() => {
@@ -37,14 +39,20 @@ export const ProductList = ({products, addToCart}) => {
         });
     };
 
+    const getImageUrlByItemCode = (itemCode) => {
+        console.log("check:",productsImages, itemCode);
+        const productImage = productsImages.find(product => product.ItemCode === itemCode);
+        return productImage ? productImage.image_url : "";
+    };
+
     return (
         <ProductListContainer>
             <GridContainer>
                 {!_.isNil(products) ? (
                     products.map((product) => (
-                        <GridItem item key={product.ItemCode}>
+                        <GridItem key={product.ItemCode}>
                             <ProductWithQuantity>
-                                <MainProduct product={product}/>
+                                <MainProduct product={product} productImage={getImageUrlByItemCode(product.ItemCode)}/>
                                 <MainProductFooter>
                                     <QuantityButton
                                         onClick={() => subtractQuantity(product.ItemCode)}

@@ -62,13 +62,24 @@ export const UserProvider = ({children}) => {
         async (shoppingList) => {
             if (Object.keys(shoppingList).length >= 1) {
                 const dictShoppingList = {};
+                let CartMinPrice = 0.0;
+                let CartMaxPrice = 0.0;
                 Object.keys(shoppingList).forEach((productId) => {
-                    const {ItemCode, quantity} = shoppingList[productId];
+                    const {ItemCode, quantity, MinPrice, MaxPrice} = shoppingList[productId];
                     dictShoppingList[ItemCode] = quantity;
+                    CartMinPrice += parseFloat(MinPrice);
+                    CartMaxPrice += parseFloat(MaxPrice);
                 });
-                const isSaved = await saveShoppingList(currentUser.email, dictShoppingList);
+
+                const shoppingListWithDate = {
+                    CreatedAt: new Date().toISOString(),
+                    Products: dictShoppingList,
+                    CartMinPrice: CartMinPrice,
+                    CartMaxPrice: CartMaxPrice
+                };
+                const isSaved = await saveShoppingList(currentUser.email, shoppingListWithDate);
                 if (isSaved) {
-                    currentUser.shopping_history.push(dictShoppingList);
+                    currentUser.shopping_history.push(shoppingListWithDate);
                     Cookies.set('currentUser', JSON.stringify(currentUser), {expires: 7});
                 }
             }
