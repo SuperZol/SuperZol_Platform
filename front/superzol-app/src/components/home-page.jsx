@@ -8,10 +8,9 @@ import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
-import {ClipLoader} from "react-spinners";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
-import {MainContainer, NavigationButtons, ProductsBox} from "./home-page.styled";
+import {ClipLoaderHome, MainContainer, NavigationButtons, ProductsBox} from "./home-page.styled";
 import Cookies from "js-cookie";
 
 export const Home = () => {
@@ -156,7 +155,7 @@ export const Home = () => {
                 )}
                 <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>
                 {loading ? (
-                    <ClipLoader size={150} color={"#123abc"} loading={loading}/>
+                    <ClipLoaderHome loading={loading} size={100}/>
                 ) : (
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>

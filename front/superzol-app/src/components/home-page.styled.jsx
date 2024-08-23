@@ -1,6 +1,7 @@
 import {Box} from "@mui/material";
 import styled from "styled-components";
 import React from 'react';
+import {ClipLoader} from "react-spinners";
 
 const e = React.createElement;
 
@@ -28,4 +29,9 @@ export const NavigationButtons = styled.div`
     justify-content: center;
     margin-top: 20px;
     visibility: ${props => props.visible ? 'visible' : 'hidden'};
+`;
+
+
+export const ClipLoaderHome = styled(ClipLoader)`
+    margin-top: 350px;
 `;
