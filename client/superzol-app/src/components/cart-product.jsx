@@ -1,14 +1,13 @@
-import default_product_image from '../resources/default_product.png';
 import {
     ButtonsDiv,
     CartProductBody,
     CartProductDiv, CartProductFooter,
     CartProductImage, CartProductPrice, CartProductQuantity,
-    CartProductTitle, CartQuantityButton, RemoveButton
+    CartProductTitle, RemoveButton
 } from "./cart-product.styled";
 import React from "react";
-import deleteIcon from "../resources/delete.png";
 import _ from "lodash";
+import {QuantityButton} from "./main-product.styled";
 
 export const CartProduct = ({product, productId, productImage, handleAdd, handleSubtract, handleRemove}) => {
     const {ItemCode, ItemName, ItemPrice, MinPrice, MaxPrice} = product;
@@ -18,24 +17,22 @@ export const CartProduct = ({product, productId, productImage, handleAdd, handle
     }
     return (
         <CartProductDiv>
+            <RemoveButton onClick={() => handleRemove(productId)}>×</RemoveButton>
             <CartProductBody>
                 <CartProductTitle>{ItemName}</CartProductTitle>
                 <CartProductImage src={`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`} alt={ItemName}/>
             </CartProductBody>
             <CartProductFooter>
-                <ButtonsDiv>
-                    <CartQuantityButton onClick={() => handleAdd(productId)}>+</CartQuantityButton>
-                    <CartProductQuantity>{product.quantity}</CartProductQuantity>
-                    <CartQuantityButton onClick={() => handleSubtract(productId)}>-</CartQuantityButton>
-                    <RemoveButton onClick={() => handleRemove(productId)}>
-                        <img src={deleteIcon} alt={"delete"}/>
-                    </RemoveButton>
-                </ButtonsDiv>
                 <CartProductPrice>
                     {MinPrice !== MaxPrice
-                        ? `${MinPrice} - ${MaxPrice} ₪`
-                        : `${ItemPrice} ₪`}
+                        ? `₪ ${MinPrice} - ${MaxPrice}`
+                        : `₪ ${ItemPrice}`}
                 </CartProductPrice>
+                <ButtonsDiv>
+                    <QuantityButton onClick={() => handleAdd(productId)}>+</QuantityButton>
+                    <CartProductQuantity>{product.quantity}</CartProductQuantity>
+                    <QuantityButton onClick={() => handleSubtract(productId)}>-</QuantityButton>
+                </ButtonsDiv>
             </CartProductFooter>
         </CartProductDiv>
     );

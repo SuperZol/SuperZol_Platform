@@ -93,7 +93,7 @@ export const AddButton = styled.button`
     border-radius: 10px;
     padding: 5px 10px;
     cursor: pointer;
-
+    font-family: Rubik, sans-serif;
     &:hover {
         background-color: ${LIGHT_BROWN};
     }

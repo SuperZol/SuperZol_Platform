@@ -6,24 +6,21 @@ import {
     ShoppingListItem
 } from "./shopping-list-history.styled";
 import {RemoveButton} from "./cart-product.styled";
-import deleteIcon from "../resources/delete.png";
 
 export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) => {
     return (
         <ShoppingListHistoryContainer>
             {shoppingLists.map((list, index) => {
                 const {CreatedAt, Products, CartMinPrice, CartMaxPrice} = list;
-
                 return (
                     <ShoppingListItem key={index}>
-                        <p>תאריך: {new Date(CreatedAt).toLocaleDateString()}</p>
-                        <p>מספר
-                            המוצרים: {Object.values(Products).reduce((acc, quantity) => acc + quantity, 0)}</p>
-                        <p>{CartMinPrice}-{CartMaxPrice}₪ :סה"כ עלות</p>
+                        <RemoveButton>x</RemoveButton>
+                        <p style={{margin: "5px"}}>תאריך: {new Date(CreatedAt).toLocaleDateString()}</p>
+                        <p style={{margin: "5px"}}>מספר המוצרים
+                            בסל: {Object.values(Products).reduce((acc, quantity) => acc + quantity, 0)}
+                        </p>
+                        <p style={{margin: "5px"}}>₪ {CartMinPrice}-{CartMaxPrice}</p>
                         <HorizontalDiv>
-                            <RemoveButton>
-                                <img src={deleteIcon} alt={"delsete"}/>
-                            </RemoveButton>
                             <SelectButton
                                 onClick={() => handleChosenShoppingList(Products)}
                             >

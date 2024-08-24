@@ -1,14 +1,16 @@
 import styled from 'styled-components';
+import {DARK_BLUE} from "../utils/colors";
 
 export const CartProductDiv = styled.div`
     overflow: hidden;
     width: 270px;
-    height: 130px;
+    height: 140px;
 `;
 
 export const CartProductImage = styled.img`
     width: 70px;
     height: 70px;
+    margin-right: 10px;
 `;
 
 export const CartProductBody = styled.div`
@@ -19,64 +21,55 @@ export const CartProductBody = styled.div`
     padding-left: 5px;
 `;
 
-export const CartProductTitle = styled.h3`
+export const CartProductTitle = styled.span`
     font-size: 16px;
     padding-left: 10px;
+    font-weight: 600;
 `;
 
 export const CartProductPrice = styled.span`
-    color: #000;
+    color: ${DARK_BLUE};
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    margin-left: 15px;
 `;
 
 export const CartProductFooter = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 250px;
-`;
-
-export const CartQuantityButton = styled.button`
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
-    color: #888;
-    cursor: pointer;
+    width: 260px;
 `;
 
 export const CartProductQuantity = styled.span`
     font-size: 16px;
+    margin-top: 5px;
+    font-weight: 500;
 `;
 
-export const RemoveButton = styled.button`
-    align-items: center;
-    justify-content: center;
-    background-color: #ce1b1b;
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-    border: none;
-    padding: 5px 3px;
-    cursor: pointer;
-    font-size: 13px;
-
-    &:hover {
-        background-color: #8d0e0e;
-    }
-
-    img {
-        width: 20px;
-        height: 20px;
-        filter: invert(1) brightness(2);
-    }
-`;
 
 export const ButtonsDiv = styled.div`
     display: flex;
-    width: 130px;
+    width: 100px;
     justify-content: space-between;
+`;
+
+export const RemoveButton = styled.button`
+    position: sticky;
+    background-color: #ce1b1b;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        background-color: #8d0e0e;
+    }
 `;

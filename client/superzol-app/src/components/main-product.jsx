@@ -24,8 +24,8 @@ export const MainProduct = ({product, productImage}) => {
                 <ProductPriceContainer>
                     <ProductPrice>
                         {MinPrice !== MaxPrice
-                            ? `${MinPrice} - ${MaxPrice} ₪`
-                            : `${ItemPrice} ₪`}
+                            ? `₪ ${MinPrice} - ${MaxPrice}`
+                            : `₪ ${ItemPrice}`}
                     </ProductPrice>
                 </ProductPriceContainer>
             </MainProductBody>

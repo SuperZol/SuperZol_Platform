@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 export const ShoppingListHistoryContainer = styled.div`
     display: flex;
@@ -13,7 +14,7 @@ export const SelectButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff;
+    background-color: ${DARK_BLUE};
     width: 60px;
     height: 30px;
     border-radius: 4px;
@@ -22,14 +23,17 @@ export const SelectButton = styled.button`
     padding: 3px 3px;
     cursor: pointer;
     font-size: 13px;
-
+    font-family: Rubik, sans-serif;
     &:hover {
-        background-color: #0056b3;
+        background-color: ${LIGHT_BLUE};
     }
 `;
 
+
+
+
 export const ShoppingListItem = styled.div`
-    background-color: #fff;
+    background-color: white;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;

@@ -19,12 +19,13 @@ import {
     LoaderContainer,
     Title,
     SubmitDiv,
-    TopBarButton
+    TopBarButton, BackToCartButton
 } from "./shopping-cart.styled";
 import loadIcon from "../resources/load.png";
 import saveIcon from "../resources/bookmark.png";
 import deleteIcon from "../resources/delete.png";
 import closeIcon from "../resources/close.png";
+import leftArrow from "../resources/left-arrow.png";
 
 
 export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isSidebarOpen, setIsSidebarOpen}) => {
@@ -110,7 +111,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
             cartMaxPrice += parseFloat(shoppingList[shoppingListKey].MaxPrice * shoppingList[shoppingListKey].quantity);
             cartMinPrice += parseFloat(shoppingList[shoppingListKey].MinPrice * shoppingList[shoppingListKey].quantity);
         }
-        return cartMinPrice.toFixed(2) + ' - ' + cartMaxPrice.toFixed(2) + " ₪";
+        return "₪ " + cartMinPrice.toFixed(2) + ' - ' + cartMaxPrice.toFixed(2);
     }
 
 
@@ -121,7 +122,10 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
             </ExitButton>
             <Title>{showCheapestSupermarkets ? "הסופרים הזולים באזורך" : showShoppingHistory ? "היסטוריית קניות" : "סל הקניות"}</Title>
             {showCheapestSupermarkets || showShoppingHistory ?
-                <TopBarButton onClick={() => handleBackToCart()}>חזור</TopBarButton> : <HorizontalDiv>
+                <BackToCartButton onClick={() => handleBackToCart()}>
+                    <img src={leftArrow}/>
+                    חזור לעגלה
+                </BackToCartButton> : <HorizontalDiv>
                     <TopBarButton onClick={() => setShowShoppingHistory(!showShoppingHistory)}>
                         טעינת סל קניות
                         <img src={loadIcon} alt="טעינה"/>
@@ -160,7 +164,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                     </ShoppingCartContent>)))}
             {!showCheapestSupermarkets && !showShoppingHistory ?
                 <SubmitDiv>
-                    <CartCost>{getCartCostString(shoppingList)}</CartCost>
+                    <CartCost>{_.isNil(shoppingList) || _.isEmpty(shoppingList) ? "" : getCartCostString(shoppingList)}</CartCost>
                     <SubmitButton disabled={_.isNil(shoppingList) || _.isEmpty(shoppingList)}
                                   onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
                 </SubmitDiv>
