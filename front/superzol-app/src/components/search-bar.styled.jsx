@@ -24,6 +24,7 @@ export const StyledTextField = styled(TextField)`
         & input {
             padding: 10px;
             text-align: right;
+            direction: rtl;
         }
     }
 

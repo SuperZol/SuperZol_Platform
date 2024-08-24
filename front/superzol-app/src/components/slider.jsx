@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import Typography from '@mui/material/Typography';
+import {SliderContainer, SliderLabel, SliderLabelContainer} from "./slider.styled";
+import {DARK_BLUE} from "../utils/colors";
 
 const MAX = 20;
 const MIN = 1;
@@ -22,7 +22,7 @@ export default function CustomMarks({value, onChange}) {
     };
 
     return (
-        <Box sx={{width: 250}}>
+        <SliderContainer>
             <Slider
                 marks={marks}
                 step={1}
@@ -31,23 +31,20 @@ export default function CustomMarks({value, onChange}) {
                 min={MIN}
                 max={MAX}
                 onChange={handleChange}
+                color={DARK_BLUE}
             />
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Typography
-                    variant="body2"
+            <SliderLabelContainer>
+                <SliderLabel
                     onClick={() => onChange(MIN)}
-                    sx={{cursor: 'pointer'}}
                 >
                     {MIN} KM
-                </Typography>
-                <Typography
-                    variant="body2"
+                </SliderLabel>
+                <SliderLabel
                     onClick={() => onChange(MAX)}
-                    sx={{cursor: 'pointer'}}
                 >
                     {MAX} KM
-                </Typography>
-            </Box>
-        </Box>
+                </SliderLabel>
+            </SliderLabelContainer>
+        </SliderContainer>
     );
 }

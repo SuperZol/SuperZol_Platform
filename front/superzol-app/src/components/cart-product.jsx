@@ -11,7 +11,7 @@ import deleteIcon from "../resources/delete.png";
 import _ from "lodash";
 
 export const CartProduct = ({product, productId, productImage, handleAdd, handleSubtract, handleRemove}) => {
-    const {ItemName, ItemPrice, MinPrice, MaxPrice} = product;
+    const {ItemCode, ItemName, ItemPrice, MinPrice, MaxPrice} = product;
 
     const isImageValid = () => {
         return _.isEmpty(productImage) || (!productImage.endsWith("jpg") && !productImage.endsWith("png")) || productImage.includes("not-available");
@@ -20,7 +20,7 @@ export const CartProduct = ({product, productId, productImage, handleAdd, handle
         <CartProductDiv>
             <CartProductBody>
                 <CartProductTitle>{ItemName}</CartProductTitle>
-                <CartProductImage src={isImageValid() ? default_product_image : productImage} alt={ItemName}/>
+                <CartProductImage src={`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`} alt={ItemName}/>
             </CartProductBody>
             <CartProductFooter>
                 <ButtonsDiv>

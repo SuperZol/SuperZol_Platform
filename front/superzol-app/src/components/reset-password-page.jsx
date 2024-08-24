@@ -7,8 +7,9 @@ import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import LockIcon from "@mui/icons-material/Lock";
 import {resetPassword} from "../api";
-import {LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
+import {LinkContainer, LogoButton, StyledGridItem, StyledLink} from "./form.styled";
 import resetPasswordImage from "../resources/man-supermarket.webp";
+import superzolLogo from "../resources/superzol-logo.png";
 
 export const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -54,7 +55,11 @@ export const ResetPassword = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
+                <LogoButton>
+                    סופרזול
+                    <img src={superzolLogo} alt="superzol"/>
+                </LogoButton>
+                <Form title="איפוס סיסמה" func={handleSubmit}>
                     <StyledGridItem>
                         <AuthTextField
                             label="סיסמה חדשה"

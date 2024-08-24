@@ -10,7 +10,13 @@ import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
-import {ClipLoaderHome, MainContainer, NavigationButtons, ProductsBox} from "./home-page.styled";
+import {
+    ClipLoaderHome,
+    MainContainer,
+    NavigationButtons,
+    PageButton,
+    ProductsBox
+} from "./home-page.styled";
 import Cookies from "js-cookie";
 
 export const Home = () => {
@@ -160,8 +166,8 @@ export const Home = () => {
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
                         <NavigationButtons visible={products.length > 0}>
-                            <Button onClick={() => handleNextPage()}>הבא</Button>
-                            <Button onClick={() => handlePrevPage()}>הקודם</Button>
+                            <PageButton onClick={() => handleNextPage()}>הבא</PageButton>
+                            <PageButton onClick={() => handlePrevPage()}>הקודם</PageButton>
                         </NavigationButtons>
                     </>
                 )}

@@ -1,13 +1,13 @@
 import {Box, Grid, Typography} from "@mui/material";
 import styled from 'styled-components';
 import {Link} from "react-router-dom";
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 export const StyledGrid = styled(Grid)`
     display: flex;
-    flex-direction: column;
+    flex-direction: column !important;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
 `;
 
 export const BoxIconStyled = styled(Box)`
@@ -16,10 +16,13 @@ export const BoxIconStyled = styled(Box)`
     margin-left: 16px;
 `;
 
-export const TypographyTitle = styled(Typography)`
+export const TypographyTitle = styled.text`
     display: flex;
     align-items: center;
-    color: ${props => props.auth ? "#122f64" : "#8bff00"}
+    color: ${DARK_BLUE};
+    font-size: 50px;
+    font-family: Rubik, sans-serif;
+    font-weight: 600;
 `;
 
 export const FormContainer = styled.form`
@@ -49,7 +52,7 @@ export const StyledGridItem = styled(Grid)`
 
 export const ErrorTypography = styled(Typography)`
     margin-top: 10px;
-    color: ${(props) => props.color || "error"};
+    color: red;
     text-align: center;
 `;
 
@@ -60,7 +63,28 @@ export const LinkContainer = styled(Grid)`
 
 export const StyledLink = styled(Link)`
     text-decoration: none;
-    color: #122f64;
+    color: ${DARK_BLUE};
     margin-left: 5px;
     font-family: Rubik, sans-serif;
+`;
+
+export const LogoButton = styled.button`
+    padding: 5px 10px;
+    margin-bottom: 50px;
+    background-color: transparent;
+    border-color: transparent;
+    font-size: 100px;
+    font-family: Rubik, "sans-serif";
+    display: flex;
+    align-items: center;
+    color: ${DARK_BLUE};
+    transition: color 0.2s ease-in;
+    font-weight: 600;
+    
+    img {
+        width: 100px;
+        height: 100px;
+        transform: scaleX(-1);
+        margin-left: 15px;
+    }
 `;

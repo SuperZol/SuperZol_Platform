@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from 'react';
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 const e = React.createElement;
 
@@ -14,7 +15,7 @@ export const ShoppingCartContainer = styled(
     left: ${(props) => (props.isOpen ? '0' : '-400px')};
     width: 300px;
     height: 100%;
-    background-color: #f4f4f4;
+    background-color: #efede9;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     z-index: 4;
@@ -32,7 +33,7 @@ export const ShoppingCartContent = styled.div`
 
 
 export const Item = styled.div`
-    background-color: #fff;
+    background-color: white;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -55,7 +56,7 @@ export const SubmitButton = styled.button`
     width: 100%;
     max-width: 300px;
     padding: 15px;
-    background-color: #007bff;
+    background-color: ${DARK_BLUE};
     color: white;
     border: none;
     border-radius: 4px;
@@ -74,7 +75,7 @@ export const SubmitButton = styled.button`
     }
 
     &:hover {
-        background-color: #0056b3;
+        background-color: ${LIGHT_BLUE};
     }
 `;
 
@@ -83,7 +84,7 @@ export const ExitButton = styled.button`
     position: fixed;
     left: 290px;
     background-color: transparent;
-    color: #007bff;
+    color: ${DARK_BLUE};
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -92,13 +93,17 @@ export const ExitButton = styled.button`
     font-weight: bold;
 
     &:hover {
-        color: #0056b3;
+        color: ${LIGHT_BLUE};
+    }
+    img {
+        width: 18px;
+        height: 18px;
     }
 `;
 
 
 export const Title = styled.h2`
-    color: #007bff;
+    color: ${DARK_BLUE};
     top: 70px;
     font-size: 30px;
 `;
@@ -108,7 +113,7 @@ export const TopBarButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff;
+    background-color: ${DARK_BLUE};
     width: 120px;
     height: 30px;
     border-radius: 4px;
@@ -119,7 +124,7 @@ export const TopBarButton = styled.button`
     font-size: 13px;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: ${LIGHT_BLUE};
     }
 
     img {
@@ -153,6 +158,6 @@ export const SubmitDiv = styled.div`
 `;
 
 export const CartCost = styled.h3`
-    color: blue;
+    color: ${DARK_BLUE};
     padding: 10px;
 `;

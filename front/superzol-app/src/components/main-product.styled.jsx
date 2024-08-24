@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {media} from "./styles";
+import {DARK_BROWN, LIGHT_BROWN} from "../utils/colors";
 
 export const MainProductDiv = styled.div`
     overflow: hidden;
@@ -45,7 +46,7 @@ export const ProductTitle = styled.h3`
 `;
 
 export const ProductPriceContainer = styled.div`
-    margin-top: auto; /* Pushes the content to the bottom */
+    margin-top: auto;
     padding: 10px;
 `;
 
@@ -86,15 +87,15 @@ export const ProductQuantity = styled.span`
 `;
 
 export const AddButton = styled.button`
-    background-color: #9b623f;
-    color: #fff;
+    background-color: ${DARK_BROWN};
+    color: white;
     border: none;
     border-radius: 10px;
     padding: 5px 10px;
     cursor: pointer;
 
     &:hover {
-        background-color: #a97353;
+        background-color: ${LIGHT_BROWN};
     }
 `;
 
@@ -116,15 +117,19 @@ export const ProductWithQuantity = styled.div`
 `;
 
 export const ProductListContainer = styled.div`
+    margin-left: 30px;
     padding: 50px;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const GridContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     ${media.xs`
         flex-direction: column;
     `}

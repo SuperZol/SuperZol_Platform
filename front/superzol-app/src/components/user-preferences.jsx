@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Grid, Typography, Box, Container, ThemeProvider, createTheme} from '@mui/material';
 import {useUser} from '../contexts/user-context';
 import {validateCurrentPassword, validateNewPassword} from '../utils/passwordUtils';
 import CustomMarks from './slider';
@@ -8,12 +7,15 @@ import AuthTextField from './auth-text-field';
 import AuthButton from './auth-button';
 import Form from './form';
 import SettingsIcon from '@mui/icons-material/Settings';
-
-const theme = createTheme({
-    typography: {
-        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    },
-});
+import {ErrorTypography, StyledGridItem} from "./form.styled";
+import {
+    PreferencesContainer,
+    StyledButtonBox,
+    StyledContainer,
+    StyledContentBox,
+    StyledSliderBox,
+    StyledSliderTitle
+} from "./user-preferences.styled";
 
 export const UserPreferences = () => {
     const {currentUser, updateCurrentUser, logout, updateUserToServer} = useUser();
@@ -89,13 +91,13 @@ export const UserPreferences = () => {
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <div>
             <Toolbar onLogout={logout}/>
-            <Container maxWidth="md" sx={{mt: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Box sx={{width: '100%', maxWidth: '600px'}}>
+            <StyledContainer>
+                <StyledContentBox>
                     <Form title="הגדרות" func={handleSavePreferences} icon={SettingsIcon}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6}>
+                        <StyledGridItem>
+                            <StyledGridItem>
                                 <AuthTextField
                                     label="מייל נוכחי"
                                     value={currentEmail}
@@ -103,43 +105,43 @@ export const UserPreferences = () => {
                                     }}
                                     disabled
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                            </StyledGridItem>
+                            <StyledGridItem>
                                 <AuthTextField
                                     label="מייל חדש"
                                     value={newEmail}
                                     onChange={(e) => setNewEmail(e.target.value)}
                                 />
-                            </Grid>
-                            <Grid item xs={12}>
+                            </StyledGridItem>
+                            <StyledGridItem>
                                 <AuthTextField
                                     label="סיסמה נוכחית"
                                     type="password"
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                            </StyledGridItem>
+                            <StyledGridItem>
                                 <AuthTextField
                                     label="סיסמה חדשה"
                                     type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                            </StyledGridItem>
+                            <StyledGridItem>
                                 <AuthTextField
                                     label="אימות סיסמה חדשה"
                                     type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant="h6" sx={{mt: 2, mb: 1, textAlign: 'center'}}>
+                            </StyledGridItem>
+                            <StyledGridItem>
+                                <StyledSliderTitle>
                                     העדפת מרחק (1-20 ק"מ)
-                                </Typography>
-                                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                                </StyledSliderTitle>
+                                <StyledSliderBox>
                                     <CustomMarks
                                         value={distance}
                                         onChange={(newValue) => setDistance(newValue)}
@@ -148,28 +150,27 @@ export const UserPreferences = () => {
                                         max={20}
                                         valueLabelDisplay="auto"
                                     />
-                                </Box>
-                            </Grid>
+                                </StyledSliderBox>
+                            </StyledGridItem>
                             {error && (
-                                <Grid item xs={12}>
-                                    <Typography color="error" variant="body2" align="center"
-                                                style={{marginTop: '10px'}}>
+                                <StyledGridItem>
+                                    <ErrorTypography>
                                         {error}
-                                    </Typography>
-                                </Grid>
+                                    </ErrorTypography>
+                                </StyledGridItem>
                             )}
-                        </Grid>
-                        <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
+                        </StyledGridItem>
+                        <StyledButtonBox>
                             <AuthButton
                                 loading={loading}
                                 color="primary"
                                 text="שמירה"
                                 onClick={handleSavePreferences}
                             />
-                        </Box>
+                        </StyledButtonBox>
                     </Form>
-                </Box>
-            </Container>
-        </ThemeProvider>
+                </StyledContentBox>
+            </StyledContainer>
+        </div>
     );
 };

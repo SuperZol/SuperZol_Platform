@@ -10,7 +10,8 @@ import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import loginBackground from "../resources/man-supermarket.webp";
 import Cookies from "js-cookie";
-import {ErrorTypography, LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
+import {ErrorTypography, LinkContainer, LogoButton, StyledGridItem, StyledLink} from "./form.styled";
+import superzolLogo from "../resources/superzol-logo.png";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -78,7 +79,11 @@ export const Login = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="SuperZol התחברות" func={handleSubmit} auth="true">
+                <LogoButton>
+                    סופרזול
+                    <img src={superzolLogo} alt="superzol"/>
+                </LogoButton>
+                <Form title="התחברות" func={handleSubmit}>
                     <StyledGridItem>
                         <AuthTextField
                             label="מייל"
@@ -97,7 +102,7 @@ export const Login = () => {
                         />
                     </StyledGridItem>
                     {error && (
-                        <ErrorTypography variant="body2">
+                        <ErrorTypography>
                             {error}
                         </ErrorTypography>
                     )}

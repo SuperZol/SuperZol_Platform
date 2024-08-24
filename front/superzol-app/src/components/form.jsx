@@ -1,12 +1,11 @@
 import React from "react";
 import {BoxIconStyled, FormBox, FormContainer, StyledGrid, TitleBox, TypographyTitle} from "./form.styled";
 
-const Form = ({title, func, auth, children, icon: Icon}) => {
+const Form = ({title, func, children, icon: Icon}) => {
     return (
-        <StyledGrid container direction="column" justifyContent="center" alignItems="center">
-
+        <StyledGrid container>
             <TitleBox>
-                <TypographyTitle variant="h3" auth={auth}>
+                <TypographyTitle>
                     {title}
                     {Icon && (
                         <BoxIconStyled>

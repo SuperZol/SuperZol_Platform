@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {Box} from "@mui/material";
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 export const ToolbarContainer = styled(Box)`
     position: fixed;
@@ -26,12 +27,13 @@ export const ToolbarButton = styled.button`
     font-size: 20px;
     margin-left: 16px;
     padding: 10px 16px;
-    color: #122f64;
+    color: ${DARK_BLUE};
     transition: color 0.2s ease-in;
     font-family: Rubik, "sans-serif";
-
+    font-weight: 600;
+    
     &:hover {
-        color: #1e57c2;
+        color: ${LIGHT_BLUE};
     }
 
     @media (max-width: 600px) {
@@ -39,26 +41,27 @@ export const ToolbarButton = styled.button`
     }
 `;
 
-
 export const LogoButton = styled.button`
     padding: 5px 10px;
     cursor: pointer;
     background-color: transparent;
     border-color: transparent;
-    font-size: 50px;
+    font-size: 45px;
     font-family: Rubik, "sans-serif";
     display: flex;
     align-items: center;
-    color: #122f64;
+    color: ${DARK_BLUE};
     transition: color 0.2s ease-in;
-
+    font-weight: 600;
+    
     img {
         width: 50px;
         height: 50px;
         transform: scaleX(-1);
+        margin-left: 15px;
     }
 
     &:hover {
-        color: #1e57c2;
+        color: ${LIGHT_BLUE};
     }
 `;

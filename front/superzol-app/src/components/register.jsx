@@ -10,6 +10,8 @@ import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import loginBackground from "../resources/man-supermarket.webp";
+import {LogoButton} from "./form.styled";
+import superzolLogo from "../resources/superzol-logo.png";
 
 
 export const Register = () => {
@@ -50,7 +52,11 @@ export const Register = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="SuperZol הרשמה" func={handleSubmit}  auth="true">
+                <LogoButton>
+                    סופרזול
+                    <img src={superzolLogo} alt="superzol"/>
+                </LogoButton>
+                <Form title="הרשמה" func={handleSubmit}>
                     <Grid item xs={12}>
                         <AuthTextField
                             label="מייל"

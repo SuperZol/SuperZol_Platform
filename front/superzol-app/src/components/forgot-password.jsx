@@ -8,7 +8,8 @@ import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.st
 import EmailIcon from "@mui/icons-material/Email";
 import {forgotPassword} from "../api";
 import loginBackground from "../resources/man-supermarket.webp";
-import {LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
+import {LinkContainer, LogoButton, StyledGridItem, StyledLink} from "./form.styled";
+import superzolLogo from "../resources/superzol-logo.png";
 
 export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export const ForgotPassword = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
- const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setMessage("");
@@ -45,7 +46,11 @@ export const ForgotPassword = () => {
                 />
             </ImageContainer>
             <DataContainer>
-                <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
+                <LogoButton>
+                    סופרזול
+                    <img src={superzolLogo} alt="superzol"/>
+                </LogoButton>
+                <Form title="איפוס סיסמה" func={handleSubmit}>
                     <StyledGridItem>
                         <AuthTextField
                             label="מייל"

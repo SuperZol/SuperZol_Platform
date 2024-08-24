@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 export const CartButtonContainer = styled.div`
     position: fixed;
@@ -11,7 +12,7 @@ export const CartButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #122f64;
+    background-color: ${DARK_BLUE};
     color: white;
     border: none;
     padding: 17px 15px;
@@ -20,7 +21,7 @@ export const CartButton = styled.button`
     font-size: 16px;
 
     &:hover {
-        background-color: #1e57c2;
+        background-color: ${LIGHT_BLUE};
     }
 
     img {

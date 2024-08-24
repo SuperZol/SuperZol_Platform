@@ -45,7 +45,7 @@ export const ProductList = ({products, addToCart, productsImages}) => {
     };
 
     return (
-        <ProductListContainer>
+        <ProductListContainer isOpen="false">
             <GridContainer>
                 {!_.isNil(products) ? (
                     products.map((product) => (
