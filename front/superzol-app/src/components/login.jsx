@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Grid, Typography} from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import {useUser} from "../contexts/user-context";
@@ -11,6 +10,7 @@ import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import loginBackground from "../resources/man-supermarket.webp";
 import Cookies from "js-cookie";
+import {ErrorTypography, LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -79,15 +79,15 @@ export const Login = () => {
             </ImageContainer>
             <DataContainer>
                 <Form title="SuperZol התחברות" func={handleSubmit} auth="true">
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthTextField
                             label="מייל"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             icon={<EmailIcon/>}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </StyledGridItem>
+                    <StyledGridItem>
                         <AuthTextField
                             label="סיסמה"
                             type="password"
@@ -95,13 +95,13 @@ export const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             icon={<LockIcon/>}
                         />
-                    </Grid>
+                    </StyledGridItem>
                     {error && (
-                        <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
+                        <ErrorTypography variant="body2">
                             {error}
-                        </Typography>
+                        </ErrorTypography>
                     )}
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthButton
                             type="submit"
                             loading={loading}
@@ -109,36 +109,20 @@ export const Login = () => {
                             text="כניסה"
                             style={{marginTop: "16px"}}
                         />
-                    </Grid>
+                    </StyledGridItem>
 
-                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Link
-                            onClick={() => setError("")}
-                            to="/register"
-                            style={{
-                                textDecoration: "none",
-                                color: "#f4511e",
-                                marginLeft: "5px",
-                            }}
-                        >
+                    <LinkContainer>
+                        <StyledLink onClick={() => setError("")} to="/register">
                             ליצירת חשבון חדש
-                        </Link>
-                    </Grid>
-                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Link
-                            onClick={() => setError("")}
-                            to="/forgot-password"
-                            style={{
-                                textDecoration: "none",
-                                color: "#f4511e",
-                                marginLeft: "5px",
-                            }}
-                        >
-                            שכחת סיסמה?
-                        </Link>
-                    </Grid>
+                        </StyledLink>
+                    </LinkContainer>
+                    <LinkContainer>
+                        <StyledLink onClick={() => setError("")} to="/forgot-password">
+                            ?שכחת סיסמה
+                        </StyledLink>
+                    </LinkContainer>
                 </Form>
             </DataContainer>
         </AuthContainer>
-    );
+    )
 };

@@ -81,9 +81,7 @@ export const SubmitButton = styled.button`
 
 export const ExitButton = styled.button`
     position: fixed;
-    top: 70px;
     left: 290px;
-    padding: 10px 20px;
     background-color: transparent;
     color: #007bff;
     border: none;

@@ -77,4 +77,4 @@ async def forgot_password(email: str, background_tasks: BackgroundTasks):
 async def reset_password(token: str, new_password: str):
     email = await user_service.verify_reset_token(token)
     await user_service.update_password(email, new_password)
-    return "סיסמה אופסה בהצלחה!"
+    return "!סיסמה אופסה בהצלחה"

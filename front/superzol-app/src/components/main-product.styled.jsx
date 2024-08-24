@@ -5,6 +5,16 @@ export const MainProductDiv = styled.div`
     overflow: hidden;
     width: 250px;
     height: 250px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease-in-out;
+    
+    &:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 `;
 
 export const ProductHeader = styled.div`
@@ -15,20 +25,35 @@ export const ProductHeader = styled.div`
 export const ProductImage = styled.img`
     width: 100px;
     height: 100px;
+    object-fit: contain;
+    margin-top: 10px;
 `;
 
 export const MainProductBody = styled.div`
     padding: 10px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 export const ProductTitle = styled.h3`
     font-size: 16px;
+    margin: 0;
+    padding: 5px 0;
+`;
+
+export const ProductPriceContainer = styled.div`
+    margin-top: auto; /* Pushes the content to the bottom */
+    padding: 10px;
 `;
 
 export const ProductPrice = styled.span`
-    color: #000;
     font-size: 18px;
     font-weight: bold;
+    display: block;
+    text-align: center;
 `;
 
 export const MainProductFooter = styled.div`
@@ -42,14 +67,18 @@ export const MainProductFooter = styled.div`
 `;
 
 export const QuantityButton = styled.button`
-    background-color: #fff;
+    background-color: white;
     border: 1px solid #e0e0e0;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     font-size: 18px;
-    color: #888;
+    color: #525252;
     cursor: pointer;
+
+    &:hover {
+        background-color: #eeeeee;
+    }
 `;
 
 export const ProductQuantity = styled.span`
@@ -57,15 +86,15 @@ export const ProductQuantity = styled.span`
 `;
 
 export const AddButton = styled.button`
-    background-color: #ff5722;
+    background-color: #9b623f;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 5px 10px;
     cursor: pointer;
 
     &:hover {
-        background-color: #e14d1e;
+        background-color: #a97353;
     }
 `;
 

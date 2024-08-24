@@ -1,12 +1,14 @@
 import React, {useState} from "react";
-import {Grid, Typography} from "@mui/material";
-import {Link, useSearchParams} from "react-router-dom";
+import {Typography} from "@mui/material";
+import {useSearchParams} from "react-router-dom";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
 import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.styled";
 import LockIcon from "@mui/icons-material/Lock";
 import {resetPassword} from "../api";
+import {LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
+import resetPasswordImage from "../resources/man-supermarket.webp";
 
 export const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -47,13 +49,13 @@ export const ResetPassword = () => {
         <AuthContainer>
             <ImageContainer>
                 <AuthImage
-                    src="/path-to-your-image.jpg"
+                    src={resetPasswordImage}
                     alt="Reset Password Illustration"
                 />
             </ImageContainer>
             <DataContainer>
                 <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthTextField
                             label="סיסמה חדשה"
                             type="password"
@@ -61,8 +63,8 @@ export const ResetPassword = () => {
                             onChange={(e) => setNewPassword(e.target.value)}
                             icon={<LockIcon/>}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </StyledGridItem>
+                    <StyledGridItem>
                         <AuthTextField
                             label="אימות סיסמה"
                             type="password"
@@ -70,7 +72,7 @@ export const ResetPassword = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             icon={<LockIcon/>}
                         />
-                    </Grid>
+                    </StyledGridItem>
                     {error && (
                         <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
                             {error}
@@ -81,7 +83,7 @@ export const ResetPassword = () => {
                             {message}
                         </Typography>
                     )}
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthButton
                             type="submit"
                             loading={loading}
@@ -89,20 +91,17 @@ export const ResetPassword = () => {
                             text="אפס סיסמה"
                             style={{marginTop: "16px"}}
                         />
-                    </Grid>
-                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Link
-                            onClick={() => setError("")}
-                            to="/login"
-                            style={{
-                                textDecoration: "none",
-                                color: "#f4511e",
-                                marginLeft: "5px",
-                            }}
-                        >
-                            כניסה
-                        </Link>
-                    </Grid>
+                    </StyledGridItem>
+                    <StyledGridItem>
+                        <LinkContainer>
+                            <StyledLink
+                                onClick={() => setError("")}
+                                to="/login"
+                            >
+                                חזרה להתחברות
+                            </StyledLink>
+                        </LinkContainer>
+                    </StyledGridItem>
                 </Form>
             </DataContainer>
         </AuthContainer>

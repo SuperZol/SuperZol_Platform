@@ -99,7 +99,7 @@ export const Register = () => {
                             to="/login"
                             style={{
                                 textDecoration: "none",
-                                color: "#f4511e",
+                                color: "#122f64",
                                 marginLeft: "5px",
                             }}
                         >

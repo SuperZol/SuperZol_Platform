@@ -11,6 +11,7 @@ export const MainContainer = styled(
     display: flex;
     transition: margin-left 0.2s ease-in;
     margin-left: ${(props) => (props.isOpen ? '300px' : '0')};
+    background: #efede9;
 `;
 
 export const ProductsBox = styled(Box)`

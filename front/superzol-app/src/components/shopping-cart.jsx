@@ -109,7 +109,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
             cartMaxPrice += parseFloat(shoppingList[shoppingListKey].MaxPrice);
             cartMinPrice += parseFloat(shoppingList[shoppingListKey].MinPrice);
         }
-        return cartMinPrice + ' - ' + cartMaxPrice + " ₪";
+        return Math.round(cartMinPrice) + ' - ' + Math.round(cartMaxPrice) + " ₪";
     }
 
 
@@ -156,7 +156,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                 </ShoppingCartContent>)))}
         {!showCheapestSupermarkets && !showShoppingHistory ?
             <SubmitDiv>
-                <CartCost>{getCartCostString()}</CartCost>
+                <CartCost>{getCartCostString(shoppingList)}</CartCost>
                 <SubmitButton disabled={_.isNil(shoppingList) || _.isEmpty(shoppingList)}
                               onClick={() => handleFindCheapestSupermarkets()}>מציאת הסופרים</SubmitButton>
             </SubmitDiv>

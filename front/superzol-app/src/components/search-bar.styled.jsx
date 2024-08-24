@@ -5,10 +5,11 @@ export const SearchBarContainer = styled.div`
     display: flex;
     align-items: center;
     border: 1px solid #e0e0e0;
-    border-radius: 50px;
+    border-radius: 20px;
     padding: 5px 10px;
     width: 50%;
     margin-top: 50px;
+    background-color: white;
 `;
 
 export const StyledTextField = styled(TextField)`
@@ -30,21 +31,15 @@ export const StyledTextField = styled(TextField)`
 `;
 
 export const SearchButton = styled(IconButton)`
-    background-color: #1976d2;
-    color: #fff;
     border-radius: 50%;
     margin-right: 8px;
-
-    &:hover {
-        background-color: #1565c0;
-    }
 `;
 
+
 export const CategoriesButton = styled.button`
-    margin-right: 8px;
     background: none;
-    color: #606060;
+    color: #264a8d;
     border: none;
-    border-left: 3px solid #606060;
+    border-left: 3px solid #264a8d;
     cursor: pointer;
 `;

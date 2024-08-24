@@ -8,6 +8,7 @@ import {AuthContainer, AuthImage, DataContainer, ImageContainer} from "./auth.st
 import EmailIcon from "@mui/icons-material/Email";
 import {forgotPassword} from "../api";
 import loginBackground from "../resources/man-supermarket.webp";
+import {LinkContainer, StyledGridItem, StyledLink} from "./form.styled";
 
 export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -45,14 +46,14 @@ export const ForgotPassword = () => {
             </ImageContainer>
             <DataContainer>
                 <Form title="איפוס סיסמה" func={handleSubmit} auth="true">
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthTextField
                             label="מייל"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             icon={<EmailIcon/>}
                         />
-                    </Grid>
+                    </StyledGridItem>
                     {error && (
                         <Typography color="error" variant="body2" align="center" style={{marginTop: '10px'}}>
                             {error}
@@ -63,7 +64,7 @@ export const ForgotPassword = () => {
                             {message}
                         </Typography>
                     )}
-                    <Grid item xs={12}>
+                    <StyledGridItem>
                         <AuthButton
                             type="submit"
                             loading={loading}
@@ -71,20 +72,14 @@ export const ForgotPassword = () => {
                             text="שלח"
                             style={{marginTop: "16px"}}
                         />
-                    </Grid>
-                    <Grid item xs={12} style={{textAlign: "center", marginTop: "16px"}}>
-                        <Link
-                            onClick={() => setError("")}
-                            to="/login"
-                            style={{
-                                textDecoration: "none",
-                                color: "#f4511e",
-                                marginLeft: "5px",
-                            }}
-                        >
-                            חזרה להתחברות
-                        </Link>
-                    </Grid>
+                    </StyledGridItem>
+                    <StyledGridItem>
+                        <LinkContainer>
+                            <StyledLink onClick={() => setError("")} to="/login">
+                                חזרה להתחברות
+                            </StyledLink>
+                        </LinkContainer>
+                    </StyledGridItem>
                 </Form>
             </DataContainer>
         </AuthContainer>

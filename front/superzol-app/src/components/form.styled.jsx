@@ -1,5 +1,6 @@
 import {Box, Grid, Typography} from "@mui/material";
-import styled from "styled-components";
+import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 export const StyledGrid = styled(Grid)`
     display: flex;
@@ -18,7 +19,7 @@ export const BoxIconStyled = styled(Box)`
 export const TypographyTitle = styled(Typography)`
     display: flex;
     align-items: center;
-    color: ${props => props.auth ? "#1976d2" : "#8bff00"}
+    color: ${props => props.auth ? "#122f64" : "#8bff00"}
 `;
 
 export const FormContainer = styled.form`
@@ -40,3 +41,26 @@ export const TitleBox = styled(Box)`
     margin-bottom: 3;
 `;
 
+export const StyledGridItem = styled(Grid)`
+    font-family: Rubik, sans-serif;
+    margin-top: ${(props) => props.marginTop || "0"};
+    text-align: ${(props) => props.textAlign || "left"};
+`;
+
+export const ErrorTypography = styled(Typography)`
+    margin-top: 10px;
+    color: ${(props) => props.color || "error"};
+    text-align: center;
+`;
+
+export const LinkContainer = styled(Grid)`
+    text-align: center;
+    margin-top: 16px;
+`;
+
+export const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: #122f64;
+    margin-left: 5px;
+    font-family: Rubik, sans-serif;
+`;

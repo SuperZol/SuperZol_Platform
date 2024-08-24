@@ -1,8 +1,8 @@
 import React from "react";
-import {InputAdornment} from "@mui/material";
-import {StyledTextField} from "./auth-text-field.styled";
+import { InputAdornment } from "@mui/material";
+import { StyledTextField } from "./auth-text-field.styled";
 
-const AuthTextField = ({label, value, onChange, type = "text", icon}) => {
+const AuthTextField = ({ label, value, onChange, type = "text", icon }) => {
     return (
         <StyledTextField
             label={label}
@@ -17,15 +17,6 @@ const AuthTextField = ({label, value, onChange, type = "text", icon}) => {
                         {icon}
                     </InputAdornment>
                 ),
-                style: {
-                    backgroundColor: "#ECECEC",
-                    borderRadius: "25px",
-                    fontSize: "1.2rem",
-                    height: "50px"
-                },
-            }}
-            InputLabelProps={{
-                style: {fontSize: "1.2rem"},
             }}
         />
     );

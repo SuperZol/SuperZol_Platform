@@ -2,7 +2,8 @@ import React from "react";
 import {Box} from "@mui/material";
 import {useNavigate, useLocation} from "react-router-dom";
 import {useUser} from '../contexts/user-context';
-import {ToolbarButton, ToolbarContainer, ToolbarTitle} from "./toolbar.styled";
+import {LogoButton, ToolbarButton, ToolbarContainer} from "./toolbar.styled";
+import logo from "../resources/superzol-logo.png"
 
 const Toolbar = (isOpen) => {
     const navigate = useNavigate();
@@ -29,9 +30,10 @@ const Toolbar = (isOpen) => {
                     הגדרות
                 </ToolbarButton>
             </Box>
-            <ToolbarTitle onClick={() => handleNavigation('/home')}>
+            <LogoButton onClick={() => handleNavigation('/home')}>
                 סופרזול
-            </ToolbarTitle>
+                <img src={logo} alt="superzol"/>
+            </LogoButton>
         </ToolbarContainer>
     );
 };

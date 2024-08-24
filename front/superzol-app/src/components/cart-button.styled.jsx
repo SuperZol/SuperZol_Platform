@@ -11,7 +11,7 @@ export const CartButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff;
+    background-color: #122f64;
     color: white;
     border: none;
     padding: 17px 15px;
@@ -20,13 +20,12 @@ export const CartButton = styled.button`
     font-size: 16px;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: #1e57c2;
     }
 
     img {
         margin-right: 6px;
         width: 40px;
         height: 40px;
-        filter: invert(1) brightness(2);
     }
 `;

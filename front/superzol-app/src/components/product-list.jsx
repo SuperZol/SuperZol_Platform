@@ -54,10 +54,7 @@ export const ProductList = ({products, addToCart, productsImages}) => {
                                 <MainProduct product={product} productImage={getImageUrlByItemCode(product.ItemCode)}/>
                                 <MainProductFooter>
                                     <QuantityButton
-                                        onClick={() => subtractQuantity(product.ItemCode)}
-                                    >
-                                        -
-                                    </QuantityButton>
+                                        onClick={() => subtractQuantity(product.ItemCode)}>-</QuantityButton>
                                     <ProductQuantity>
                                         {quantities[product.ItemCode]}
                                     </ProductQuantity>
