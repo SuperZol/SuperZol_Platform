@@ -5,22 +5,24 @@ import {
     CartProductImage, CartProductPrice, CartProductQuantity,
     CartProductTitle, RemoveButton
 } from "./cart-product.styled";
-import React from "react";
-import _ from "lodash";
+import React, {useState} from "react";
 import {QuantityButton} from "./main-product.styled";
+import default_product_image from "../resources/default_product.png";
 
-export const CartProduct = ({product, productId, productImage, handleAdd, handleSubtract, handleRemove}) => {
+export const CartProduct = ({product, productId, handleAdd, handleSubtract, handleRemove}) => {
     const {ItemCode, ItemName, ItemPrice, MinPrice, MaxPrice} = product;
+    const [imageSrc, setImageSrc] = useState(`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`);
 
-    const isImageValid = () => {
-        return _.isEmpty(productImage) || (!productImage.endsWith("jpg") && !productImage.endsWith("png")) || productImage.includes("not-available");
-    }
+    const handleError = () => {
+        setImageSrc(default_product_image);
+    };
+
     return (
         <CartProductDiv>
             <RemoveButton onClick={() => handleRemove(productId)}>×</RemoveButton>
             <CartProductBody>
                 <CartProductTitle>{ItemName}</CartProductTitle>
-                <CartProductImage src={`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`} alt={ItemName}/>
+                <CartProductImage src={imageSrc} alt={ItemName} onError={handleError}/>
             </CartProductBody>
             <CartProductFooter>
                 <CartProductPrice>

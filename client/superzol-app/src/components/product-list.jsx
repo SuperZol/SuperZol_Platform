@@ -12,13 +12,13 @@ import {
     QuantityButton
 } from "./main-product.styled.jsx";
 
-export const ProductList = ({products, addToCart, productsImages}) => {
+export const ProductList = ({products, addToCart}) => {
     const [quantities, setQuantities] = useState({});
 
     useEffect(() => {
         if (products) {
             const initialQuantities = products.reduce((acc, product) => {
-                acc[product.ItemCode] = 1; // Default quantity of 1 for each product
+                acc[product.ItemCode] = 1;
                 return acc;
             }, {});
             setQuantities(initialQuantities);
@@ -39,11 +39,6 @@ export const ProductList = ({products, addToCart, productsImages}) => {
         });
     };
 
-    const getImageUrlByItemCode = (itemCode) => {
-        const productImage = productsImages.find(product => product.ItemCode === itemCode);
-        return productImage ? productImage.image_url : "";
-    };
-
     return (
         <ProductListContainer isOpen="false">
             <GridContainer>
@@ -51,7 +46,7 @@ export const ProductList = ({products, addToCart, productsImages}) => {
                     products.map((product) => (
                         <GridItem key={product.ItemCode}>
                             <ProductWithQuantity>
-                                <MainProduct product={product} productImage={getImageUrlByItemCode(product.ItemCode)}/>
+                                <MainProduct product={product}/>
                                 <MainProductFooter>
                                     <QuantityButton
                                         onClick={() => subtractQuantity(product.ItemCode)}>-</QuantityButton>

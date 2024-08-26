@@ -51,9 +51,10 @@ class SupermarketService:
             store_id = store['StoreId']
             if store.get('Latitude') is None or store.get('Longitude') is None:
                 continue
-            distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
-            if distance > distance_preference:
-                continue
+            if store.get('Latitude', 0) != -1 and store.get('Longitude', 0) != -1:
+                distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
+                if distance > distance_preference:
+                    continue
 
             store_products = self.product_collection.find(
                 {"StoreId": store_id, "ItemCode": {"$in": list(shopping_list.keys())}})

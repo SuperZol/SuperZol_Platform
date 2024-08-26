@@ -9,7 +9,6 @@ import Form from './form';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {ErrorTypography, StyledGridItem} from "./form.styled";
 import {
-    PreferencesContainer,
     StyledButtonBox,
     StyledContainer,
     StyledContentBox,

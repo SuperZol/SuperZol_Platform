@@ -1,5 +1,12 @@
 import React from 'react';
-import {CategoriesGrid, CategoryButton, CategoryIcon, ModalContent, ModalOverlay} from "./categories-modal.styled";
+import {
+    CategoriesGrid,
+    CategoryButton,
+    CategoryIcon,
+    ExitModalButton,
+    ModalContent,
+    ModalOverlay
+} from "./categories-modal.styled";
 import dairyIcon from '../resources/categories/dairy.png';
 import fruitsAndVegetables from '../resources/categories/fruits-and-vegetables.png';
 import breads from '../resources/categories/breads.png';
@@ -14,6 +21,9 @@ import frozenFood from '../resources/categories/frozen-food.png';
 import pacifier from '../resources/categories/pacifier.png';
 import vitamin from '../resources/categories/vitamin.png';
 import organicFood from '../resources/categories/organic-food.png';
+import {ExitButton} from "./shopping-cart.styled";
+import closeIcon from "../resources/close.png";
+import {RemoveButton} from "./cart-product.styled";
 
 export const CategoriesModal = ({isOpen, onClose, filterCategory}) => {
     if (!isOpen) return null;
@@ -38,9 +48,10 @@ export const CategoriesModal = ({isOpen, onClose, filterCategory}) => {
     return (
         <ModalOverlay onClick={onClose}>
             <ModalContent onClick={e => e.stopPropagation()}>
+                <ExitModalButton onClick={onClose}>×</ExitModalButton>
                 <CategoriesGrid>
                     {categories.map(category => (
-                        <CategoryButton key={category.id} onClick={()=>filterCategory(category.label)}>
+                        <CategoryButton key={category.id} onClick={() => filterCategory(category.label)}>
                             <CategoryIcon src={category.icon}
                                           alt={category.label}/>
                             <span>{category.label}</span>

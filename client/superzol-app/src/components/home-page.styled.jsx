@@ -50,3 +50,23 @@ export const PageButton = styled.button`
         color: ${LIGHT_BLUE}
     }
 `;
+
+export const CurrentCategoryContainer = styled.div`
+    border-radius: 15px;
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 2px 2px 2px 7px;
+    font-size: 15px;
+`;
+
+export const RemoveCurrentCategory = styled.button`
+    margin: 5px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-family: Rubik, sans-serif;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+`;

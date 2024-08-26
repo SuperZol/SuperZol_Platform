@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {SearchBar} from "./search-bar";
 import {useUser} from "../contexts/user-context";
@@ -11,13 +10,14 @@ import {CategoriesModal} from "./categories-modal";
 import {CartButton, CartButtonContainer} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import {
-    ClipLoaderHome,
+    ClipLoaderHome, CurrentCategoryContainer,
     MainContainer,
     NavigationButtons,
     PageButton,
-    ProductsBox
+    ProductsBox, RemoveCurrentCategory
 } from "./home-page.styled";
 import Cookies from "js-cookie";
+import {DARK_BLUE} from "../utils/colors";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -156,12 +156,16 @@ export const Home = () => {
             <Toolbar onLogout={logout} isOpen={isSidebarOpen}/>
             <ProductsBox>
                 <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
-                {isSearchByCategory && (
-                    <Button onClick={() => disableCategory()}>{category} x</Button>
+                {(isSearchByCategory && !loading) && (
+                    <CurrentCategoryContainer>
+                        <span>{category}</span>
+                        <RemoveCurrentCategory onClick={() => disableCategory()}> x</RemoveCurrentCategory>
+                    </CurrentCategoryContainer>
                 )}
-                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>
+                {!loading &&
+                    <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>}
                 {loading ? (
-                    <ClipLoaderHome loading={loading} size={100}/>
+                    <ClipLoaderHome loading={loading} size={100} color={DARK_BLUE}/>
                 ) : (
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
