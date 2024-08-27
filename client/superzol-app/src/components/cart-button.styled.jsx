@@ -40,5 +40,5 @@ export const CartBadge = styled.span`
     border-radius: 50%;
     padding: 5px 8px;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 600;
 `;
