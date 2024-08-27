@@ -82,7 +82,7 @@ class SupermarketService:
             product = product_dict.get(item_code)
             if product:
                 total_cost += float(product['ItemPrice']) * amount
-                products_available += 1
+                products_available += amount
 
         if products_available > len(shopping_list) // 2:  # show only supermarkets with at least 50% of the products
             return {

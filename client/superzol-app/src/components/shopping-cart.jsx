@@ -19,7 +19,7 @@ import {
     LoaderContainer,
     Title,
     SubmitDiv,
-    TopBarButton, BackToCartButton, SaveConfirmation
+    TopBarButton, BackToCartButton, SaveConfirmation, NoSupermarketsMessage
 } from "./shopping-cart.styled";
 import loadIcon from "../resources/load.png";
 import saveIcon from "../resources/bookmark.png";
@@ -38,7 +38,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
     const [supermarkets, setSupermarkets] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
-
+    const [noSupermarketsFound, setNoSupermarketsFound] = useState(false);
 
     useEffect(() => {
         if (supermarkets && supermarkets.length > 0) {
@@ -90,10 +90,21 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
 
     const handleFindCheapestSupermarkets = async () => {
         setLoading(true);
-        let response = await findCheapestSupermarkets(transformShoppingListToDictionary(shoppingList), currentUser.lat, currentUser.lng, currentUser.distance_preference);
-        setSupermarkets(response);
+        let response = await findCheapestSupermarkets(
+            transformShoppingListToDictionary(shoppingList),
+            currentUser.lat,
+            currentUser.lng,
+            currentUser.distance_preference
+        );
+        if (response.length === 0) {
+            setNoSupermarketsFound(true);
+            setTimeout(() => setNoSupermarketsFound(false), 2500);
+            setShowCheapestSupermarkets(false);
+        } else {
+            setSupermarkets(response);
+            setShowCheapestSupermarkets(true);
+        }
         setLoading(false);
-
     }
 
     const handleBackToCart = () => {
@@ -158,7 +169,12 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                     <ClipLoader loading={loading} size={50} color={DARK_BLUE}/>
                 </LoaderContainer>
             )}
-            {(showShoppingHistory ? <ShoppingListHistory shoppingLists={currentUser.shopping_history}
+            {noSupermarketsFound && (
+                <NoSupermarketsMessage>
+                    לא נמצאו סופרמרקטים באזורך
+                </NoSupermarketsMessage>
+            )}
+            {(showShoppingHistory ? <ShoppingListHistory shoppingLists={currentUser.shopping_history.reverse()}
                                                          handleChosenShoppingList={handleChosenShoppingList}/> : (showCheapestSupermarkets ?
                 <SupermarketsCard supermarkets={supermarkets}/> : (Object.keys(shoppingList).length < 1 ?
                     <ShoppingCartContent>

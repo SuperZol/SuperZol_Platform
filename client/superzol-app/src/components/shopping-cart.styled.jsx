@@ -116,14 +116,14 @@ export const Title = styled.h2`
 export const TopBarButton = styled.button`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     background-color: ${DARK_BROWN};
     width: 120px;
     height: 30px;
     border-radius: 4px;
     color: white;
     border: none;
-    padding: 3px 3px;
+    padding: 2px 10px;
     cursor: pointer;
     font-size: 13px;
     font-family: Rubik, sans-serif;
@@ -240,5 +240,34 @@ export const SaveConfirmation = styled.div`
         font-size: 20px;
         font-weight: 400;
         color: #4CAF50;
+    }
+`;
+
+export const NoSupermarketsMessage = styled.div`
+    background-color: #FFF3CD;
+    color: #856404;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    font-family: Rubik, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: ${fadeInOut} 2.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    direction: rtl;
+    max-width: 300px;
+
+    &::after {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 20px;
+        font-weight: 400;
     }
 `;

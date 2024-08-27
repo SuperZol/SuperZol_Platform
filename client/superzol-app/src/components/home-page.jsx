@@ -174,8 +174,8 @@ export const Home = () => {
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
                         <NavigationButtons visible={products.length > 0}>
-                            <PageButton onClick={() => handleNextPage()}>הבא</PageButton>
-                            <PageButton onClick={() => handlePrevPage()}>הקודם</PageButton>
+                            <PageButton disabled={pageSize > products.length} onClick={() => handleNextPage()}>הבא</PageButton>
+                            <PageButton disabled={page === 1} onClick={() => handlePrevPage()}>הקודם</PageButton>
                         </NavigationButtons>
                     </>
                 )}

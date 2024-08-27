@@ -33,12 +33,13 @@ export const CartButton = styled.button`
 
 export const CartBadge = styled.span`
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: -5px;
+    right: -5px;
     background-color: ${DARK_BROWN};
     color: white;
     border-radius: 50%;
-    padding: 5px 8px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 450;
+    font-family: Rubik, sans-serif;
 `;

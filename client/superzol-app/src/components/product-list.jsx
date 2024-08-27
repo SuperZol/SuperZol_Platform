@@ -42,7 +42,7 @@ export const ProductList = ({products, addToCart}) => {
     return (
         <ProductListContainer isOpen="false">
             <GridContainer>
-                {!_.isNil(products) ? (
+                {!_.isNil(products) && !_.isEmpty(products) ? (
                     products.map((product) => (
                         <GridItem key={product.ItemCode}>
                             <ProductWithQuantity>
@@ -68,7 +68,7 @@ export const ProductList = ({products, addToCart}) => {
                         </GridItem>
                     ))
                 ) : (
-                    <></>
+                    <h2>לא נמצאו מוצרים מתאימים</h2>
                 )}
             </GridContainer>
         </ProductListContainer>

@@ -47,7 +47,14 @@ export const PageButton = styled.button`
     color: ${DARK_BLUE};
 
     &:hover {
-        color: ${LIGHT_BLUE}
+        color: ${LIGHT_BLUE};
+        cursor: pointer;
+    }
+
+    &:disabled {
+        opacity: 0.5; 
+        cursor: auto;
+        color: ${DARK_BLUE};
     }
 `;
 
