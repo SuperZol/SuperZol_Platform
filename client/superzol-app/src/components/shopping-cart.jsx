@@ -129,7 +129,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
             <Title>{showCheapestSupermarkets ? "הסופרים הזולים באזורך" : showShoppingHistory ? "היסטוריית קניות" : "סל הקניות"}</Title>
             {showSaveConfirmation && (
                 <SaveConfirmation>
-                   הרשימה נשמרה בהצלחה!
+                    הרשימה נשמרה בהצלחה!
                 </SaveConfirmation>
             )}
             {showCheapestSupermarkets || showShoppingHistory ?
@@ -145,7 +145,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                         נקה עגלה
                         <img src={deleteIcon} alt="נקה"/>
                     </TopBarButton>
-                     <TopBarButton
+                    <TopBarButton
                         onClick={handleSaveShoppingList}
                         disabled={_.isEmpty(shoppingList)}>
                         שמירת רשימה
