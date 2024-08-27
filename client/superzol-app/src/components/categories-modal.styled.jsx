@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {DARK_BLUE, DARK_BROWN, LIGHT_BLUE} from "../utils/colors";
+import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 
 export const ModalOverlay = styled.div`
     position: fixed;

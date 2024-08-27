@@ -21,9 +21,7 @@ import frozenFood from '../resources/categories/frozen-food.png';
 import pacifier from '../resources/categories/pacifier.png';
 import vitamin from '../resources/categories/vitamin.png';
 import organicFood from '../resources/categories/organic-food.png';
-import {ExitButton} from "./shopping-cart.styled";
-import closeIcon from "../resources/close.png";
-import {RemoveButton} from "./cart-product.styled";
+
 
 export const CategoriesModal = ({isOpen, onClose, filterCategory}) => {
     if (!isOpen) return null;

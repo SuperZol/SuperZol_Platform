@@ -19,7 +19,7 @@ import {
     LoaderContainer,
     Title,
     SubmitDiv,
-    TopBarButton, BackToCartButton
+    TopBarButton, BackToCartButton, SaveConfirmation
 } from "./shopping-cart.styled";
 import loadIcon from "../resources/load.png";
 import saveIcon from "../resources/bookmark.png";
@@ -37,6 +37,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
     const [showCheapestSupermarkets, setShowCheapestSupermarkets] = useState(false);
     const [supermarkets, setSupermarkets] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
 
 
     useEffect(() => {
@@ -111,6 +112,14 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
         return "₪ " + cartMinPrice.toFixed(2) + ' - ' + cartMaxPrice.toFixed(2);
     }
 
+    const handleSaveShoppingList = () => {
+        if (!_.isEmpty(shoppingList)) {
+            memoizedSaveShoppingListToHistory(shoppingList);
+            setShowSaveConfirmation(true);
+            setTimeout(() => setShowSaveConfirmation(false), 2500);
+        }
+    };
+
 
     return (
         <ShoppingCartContainer isOpen={isSidebarOpen}>
@@ -118,6 +127,11 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                 <img src={closeIcon} alt="close"/>
             </ExitButton>
             <Title>{showCheapestSupermarkets ? "הסופרים הזולים באזורך" : showShoppingHistory ? "היסטוריית קניות" : "סל הקניות"}</Title>
+            {showSaveConfirmation && (
+                <SaveConfirmation>
+                   הרשימה נשמרה בהצלחה!
+                </SaveConfirmation>
+            )}
             {showCheapestSupermarkets || showShoppingHistory ?
                 <BackToCartButton onClick={() => handleBackToCart()}>
                     <img src={leftArrow} alt="back"/>
@@ -131,7 +145,9 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                         נקה עגלה
                         <img src={deleteIcon} alt="נקה"/>
                     </TopBarButton>
-                    <TopBarButton onClick={() => memoizedSaveShoppingListToHistory(shoppingList)}>
+                     <TopBarButton
+                        onClick={handleSaveShoppingList}
+                        disabled={_.isEmpty(shoppingList)}>
                         שמירת רשימה
                         <img src={saveIcon} alt="שמור"/>
                     </TopBarButton>
