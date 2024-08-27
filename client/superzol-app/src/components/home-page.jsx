@@ -7,7 +7,7 @@ import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
-import {CartButton, CartButtonContainer} from "./cart-button.styled";
+import {CartButton, CartButtonContainer, CartBadge} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import {
     ClipLoaderHome, CurrentCategoryContainer,
@@ -151,6 +151,10 @@ export const Home = () => {
         setIsSearchByCategory(false);
     }
 
+    const getTotalProductCount = () => {
+        return Object.values(shoppingList).reduce((total, product) => total + product.quantity, 0);
+    };
+
     return (
         <MainContainer isOpen={isSidebarOpen}>
             <Toolbar onLogout={logout} isOpen={isSidebarOpen}/>
@@ -188,6 +192,9 @@ export const Home = () => {
             <CartButtonContainer>
                 <CartButton onClick={() => setIsSidebarOpen(true)}>
                     <img src={cartImage} alt="cart"/>
+                    {getTotalProductCount() > 0 && (
+                        <CartBadge>{getTotalProductCount()}</CartBadge>
+                    )}
                 </CartButton>
             </CartButtonContainer>
         </MainContainer>

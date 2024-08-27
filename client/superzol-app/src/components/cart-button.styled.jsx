@@ -30,3 +30,15 @@ export const CartButton = styled.button`
         height: 40px;
     }
 `;
+
+export const CartBadge = styled.span`
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: bold;
+`;
