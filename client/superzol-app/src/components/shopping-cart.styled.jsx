@@ -1,18 +1,12 @@
 import styled, {keyframes} from "styled-components";
-import React from 'react';
 import {DARK_BLUE, DARK_BROWN, LIGHT_BLUE, LIGHT_BROWN, MAIN_BACKGROUND} from "../utils/colors";
 
-const e = React.createElement;
-
-
-export const ShoppingCartContainer = styled(
-    ({isOpen, children, ...props}) => e("div", props, children)
-)`
+export const ShoppingCartContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
-    left: ${(props) => (props.isOpen ? '0' : '-400px')};
+    left: ${(props) => (props.$isOpen ? '0' : '-400px')};
     width: 310px;
     height: 100%;
     background-color: ${MAIN_BACKGROUND};

@@ -18,7 +18,7 @@ class SupermarketService:
         lat = lat2 - lat1
         a = sin(lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(lon / 2) ** 2
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        radius = 6371  # Radius of Earth in kilometers
+        radius = 6371
         return radius * c
 
     async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict]:
@@ -35,7 +35,7 @@ class SupermarketService:
             for future in as_completed(futures):
                 stores_in_range.extend(future.result())
 
-        stores_in_range.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
+        stores_in_range.sort(key=lambda x: (-x['products_available'], x['total_cost'], x['distance']))
         return stores_in_range
 
     @staticmethod
@@ -55,7 +55,8 @@ class SupermarketService:
                 distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
                 if distance > distance_preference:
                     continue
-
+            else:
+                distance = 0
             store_products = self.product_collection.find(
                 {"StoreId": store_id, "ItemCode": {"$in": list(shopping_list.keys())}})
             cart_info = self.calculate_cart_prices(shopping_list, store_products)

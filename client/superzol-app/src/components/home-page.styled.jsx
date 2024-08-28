@@ -1,17 +1,13 @@
 import {Box} from "@mui/material";
 import styled from "styled-components";
-import React from 'react';
 import {ClipLoader} from "react-spinners";
 import {DARK_BLUE, LIGHT_BLUE, MAIN_BACKGROUND} from "../utils/colors";
 
-const e = React.createElement;
 
-export const MainContainer = styled(
-    ({isOpen, children, ...props}) => e("div", props, children)
-)`
+export const MainContainer = styled.div`
     display: flex;
     transition: margin-left 0.2s ease-in;
-    margin-left: ${(props) => (props.isOpen ? '310px' : '0')};
+    margin-left: ${(props) => (props.$isOpen ? '310px' : '0')};
     background-color: ${MAIN_BACKGROUND};
 `;
 
@@ -30,7 +26,6 @@ export const NavigationButtons = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    visibility: ${props => props.visible ? 'visible' : 'hidden'};
 `;
 
 
@@ -52,7 +47,7 @@ export const PageButton = styled.button`
     }
 
     &:disabled {
-        opacity: 0.5; 
+        opacity: 0.5;
         cursor: auto;
         color: ${DARK_BLUE};
     }

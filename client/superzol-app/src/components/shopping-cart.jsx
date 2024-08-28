@@ -120,7 +120,11 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
             cartMaxPrice += parseFloat(shoppingList[shoppingListKey].MaxPrice * shoppingList[shoppingListKey].quantity);
             cartMinPrice += parseFloat(shoppingList[shoppingListKey].MinPrice * shoppingList[shoppingListKey].quantity);
         }
-        return "₪ " + cartMinPrice.toFixed(2) + ' - ' + cartMaxPrice.toFixed(2);
+        if (cartMinPrice === cartMaxPrice) {
+            return "₪ " + cartMaxPrice.toFixed(2);
+        } else {
+            return "₪ " + cartMinPrice.toFixed(2) + ' - ' + cartMaxPrice.toFixed(2);
+        }
     }
 
     const handleSaveShoppingList = () => {
@@ -133,7 +137,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
 
 
     return (
-        <ShoppingCartContainer isOpen={isSidebarOpen}>
+        <ShoppingCartContainer $isOpen={isSidebarOpen}>
             <ExitButton onClick={() => setIsSidebarOpen(false)}>
                 <img src={closeIcon} alt="close"/>
             </ExitButton>

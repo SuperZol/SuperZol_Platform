@@ -21,7 +21,7 @@ const Toolbar = (isOpen) => {
         }
     };
     return (
-        <ToolbarContainer isOpen={isOpen.isOpen}>
+        <ToolbarContainer $isopen={isOpen.isOpen}>
             <Box>
                 <ToolbarButton onClick={handleLogout}>
                     התנתקות

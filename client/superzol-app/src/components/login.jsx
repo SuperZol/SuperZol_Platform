@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import {useUser} from "../contexts/user-context";
-import axios from "axios";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
@@ -30,17 +29,9 @@ export const Login = () => {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const {latitude, longitude} = position.coords;
-                const res = await axios.get(
-                    `http://ip-api.com/json?lat=${latitude}&lon=${longitude}`
-                );
-                if (res.status === 200) {
-                    Cookies.set("lat", res.data.lat, {expires: 7});
-                    Cookies.set("lng", res.data.lon, {expires: 7});
-                    updateCurrentUser({lat: res.data.lat, lng: res.data.lon});
-                }
-            },
-            (error) => {
-                console.error("Error getting geolocation:", error);
+                Cookies.set("lat", latitude, {expires: 7});
+                Cookies.set("lng", longitude, {expires: 7});
+                updateCurrentUser({lat: latitude, lng: longitude});
             }
         );
     }, [updateCurrentUser]);

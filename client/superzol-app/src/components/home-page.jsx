@@ -156,7 +156,7 @@ export const Home = () => {
     };
 
     return (
-        <MainContainer isOpen={isSidebarOpen}>
+        <MainContainer $isOpen={isSidebarOpen}>
             <Toolbar onLogout={logout} isOpen={isSidebarOpen}/>
             <ProductsBox>
                 <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
@@ -173,10 +173,12 @@ export const Home = () => {
                 ) : (
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
-                        <NavigationButtons visible={products.length > 0}>
-                            <PageButton disabled={pageSize > products.length} onClick={() => handleNextPage()}>הבא</PageButton>
-                            <PageButton disabled={page === 1} onClick={() => handlePrevPage()}>הקודם</PageButton>
-                        </NavigationButtons>
+                        {products.length > 0 &&
+                            <NavigationButtons>
+                                <PageButton disabled={pageSize > products.length}
+                                            onClick={() => handleNextPage()}>הבא</PageButton>
+                                <PageButton disabled={page === 1} onClick={() => handlePrevPage()}>הקודם</PageButton>
+                            </NavigationButtons>}
                     </>
                 )}
                 {isSidebarOpen && (

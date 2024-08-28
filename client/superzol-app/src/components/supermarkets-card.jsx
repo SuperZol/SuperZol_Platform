@@ -1,8 +1,8 @@
 import React from "react";
 import {
     Address,
-    GoogleMapsButton,
-    RowDiv,
+    GoogleMapsButton, ProductsCount,
+    RowDiv, RowDiv2, SupermarketDistance,
     SupermarketImage,
     SupermarketsContainer,
     TotalCost
@@ -11,7 +11,7 @@ import {Item} from "./shopping-cart.styled";
 import googleMapsIcons from "../resources/google-maps.png";
 import victoryIcon from "../resources/victoryIcon.png";
 import yenotBitanIcon from "../resources/yenotBitanIcon.png";
-import _ from "lodash"
+import _, {round} from "lodash"
 
 export const SupermarketsCard = ({supermarkets}) => {
     const openGoogleMaps = (address) => {
@@ -40,12 +40,16 @@ export const SupermarketsCard = ({supermarkets}) => {
                         <TotalCost>₪{supermarket.total_cost}</TotalCost>
                         <SupermarketImage src={storesImages[supermarket.store_name]} alt={supermarket.store_name}/>
                     </RowDiv>
-                    <RowDiv>
+                    <RowDiv2>
+                        {supermarket.distance > 0 && <SupermarketDistance>{round(supermarket.distance,2)} ק"מ</SupermarketDistance>}
+                        <ProductsCount>מספר המוצרים בסל: {supermarket.products_available}</ProductsCount>
+                    </RowDiv2>
+                    <RowDiv2>
                         <GoogleMapsButton onClick={() => openGoogleMaps(supermarket.store_address)}>
                             <img src={googleMapsIcons} alt={"googleMaps"}/>
                         </GoogleMapsButton>
                         <Address>{getSupermarketAddress(supermarket.store_address, supermarket.store_city)}</Address>
-                    </RowDiv>
+                    </RowDiv2>
                 </Item>
             ))}
         </SupermarketsContainer>
