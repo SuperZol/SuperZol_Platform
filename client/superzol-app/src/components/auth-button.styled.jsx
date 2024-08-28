@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
 
 export const SubmitButton = styled.button`
     width: 100%;
@@ -13,6 +12,7 @@ export const SubmitButton = styled.button`
         &:hover {
             background-color: ${props => props.color === 'primary' ? '#1e57c2' : props.color};
             opacity: 0.9;
+            cursor: pointer;
         }
     }
 `;

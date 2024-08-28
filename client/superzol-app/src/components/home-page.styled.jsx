@@ -1,17 +1,13 @@
 import {Box} from "@mui/material";
 import styled from "styled-components";
-import React from 'react';
 import {ClipLoader} from "react-spinners";
 import {DARK_BLUE, LIGHT_BLUE, MAIN_BACKGROUND} from "../utils/colors";
 
-const e = React.createElement;
 
-export const MainContainer = styled(
-    ({isOpen, children, ...props}) => e("div", props, children)
-)`
+export const MainContainer = styled.div`
     display: flex;
     transition: margin-left 0.2s ease-in;
-    margin-left: ${(props) => (props.isOpen ? '310px' : '0')};
+    margin-left: ${(props) => (props.$isOpen ? '310px' : '0')};
     background-color: ${MAIN_BACKGROUND};
 `;
 
@@ -30,7 +26,6 @@ export const NavigationButtons = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    visibility: ${props => props.visible ? 'visible' : 'hidden'};
 `;
 
 
@@ -47,6 +42,33 @@ export const PageButton = styled.button`
     color: ${DARK_BLUE};
 
     &:hover {
-        color: ${LIGHT_BLUE}
+        color: ${LIGHT_BLUE};
+        cursor: pointer;
     }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: auto;
+        color: ${DARK_BLUE};
+    }
+`;
+
+export const CurrentCategoryContainer = styled.div`
+    border-radius: 15px;
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 2px 2px 2px 7px;
+    font-size: 15px;
+`;
+
+export const RemoveCurrentCategory = styled.button`
+    margin: 5px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-family: Rubik, sans-serif;
+    font-size: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
 `;

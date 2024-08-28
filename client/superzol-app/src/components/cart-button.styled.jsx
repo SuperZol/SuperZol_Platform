@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
+import {DARK_BLUE, DARK_BROWN, LIGHT_BLUE} from "../utils/colors";
 
 export const CartButtonContainer = styled.div`
     position: fixed;
@@ -29,4 +29,17 @@ export const CartButton = styled.button`
         width: 40px;
         height: 40px;
     }
+`;
+
+export const CartBadge = styled.span`
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: ${DARK_BROWN};
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 450;
+    font-family: Rubik, sans-serif;
 `;

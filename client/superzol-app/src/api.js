@@ -94,11 +94,6 @@ export const getProductById = async (productId) => {
     return products.data[0];
 };
 
-export const getProductsImages = async () => {
-    const productsImages = await axios.get(`${BASE_URL}/product/images`).catch((err) => console.log(`Error: ${err}`));
-    return productsImages.data;
-};
-
 export const saveShoppingList = async (email, shoppingList) => {
     try {
         await axios.put(`${BASE_URL}/users/history/${email}`, shoppingList);

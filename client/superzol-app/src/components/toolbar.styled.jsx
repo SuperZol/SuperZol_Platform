@@ -5,8 +5,8 @@ import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
 export const ToolbarContainer = styled(Box)`
     position: fixed;
     top: 0;
-    left: ${(props) => (props.isOpen ? '320px' : '0')};
-    width: ${(props) => (props.isOpen ? 'calc(100% - 310px)' : '100%')};
+    left: ${(props) => (props.$isopen ? '320px' : '0')};
+    width: ${(props) => (props.$isopen ? 'calc(100% - 310px)' : '100%')};
     margin-right: 310px;
     z-index: 3;
     background-color: white;

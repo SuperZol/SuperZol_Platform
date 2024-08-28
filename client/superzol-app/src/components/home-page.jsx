@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {SearchBar} from "./search-bar";
 import {useUser} from "../contexts/user-context";
@@ -8,16 +7,17 @@ import {useProduct} from "../contexts/product-context";
 import {ShoppingCart} from './shopping-cart';
 import Toolbar from "./toolbar";
 import {CategoriesModal} from "./categories-modal";
-import {CartButton, CartButtonContainer} from "./cart-button.styled";
+import {CartButton, CartButtonContainer, CartBadge} from "./cart-button.styled";
 import cartImage from '../resources/shopping-cart.png';
 import {
-    ClipLoaderHome,
+    ClipLoaderHome, CurrentCategoryContainer,
     MainContainer,
     NavigationButtons,
     PageButton,
-    ProductsBox
+    ProductsBox, RemoveCurrentCategory
 } from "./home-page.styled";
 import Cookies from "js-cookie";
+import {DARK_BLUE} from "../utils/colors";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ export const Home = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [shoppingList, setShoppingList] = useState({});
     const [page, setPage] = useState(1);
-    const [pageSize] = useState(24);
+    const [pageSize] = useState(25);
     const [isSearchByName, setIsSearchByName] = useState(false);
     const [isSearchByCategory, setIsSearchByCategory] = useState(false);
     const [category, setCategory] = useState("");
@@ -151,24 +151,34 @@ export const Home = () => {
         setIsSearchByCategory(false);
     }
 
+    const getTotalProductCount = () => {
+        return Object.values(shoppingList).reduce((total, product) => total + product.quantity, 0);
+    };
+
     return (
-        <MainContainer isOpen={isSidebarOpen}>
+        <MainContainer $isOpen={isSidebarOpen}>
             <Toolbar onLogout={logout} isOpen={isSidebarOpen}/>
             <ProductsBox>
                 <SearchBar onSearch={handleSearchByName} onCategoriesClick={handleCategoriesClick}/>
-                {isSearchByCategory && (
-                    <Button onClick={() => disableCategory()}>{category} x</Button>
+                {(isSearchByCategory && !loading) && (
+                    <CurrentCategoryContainer>
+                        <span>{category}</span>
+                        <RemoveCurrentCategory onClick={() => disableCategory()}> x</RemoveCurrentCategory>
+                    </CurrentCategoryContainer>
                 )}
-                <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>
+                {!loading &&
+                    <CategoriesModal isOpen={isModalOpen} onClose={handleCloseModal} filterCategory={filterCategory}/>}
                 {loading ? (
-                    <ClipLoaderHome loading={loading} size={100}/>
+                    <ClipLoaderHome loading={loading} size={100} color={DARK_BLUE}/>
                 ) : (
                     <>
                         <ProductList products={products} addToCart={addToCart} productsImages={productsImages}/>
-                        <NavigationButtons visible={products.length > 0}>
-                            <PageButton onClick={() => handleNextPage()}>הבא</PageButton>
-                            <PageButton onClick={() => handlePrevPage()}>הקודם</PageButton>
-                        </NavigationButtons>
+                        {products.length > 0 &&
+                            <NavigationButtons>
+                                <PageButton disabled={pageSize > products.length}
+                                            onClick={() => handleNextPage()}>הבא</PageButton>
+                                <PageButton disabled={page === 1} onClick={() => handlePrevPage()}>הקודם</PageButton>
+                            </NavigationButtons>}
                     </>
                 )}
                 {isSidebarOpen && (
@@ -184,6 +194,9 @@ export const Home = () => {
             <CartButtonContainer>
                 <CartButton onClick={() => setIsSidebarOpen(true)}>
                     <img src={cartImage} alt="cart"/>
+                    {getTotalProductCount() > 0 && (
+                        <CartBadge>{getTotalProductCount()}</CartBadge>
+                    )}
                 </CartButton>
             </CartButtonContainer>
         </MainContainer>

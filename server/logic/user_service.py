@@ -13,7 +13,7 @@ class UserService:
 
     async def create_user(self, user: dict):
         if await self.is_valid_user(user) is False:
-            raise HTTPException(status_code=404, detail="Email exists or invalid Password")
+            raise HTTPException(status_code=404, detail="האימייל כבר בשימוש או אינו תקין")
         result = self.collection.insert_one(user)
         inserted_id = result.inserted_id
         user['_id'] = str(inserted_id)
@@ -23,19 +23,19 @@ class UserService:
     async def user_login(self, email: str, password: str) -> dict:
         user = self.collection.find_one({"email": email, "password": password}, {'_id': 0})
         if user is None:
-            raise HTTPException(status_code=401, detail="Email or password is not valid")
+            raise HTTPException(status_code=401, detail="סיסמה או אימייל אינו תקין")
         return user
 
     async def update_user(self, email: str, update: dict):
         if 'email' in update:
-            if await self.is_email_exists(update['email']) is False:
-                raise HTTPException(status_code=404, detail="Email already exists.")
+            if await self.is_email_not_valid_or_exists(update['email']) is False:
+                raise HTTPException(status_code=404, detail="האימייל קיים במערכת או אינו תקין")
         self.collection.update_one({'email': email}, {'$set': update})
 
     async def update_shopping_history(self, email: str, cart: Dict[str, object]):
         user = self.collection.find_one({'email': email})
         if user is None:
-            raise HTTPException(status_code=404, detail="Email not found")
+            raise HTTPException(status_code=404, detail="האימייל לא קיים")
         user['shopping_history'].append(cart)
         self.collection.update_one({'email': email}, {'$set': {'shopping_history': user['shopping_history']}})
 
@@ -43,14 +43,14 @@ class UserService:
     async def is_password_valid(password: str) -> bool:
         return len(password) >= 6
 
-    async def is_email_exists(self, email: str) -> bool:
+    async def is_email_not_valid_or_exists(self, email: str) -> bool:
         if not self.is_email_valid(email):
             return False
         document = self.collection.find_one({"email": email})
         return document is None
 
     async def is_valid_user(self, user: dict) -> bool:
-        return await self.is_email_exists(user['email'])
+        return await self.is_email_not_valid_or_exists(user['email'])
 
     @staticmethod
     def is_email_valid(email) -> bool:

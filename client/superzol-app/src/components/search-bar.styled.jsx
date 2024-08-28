@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {IconButton, TextField} from "@mui/material";
+import {LIGHT_BLUE} from "../utils/colors";
 
 export const SearchBarContainer = styled.div`
     display: flex;
@@ -43,4 +44,8 @@ export const CategoriesButton = styled.button`
     border: none;
     border-left: 3px solid #264a8d;
     cursor: pointer;
+
+    &:hover {
+        color: ${LIGHT_BLUE};
+    }
 `;

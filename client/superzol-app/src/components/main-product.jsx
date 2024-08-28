@@ -7,17 +7,19 @@ import {
     ProductTitle,
     ProductPrice, ProductPriceContainer
 } from "./main-product.styled.jsx";
-import _ from "lodash";
+import {useState} from "react";
 
-export const MainProduct = ({product, productImage}) => {
+export const MainProduct = ({product}) => {
     const {ItemCode, ItemName, ItemPrice, MinPrice, MaxPrice} = product;
-    const isImageValid = () => {
-        return _.isEmpty(productImage) || (!productImage.endsWith("jpg") && !productImage.endsWith("png")) || productImage.includes("not-available");
-    }
+    const [imageSrc, setImageSrc] = useState(`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`);
+
+    const handleError = () => {
+        setImageSrc(default_product_image);
+    };
     return (
         <MainProductDiv>
             <ProductHeader>
-                <ProductImage src={`https://m.pricez.co.il/ProductPictures/${ItemCode}.jpg`} alt={ItemName}/>
+                <ProductImage src={imageSrc} alt={ItemName} onError={handleError}/>
             </ProductHeader>
             <MainProductBody>
                 <ProductTitle>{ItemName}</ProductTitle>

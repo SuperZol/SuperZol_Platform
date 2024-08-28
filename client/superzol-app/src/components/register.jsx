@@ -27,7 +27,7 @@ export const Register = () => {
 
         const passwordErrors = validatePassword(password, confirmPassword);
         if (passwordErrors.length > 0) {
-            setError(passwordErrors.join(", "));
+            setError(passwordErrors);
             return;
         }
 

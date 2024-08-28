@@ -18,7 +18,7 @@ class SupermarketService:
         lat = lat2 - lat1
         a = sin(lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(lon / 2) ** 2
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        radius = 6371  # Radius of Earth in kilometers
+        radius = 6371
         return radius * c
 
     async def get_cheapest_supermarkets(self, request: CheapestSupermarketsRequest) -> List[Dict]:
@@ -35,7 +35,7 @@ class SupermarketService:
             for future in as_completed(futures):
                 stores_in_range.extend(future.result())
 
-        stores_in_range.sort(key=lambda x: (x['total_cost'], -x['products_available'], x['distance']))
+        stores_in_range.sort(key=lambda x: (-x['products_available'], x['total_cost'], x['distance']))
         return stores_in_range
 
     @staticmethod
@@ -51,10 +51,12 @@ class SupermarketService:
             store_id = store['StoreId']
             if store.get('Latitude') is None or store.get('Longitude') is None:
                 continue
-            distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
-            if distance > distance_preference:
-                continue
-
+            if store.get('Latitude', 0) != -1 and store.get('Longitude', 0) != -1:
+                distance = self.haversine(user_lat, user_lng, store.get('Latitude', 0), store.get('Longitude', 0))
+                if distance > distance_preference:
+                    continue
+            else:
+                distance = 0
             store_products = self.product_collection.find(
                 {"StoreId": store_id, "ItemCode": {"$in": list(shopping_list.keys())}})
             cart_info = self.calculate_cart_prices(shopping_list, store_products)
@@ -81,9 +83,9 @@ class SupermarketService:
             product = product_dict.get(item_code)
             if product:
                 total_cost += float(product['ItemPrice']) * amount
-                products_available += 1
+                products_available += amount
 
-        if products_available > len(shopping_list) // 2:  # show only supermarkets with at least 50% of the products
+        if products_available > 0 and products_available >= sum(shopping_list.values()) // 2:
             return {
                 'total_cost': total_cost,
                 'products_available': products_available

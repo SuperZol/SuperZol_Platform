@@ -34,7 +34,7 @@ export const SearchBar = ({onSearch, onCategoriesClick}) => {
                     }
                 }}
                 variant="outlined"
-                placeholder="חיפוש פריט, קטגוריה או מותג..."
+                placeholder="חיפוש פריט או מותג"
                 InputProps={{
                     endAdornment: query && (
                         <InputAdornment position="end">

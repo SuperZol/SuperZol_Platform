@@ -1,10 +1,10 @@
 export const validatePassword = (password, confirmPassword) => {
     if (password.length < 6) {
-        return "Password must contain at least 6 characters";
+        return "סיסמה צריכה להכיל לפחות 6 תווים";
     }
 
     if (password !== confirmPassword) {
-        return "Passwords do not match";
+        return "הסיסמאות לא תואמות";
     }
 
     return true;
@@ -16,11 +16,11 @@ export const validateCurrentPassword = (currentPassword, userPassword) => {
 
 export const validateNewPassword = (currentPassword, newPassword, confirmPassword, data) => {
     if ((newPassword && !confirmPassword) || (!newPassword && confirmPassword)) {
-        return "You need to fill new password and also confirm password";
+        return "יש למלא סיסמה חדשה ולאמת אותה";
     }
     if (newPassword) {
         if (newPassword === currentPassword) {
-            return "New password must be different from the current password!";
+            return "הסיסמה צריכה להיות שונה מהנוכחית";
         }
 
         const passwordErrors = validatePassword(newPassword, confirmPassword);

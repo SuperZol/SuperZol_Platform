@@ -1,7 +1,7 @@
 import {Box, Grid, Typography} from "@mui/material";
 import styled from 'styled-components';
 import {Link} from "react-router-dom";
-import {DARK_BLUE, LIGHT_BLUE} from "../utils/colors";
+import {DARK_BLUE} from "../utils/colors";
 
 export const StyledGrid = styled(Grid)`
     display: flex;
@@ -54,6 +54,7 @@ export const ErrorTypography = styled(Typography)`
     margin-top: 10px;
     color: red;
     text-align: center;
+    direction: rtl;
 `;
 
 export const LinkContainer = styled(Grid)`

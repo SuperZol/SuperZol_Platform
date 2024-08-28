@@ -81,14 +81,3 @@ async def get_products_by_name_and_category(
     return await product_service.get_products_by_name_and_category(name=name, category=category, page=page,
                                                                    page_size=page_size)
 
-
-@router.get(
-    '/images',
-    response_description="products images",
-    response_model=List[ProductImage],
-    response_model_by_alias=False,
-    status_code=status.HTTP_200_OK
-)
-async def get_all_products_images():
-    return await product_service.get_all_products_images()
-

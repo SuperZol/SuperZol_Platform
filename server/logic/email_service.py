@@ -33,7 +33,6 @@ class EmailSender:
         if self.server:
             self.server.quit()
             self.server = None
-            print("Disconnected from SMTP server.")
 
     def reconnect(self):
         self.disconnect()
@@ -57,13 +56,11 @@ class EmailSender:
 
         try:
             self.server.send_message(msg)
-            print(f"Email sent to {to_email}.")
         except smtplib.SMTPException as e:
             print(f"Error sending email: {e}")
             self.reconnect()
             try:
                 self.server.send_message(msg)
-                print(f"Email sent to {to_email} after reconnecting.")
             except Exception as e:
                 print(f"Failed to resend email: {e}")
 

@@ -1,4 +1,4 @@
-import {createContext, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import {createContext, useCallback, useContext, useMemo, useState} from "react";
 import _ from "lodash";
 import {
     getCheapestSupermarkets,
@@ -6,8 +6,7 @@ import {
     getProducts,
     getProductsByCategory,
     getProductsByName,
-    getProductsByNameAndCategory,
-    getProductsImages
+    getProductsByNameAndCategory
 } from '../api'
 
 const ProductContext = createContext(undefined);
@@ -15,21 +14,9 @@ export const useProduct = () => useContext(ProductContext);
 
 export const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
-    const [productsImages, setProductsImages] = useState([]);
     const [error, setError] = useState("");
 
 
-    const imagesFetched = useRef(false);
-
-    useEffect(() => {
-        const fetchProductsImages = async () => {
-            if (!imagesFetched.current) {
-                await getProductImage();
-                imagesFetched.current = true;
-            }
-        }
-        fetchProductsImages();
-    });
 
     const getAllProducts = useCallback(async (page, pageSize) => {
         setProducts(await getProducts(page, pageSize));
@@ -39,7 +26,7 @@ export const ProductProvider = ({children}) => {
         let products = {};
         for (const productId in shoppingList) {
             let product = await getProductById(productId);
-            products[productId] = {...product, quantity: 1};
+            products[productId] = {...product, quantity: shoppingList[productId]};
         }
         return products;
     };
@@ -65,9 +52,6 @@ export const ProductProvider = ({children}) => {
         }
     }, []);
 
-    const getProductImage = useCallback(async () => {
-        setProductsImages(await getProductsImages());
-    }, []);
 
     const value = useMemo(() => ({
         error,
@@ -79,8 +63,7 @@ export const ProductProvider = ({children}) => {
         findCheapestSupermarkets,
         searchProductsByCategory,
         searchProductsByNameAndCategory,
-        productsImages
-    }), [error, products, getAllProducts, productsImages, searchProductsByCategory, searchProductsByName, searchProductsByNameAndCategory]);
+    }), [error, products, getAllProducts, searchProductsByCategory, searchProductsByName, searchProductsByNameAndCategory]);
 
     return (
         <ProductContext.Provider value={value}>

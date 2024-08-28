@@ -233,9 +233,3 @@ class ProductService:
         if product is None:
             raise HTTPException(status_code=404, detail="Product doesn't exists")
         return product
-
-    async def get_all_products_images(self) -> List[ProductImage]:
-        products_images = list(self.product_image_collection.find())
-        if products_images is None:
-            return []
-        return products_images

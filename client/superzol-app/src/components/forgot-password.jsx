@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {Grid, Typography} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Typography} from "@mui/material";
 import AuthTextField from "./auth-text-field";
 import AuthButton from "./auth-button";
 import Form from "./form";
