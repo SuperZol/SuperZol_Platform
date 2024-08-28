@@ -33,7 +33,7 @@ export const Home = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [shoppingList, setShoppingList] = useState({});
     const [page, setPage] = useState(1);
-    const [pageSize] = useState(24);
+    const [pageSize] = useState(25);
     const [isSearchByName, setIsSearchByName] = useState(false);
     const [isSearchByCategory, setIsSearchByCategory] = useState(false);
     const [category, setCategory] = useState("");

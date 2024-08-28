@@ -43,6 +43,7 @@ export const Item = styled.div`
 export const NoItemsTitle = styled.h2`
     font-size: 26px;
     margin-top: 80%;
+    direction: rtl;
 `;
 
 export const SubmitButton = styled.button`

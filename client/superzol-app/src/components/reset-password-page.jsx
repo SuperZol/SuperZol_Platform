@@ -27,7 +27,7 @@ export const ResetPassword = () => {
         setLoading(true);
 
         if (newPassword !== confirmPassword) {
-            setError("Passwords do not match.");
+            setError("הסיסמאות אינן תואמות");
             setLoading(false);
             return;
         }

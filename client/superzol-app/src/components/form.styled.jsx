@@ -54,6 +54,7 @@ export const ErrorTypography = styled(Typography)`
     margin-top: 10px;
     color: red;
     text-align: center;
+    direction: rtl;
 `;
 
 export const LinkContainer = styled(Grid)`

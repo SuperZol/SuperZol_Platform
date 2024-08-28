@@ -5,6 +5,7 @@ import {
     ShoppingListHistoryContainer,
     ShoppingListItem
 } from "./shopping-list-history.styled";
+import {round} from "lodash";
 
 export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) => {
     return (
@@ -17,7 +18,7 @@ export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) =
                         <p style={{margin: "5px"}}>מספר המוצרים
                             בסל: {Object.values(Products).reduce((acc, quantity) => acc + quantity, 0)}
                         </p>
-                        <p style={{margin: "5px"}}>₪ {CartMinPrice}-{CartMaxPrice}</p>
+                        <p style={{margin: "5px"}}>{CartMaxPrice === CartMinPrice ? `₪${round(CartMinPrice, 2)}` : `₪ ${round(CartMinPrice, 2)}-${round(CartMaxPrice, 2)}`}</p>
                         <HorizontalDiv>
                             <SelectButton
                                 onClick={() => handleChosenShoppingList(Products)}

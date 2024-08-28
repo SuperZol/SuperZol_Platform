@@ -85,7 +85,7 @@ class SupermarketService:
                 total_cost += float(product['ItemPrice']) * amount
                 products_available += amount
 
-        if products_available > len(shopping_list) // 2:  # show only supermarkets with at least 50% of the products
+        if products_available > 0 and products_available >= sum(shopping_list.values()) // 2:
             return {
                 'total_cost': total_cost,
                 'products_available': products_available

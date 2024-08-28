@@ -12,6 +12,7 @@ export const SubmitButton = styled.button`
         &:hover {
             background-color: ${props => props.color === 'primary' ? '#1e57c2' : props.color};
             opacity: 0.9;
+            cursor: pointer;
         }
     }
 `;

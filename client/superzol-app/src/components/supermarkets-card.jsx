@@ -26,7 +26,7 @@ export const SupermarketsCard = ({supermarkets}) => {
             return "";
         } else if (_.isEmpty(address) || _.isNil(address)) {
             return city;
-        } else if (_.isEmpty(city) || _.isNil(city)) {
+        } else if (_.isEmpty(city) || _.isNil(city) || city === "unknown") {
             return address;
         } else {
             return `${address}, ${city}`;
@@ -41,7 +41,11 @@ export const SupermarketsCard = ({supermarkets}) => {
                         <SupermarketImage src={storesImages[supermarket.store_name]} alt={supermarket.store_name}/>
                     </RowDiv>
                     <RowDiv2>
-                        {supermarket.distance > 0 && <SupermarketDistance>{round(supermarket.distance,2)} ק"מ</SupermarketDistance>}
+                        {supermarket.distance > 0 ? (
+                            <SupermarketDistance>{round(supermarket.distance, 2)} ק"מ</SupermarketDistance>
+                        ) : (
+                            <div style={{paddingLeft: '10px'}}/>
+                        )}
                         <ProductsCount>מספר המוצרים בסל: {supermarket.products_available}</ProductsCount>
                     </RowDiv2>
                     <RowDiv2>

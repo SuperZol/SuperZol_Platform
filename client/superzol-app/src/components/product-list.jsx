@@ -3,7 +3,6 @@ import _ from "lodash";
 import {useEffect, useState} from "react";
 import {
     AddButton,
-    GridContainer,
     GridItem,
     MainProductFooter,
     ProductListContainer,
@@ -41,36 +40,35 @@ export const ProductList = ({products, addToCart}) => {
 
     return (
         <ProductListContainer>
-            <GridContainer>
-                {!_.isNil(products) && !_.isEmpty(products) ? (
-                    products.map((product) => (
-                        <GridItem key={product.ItemCode}>
-                            <ProductWithQuantity>
-                                <MainProduct product={product}/>
-                                <MainProductFooter>
-                                    <QuantityButton
-                                        onClick={() => subtractQuantity(product.ItemCode)}>-</QuantityButton>
-                                    <ProductQuantity>
-                                        {quantities[product.ItemCode]}
-                                    </ProductQuantity>
-                                    <QuantityButton
-                                        onClick={() => addQuantity(product.ItemCode)}
-                                    >
-                                        +
-                                    </QuantityButton>
-                                    <AddButton
-                                        onClick={() => addToCart(product, quantities[product.ItemCode])}
-                                    >
-                                        הוספה
-                                    </AddButton>
-                                </MainProductFooter>
-                            </ProductWithQuantity>
-                        </GridItem>
-                    ))
-                ) : (
-                    <h2>לא נמצאו מוצרים מתאימים</h2>
-                )}
-            </GridContainer>
+            {!_.isNil(products) && !_.isEmpty(products) ? (
+                products.map((product) => (
+                    <GridItem key={product.ItemCode}>
+                        <ProductWithQuantity>
+                            <MainProduct product={product}/>
+                            <MainProductFooter>
+                                <QuantityButton
+                                    onClick={() => subtractQuantity(product.ItemCode)}>-</QuantityButton>
+                                <ProductQuantity>
+                                    {quantities[product.ItemCode]}
+                                </ProductQuantity>
+                                <QuantityButton
+                                    onClick={() => addQuantity(product.ItemCode)}
+                                >
+                                    +
+                                </QuantityButton>
+                                <AddButton
+                                    onClick={() => addToCart(product, quantities[product.ItemCode])}
+                                >
+                                    הוספה
+                                </AddButton>
+                            </MainProductFooter>
+                        </ProductWithQuantity>
+                    </GridItem>
+                ))
+            ) : (
+                <h2>לא נמצאו מוצרים מתאימים</h2>
+            )}
+
         </ProductListContainer>
     );
 };

@@ -50,6 +50,10 @@ export const Login = () => {
 
         try {
             setLoading(true);
+            if(email.length === 0 || password.length === 0){
+                setError("אחד השדות ריקים")
+                return;
+            }
             await login(email, password);
             if (currentUser) {
                 navigate("/home");

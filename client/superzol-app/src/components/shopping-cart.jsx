@@ -178,22 +178,25 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                     לא נמצאו סופרמרקטים באזורך
                 </NoSupermarketsMessage>
             )}
-            {(showShoppingHistory ? <ShoppingListHistory shoppingLists={currentUser.shopping_history.reverse()}
-                                                         handleChosenShoppingList={handleChosenShoppingList}/> : (showCheapestSupermarkets ?
-                <SupermarketsCard supermarkets={supermarkets}/> : (Object.keys(shoppingList).length < 1 ?
-                    <ShoppingCartContent>
-                        <NoItemsTitle>אופס... נראה שלא הוספת מוצרים לעגלה</NoItemsTitle>
-                    </ShoppingCartContent> : <ShoppingCartContent>
-                        {Object.keys(shoppingList).map((productId) => {
-                            const product = shoppingList[productId];
-                            return (<Item key={productId}>
-                                <CartProduct product={product} productId={productId}
-                                             handleAdd={handleAdd}
-                                             handleSubtract={handleSubtract}
-                                             handleRemove={handleRemove}/>
-                            </Item>);
-                        })}
-                    </ShoppingCartContent>)))}
+            {(showShoppingHistory && currentUser.shopping_history.length > 0 ?
+                <ShoppingListHistory shoppingLists={currentUser.shopping_history.reverse()}
+                                     handleChosenShoppingList={handleChosenShoppingList}/> : showShoppingHistory ?
+                    <NoItemsTitle>לא קיימות רשימות קניות</NoItemsTitle> :
+                    (showCheapestSupermarkets ?
+                        <SupermarketsCard supermarkets={supermarkets}/> : (Object.keys(shoppingList).length < 1 ?
+                            <ShoppingCartContent>
+                                <NoItemsTitle>אופס... נראה שלא הוספת מוצרים לעגלה</NoItemsTitle>
+                            </ShoppingCartContent> : <ShoppingCartContent>
+                                {Object.keys(shoppingList).map((productId) => {
+                                    const product = shoppingList[productId];
+                                    return (<Item key={productId}>
+                                        <CartProduct product={product} productId={productId}
+                                                     handleAdd={handleAdd}
+                                                     handleSubtract={handleSubtract}
+                                                     handleRemove={handleRemove}/>
+                                    </Item>);
+                                })}
+                            </ShoppingCartContent>)))}
             {!showCheapestSupermarkets && !showShoppingHistory ?
                 <SubmitDiv>
                     <CartCost>{_.isNil(shoppingList) || _.isEmpty(shoppingList) ? "" : getCartCostString(shoppingList)}</CartCost>

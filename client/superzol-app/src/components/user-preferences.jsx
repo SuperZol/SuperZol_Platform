@@ -34,13 +34,15 @@ export const UserPreferences = () => {
 
         if (currentPassword) {
             if (!validateCurrentPassword(currentPassword, currentUser.password)) {
-                setError("The current password is incorrect!");
+                setError("הסיסמה אינה נכונה");
                 setLoading(false);
                 return;
             }
 
             if (newEmail !== currentEmail && newEmail) {
                 data.email = newEmail;
+            } else if (newEmail === currentEmail) {
+                setError("האימייל שהוזן זהה לאימייל הנוכחי")
             }
 
             if (distance !== currentUser.distance_preference) {
@@ -53,7 +55,7 @@ export const UserPreferences = () => {
                 return;
             }
         } else {
-            setError("You must fill the current password!");
+            setError("הזן סיסמה נוכחית!");
             setLoading(false);
             return;
         }
@@ -79,8 +81,9 @@ export const UserPreferences = () => {
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
+                setError("הפרטים עודכנו בהצלחה")
             } else {
-                setError("Update failed");
+                setError("העדכון נכשל, נסה שוב");
             }
         } catch (err) {
             setError(err.message);

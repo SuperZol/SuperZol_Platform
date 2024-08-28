@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import {media} from "./styles";
 import {DARK_BROWN, LIGHT_BROWN} from "../utils/colors";
 
 export const MainProductDiv = styled.div`
-    overflow: hidden;
     width: 250px;
     height: 250px;
     background: white;
@@ -116,46 +114,23 @@ export const ProductWithQuantity = styled.div`
     }
 `;
 
+
 export const ProductListContainer = styled.div`
-    margin-left: 30px;
-    padding: 50px;
-    box-sizing: border-box;
-    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
     justify-content: center;
-    align-items: center;
-`;
+    padding: 20px;
+    justify-items: center;
 
-export const GridContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: flex-start;
-    ${media.xs`
-        flex-direction: column;
-    `}
-    ${media.sm`
-        flex-direction: row;
-    `}
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    }
 `;
-
 
 export const GridItem = styled.div`
-    flex: 1 1 20%;
-    max-width: calc(20% - 12px);
-    ${media.xs`
-        flex: 1 1 100%;
-        max-width: 100%;
-    `}
-    ${media.sm`
-        flex: 1 1 50%;
-        max-width: calc(50% - 2px);
-    `}
-    ${media.md`
-        flex: 1 1 calc(33.333% - 2px);
-        max-width: calc(33.333% - 2px);
-    `}
-    ${media.lg`
-        flex: 1 1 calc(15% - 2px);
-        max-width: calc(40% - 2px);
-    `}
+    display: flex;
+    justify-content: center;
 `;
