@@ -179,7 +179,7 @@ export const ShoppingCart = ({shoppingList, setShoppingList, removeFromCart, isS
                 </NoSupermarketsMessage>
             )}
             {(showShoppingHistory && currentUser.shopping_history.length > 0 ?
-                <ShoppingListHistory shoppingLists={currentUser.shopping_history.reverse()}
+                <ShoppingListHistory shoppingLists={currentUser.shopping_history}
                                      handleChosenShoppingList={handleChosenShoppingList}/> : showShoppingHistory ?
                     <NoItemsTitle>לא קיימות רשימות קניות</NoItemsTitle> :
                     (showCheapestSupermarkets ?

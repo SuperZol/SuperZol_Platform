@@ -10,7 +10,7 @@ import {round} from "lodash";
 export const ShoppingListHistory = ({shoppingLists, handleChosenShoppingList}) => {
     return (
         <ShoppingListHistoryContainer>
-            {shoppingLists.map((list, index) => {
+            {shoppingLists.slice().reverse().map((list, index) => {
                 const {CreatedAt, Products, CartMinPrice, CartMaxPrice} = list;
                 return (
                     <ShoppingListItem key={index}>

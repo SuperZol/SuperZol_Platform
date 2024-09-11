@@ -67,8 +67,8 @@ export const UserProvider = ({children}) => {
                 Object.keys(shoppingList).forEach((productId) => {
                     const {ItemCode, quantity, MinPrice, MaxPrice} = shoppingList[productId];
                     dictShoppingList[ItemCode] = quantity;
-                    CartMinPrice += parseFloat(MinPrice);
-                    CartMaxPrice += parseFloat(MaxPrice);
+                    CartMinPrice += parseFloat(MinPrice) * quantity;
+                    CartMaxPrice += parseFloat(MaxPrice) * quantity;
                 });
 
                 const shoppingListWithDate = {
