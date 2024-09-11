@@ -16,7 +16,7 @@ export const BoxIconStyled = styled(Box)`
     margin-left: 16px;
 `;
 
-export const TypographyTitle = styled.text`
+export const TypographyTitle = styled.span`
     display: flex;
     align-items: center;
     color: ${DARK_BLUE};
