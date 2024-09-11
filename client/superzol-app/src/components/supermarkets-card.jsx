@@ -49,7 +49,7 @@ export const SupermarketsCard = ({supermarkets}) => {
                         <ProductsCount>מספר המוצרים בסל: {supermarket.products_available}</ProductsCount>
                     </RowDiv2>
                     <RowDiv2>
-                        <GoogleMapsButton onClick={() => openGoogleMaps(supermarket.store_address)}>
+                        <GoogleMapsButton onClick={() => openGoogleMaps(`${supermarket.store_address}, ${supermarket.store_city}`)}>
                             <img src={googleMapsIcons} alt={"googleMaps"}/>
                         </GoogleMapsButton>
                         <Address>{getSupermarketAddress(supermarket.store_address, supermarket.store_city)}</Address>
